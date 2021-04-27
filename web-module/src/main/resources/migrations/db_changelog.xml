@@ -3,4 +3,91 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="1" author="com.gmail.tsiulkin.alexandr">
+        <createTable tableName="role">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="com.gmail.tsiulkin.alexandr">
+        <createTable tableName="user">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="com.gmail.tsiulkin.alexandr">
+        <addForeignKeyConstraint baseTableName="user" baseColumnNames="role_id"
+                                 constraintName="fk_user_role"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="4" author="com.gmail.tsiulkin.alexandr">
+        <insert tableName="role">
+            <column name="role_name" value="ADMINISTRATOR"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_name" value="SALE_USER"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_name" value="CUSTOMER_USER"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_name" value="SECURE_API_USER"/>
+        </insert>
+    </changeSet>
+    <changeSet id="5" author="com.gmail.tsiulkin.alexandr">
+        <createTable tableName="review">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="com.gmail.tsiulkin.alexandr">
+        <addForeignKeyConstraint baseTableName="review" baseColumnNames="customer_id"
+                                 constraintName="fk_review_customer"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="7" author="com.gmail.tsiulkin.alexandr">
+        <insert tableName="user">
+            <column name="last_name" value="Tsiulkin"/>
+            <column name="first_name" value="Aliaksandr"/>
+            <column name="middle_name" value="Vladimirovich"/>
+            <column name="email" value="admin@gmail.com"/>
+            <column name="password" value="$2y$12$keSA6xr/80a9RN9ufZthMugHlQS.MamwJ6axIrGAMeRpj0aT6CoDq "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'ADMINISTRATOR')"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
