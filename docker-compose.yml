@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'project'
+      MYSQL_ROOT_PASSWORD: '1111'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
