@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Add user</title>
+</head>
+<body>
+<form class="row row-cols-lg-auto g-3 align-items-center" method="post" th:object="${user}">
+    <div class="col-12">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName"
+                   required placeholder="Last name" th:field="*{lastName}">
+        </div>
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+    </div>
+    <div class="col-12">
+        <label class="visually-hidden" for="firstName">First name</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="firstName" name="firstName"
+                   required placeholder="First name" th:field="*{firstName}">
+        </div>
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+    </div>
+    <div class="col-12">
+        <label class="visually-hidden" for="middleName">Middle name</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="middleName" name="middleName"
+                   required placeholder="Middle name" th:field="*{middleName}">
+        </div>
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></div>
+    </div>
+    <div class="col-12">
+        <label class="visually-hidden" for="email">Email</label>
+        <div class="input-group">
+            <input type="email" class="form-control" id="email" name="email"
+                   required placeholder="Email" th:field="*{email}">
+        </div>
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    </div>
+    <div class="col-12">
+        <select class="form-select" aria-label="Default select example">
+            <option th:each="role : ${T(com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum).values()}"
+                    th:value="${role}" th:text="${role}"></option>
+        </select>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Add user</button>
+    </div>
+</form>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

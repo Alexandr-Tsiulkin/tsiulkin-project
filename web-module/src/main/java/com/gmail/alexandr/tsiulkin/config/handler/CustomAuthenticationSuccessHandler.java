@@ -1,6 +1,6 @@
 package com.gmail.alexandr.tsiulkin.config.handler;
 
-import com.gmail.alexandr.tsiulkin.model.RoleDTOEnum;
+import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

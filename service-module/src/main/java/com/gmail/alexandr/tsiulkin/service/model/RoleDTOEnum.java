@@ -1,4 +1,4 @@
-package com.gmail.alexandr.tsiulkin.model;
+package com.gmail.alexandr.tsiulkin.service.model;
 
 public enum RoleDTOEnum {
 

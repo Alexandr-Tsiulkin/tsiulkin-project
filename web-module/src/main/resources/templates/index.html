@@ -7,6 +7,34 @@
     <title>Home</title>
 </head>
 <body>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap"/>
+                </svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+            </ul>
+
+            <!--<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control form-control-dark" placeholder="Search...">
+            </form>-->
+
+            <div class="text-end">
+                <a class="btn btn-outline-light me-2" th:href="@{/login}" role="button">Login</a>
+                <a class="btn btn-warning" th:href="@{/registration}" role="button">Sign-up</a>
+            </div>
+        </div>
+    </div>
+</header>
 <!--<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/about}">T-Project</a>
@@ -45,36 +73,6 @@
         </div>
     </div>
 </nav>-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarTogglerDemo03"
-                aria-controls="navbarTogglerDemo03"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="#">Navbar</a>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
 <!--<p class="text-center fs-1">Start page</p>
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-primary" th:href="@{/login}" role="button">Login</a>
@@ -82,6 +80,6 @@
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-primary" th:href="@{/registration}" role="button">Registration</a>
 </div>-->
-<script th:src="@{/js/bootstrap.bundle/js}"></script>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

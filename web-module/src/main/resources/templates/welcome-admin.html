@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<p class="text-lg-center fs-1">Welcome</p>
+<p class="text-lg-center fs-2" th:text="${name}"></p>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/admin/users/1}" role="button">Users</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/admin/add-user}" role="button">Add user</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/admin/reviews/1}" role="button">Reviews</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>
+</div>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

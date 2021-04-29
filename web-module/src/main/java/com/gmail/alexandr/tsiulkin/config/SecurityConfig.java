@@ -2,7 +2,7 @@ package com.gmail.alexandr.tsiulkin.config;
 
 import com.gmail.alexandr.tsiulkin.config.handler.CustomAccessDeniedHandler;
 import com.gmail.alexandr.tsiulkin.config.handler.CustomAuthenticationSuccessHandler;
-import com.gmail.alexandr.tsiulkin.model.RoleDTOEnum;
+import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
