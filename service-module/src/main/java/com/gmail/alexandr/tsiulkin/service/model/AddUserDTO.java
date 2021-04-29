@@ -2,6 +2,8 @@ package com.gmail.alexandr.tsiulkin.service.model;
 
 import com.gmail.alexandr.tsiulkin.repository.model.Role;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -32,8 +34,7 @@ public class AddUserDTO {
     @Size(max = MAXIMUM_EMAIL_NAME_SIZE, message = "Email cannot be more than " + MAXIMUM_EMAIL_NAME_SIZE + " symbols")
     @Pattern(regexp = EMAIL_REGEXP, message = "Email does not match the standard template")
     private String email;
-/*    @NotBlank(message = "Role cannot be blank")
-    @NotNull(message = "Role cannot be null")*/
+    @Enumerated(EnumType.STRING)
     private RoleDTOEnum role;
 
     public Long getId() {

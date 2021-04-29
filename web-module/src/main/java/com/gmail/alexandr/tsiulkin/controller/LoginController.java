@@ -12,18 +12,18 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping(value = "/user/welcome-seller/{name}")
-    public String getSeller(@PathVariable String name) {
+    @GetMapping(value = "/user/welcome-seller")
+    public String getSeller() {
         return "welcome-seller";
     }
 
-    @GetMapping(value = "/user/welcome-customer/{name}")
-    public String getCustomer(@PathVariable String name) {
+    @GetMapping(value = "/user/welcome-customer")
+    public String getCustomer() {
         return "welcome-customer";
     }
 
-    @GetMapping(value = "/admin/welcome-admin/{name}")
-    public String getAdmin(@PathVariable String name) {
+    @GetMapping(value = "/admin/welcome-admin")
+    public String getAdmin() {
         return "welcome-admin";
     }
 }

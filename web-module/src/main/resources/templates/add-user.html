@@ -41,9 +41,9 @@
         <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
     </div>
     <div class="col-12">
-        <select class="form-select" aria-label="Default select example">
+        <select class="form-select" aria-label="Default select example" th:field="*{role}">
             <option th:each="role : ${T(com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum).values()}"
-                    th:value="${role}" th:text="${role}"></option>
+                    th:value="${role.name()}" th:text="${role.name()}"></option>
         </select>
     </div>
     <div class="col-12">

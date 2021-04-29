@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface UserService {
 
-    List<ShowUserDTO> getAllUsers();
+    List<ShowUserDTO> getAllUsers(int page);
 
     void persist(AddUserDTO addUserDTO);
+
 }

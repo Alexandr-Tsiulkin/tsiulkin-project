@@ -5,6 +5,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implements UserRepository {
@@ -15,5 +16,22 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implem
         Query query = entityManager.createQuery(stringQuery);
         query.setParameter("email", email);
         return (User) query.getSingleResult();
+    }
+
+    @Override
+    public Long getCountUsers() {
+        String hql = "SELECT count(u.email) FROM User as u";
+        Query query = entityManager.createQuery(hql);
+        return (Long) query.getSingleResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> findAll(int startPosition, int maximumUsersOnPage) {
+        String hql = "select u from User as u order by u.email asc";
+        Query query = entityManager.createQuery(hql);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maximumUsersOnPage);
+        return query.getResultList();
     }
 }

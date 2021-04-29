@@ -29,25 +29,26 @@ public class UserController {
 
     @GetMapping(value = "/admin/users/{page}")
     public String getUsers(Model model, @PathVariable("page") int page) {
-        List<ShowUserDTO> users = userService.getAllUsers();
+        List<ShowUserDTO> users = userService.getAllUsers(page);
         model.addAttribute("users", users);
         return "users";
     }
 
     @GetMapping(value = "/admin/add-user")
-    public String addPage(Model model, AddUserDTO addUserDTO) {
+    public String addPage(Model model) {
         model.addAttribute("user", new AddUserDTO());
         return "add-user";
     }
 
     @PostMapping(value = "/admin/add-user")
     public String add(@Valid AddUserDTO addUserDTO, BindingResult error) {
+        logger.info("addUser:{}", addUserDTO);
         if (error.hasErrors()) {
             logger.info("errors:{}", error);
             return "add-user";
         } else {
             userService.persist(addUserDTO);
         }
-        return "redirect:/admin/users";
+        return "redirect:/admin/users/1";
     }
 }

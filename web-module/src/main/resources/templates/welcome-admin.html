@@ -8,7 +8,7 @@
 </head>
 <body>
 <p class="text-lg-center fs-1">Welcome</p>
-<p class="text-lg-center fs-2" th:text="${name}"></p>
+<p class="text-lg-center fs-2" th:text="${#authentication.name}"></p>
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-primary" th:href="@{/admin/users/1}" role="button">Users</a>
 </div>
