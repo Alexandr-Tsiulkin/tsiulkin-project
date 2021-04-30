@@ -1,22 +1,16 @@
 package com.gmail.alexandr.tsiulkin.service.converter.impl;
 
+import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
 import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
-import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Objects;
-import java.util.Random;
-
-import static com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant.ALPHA_NUMERIC_STRING;
-import static com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant.NUMBER_OF_CHARS_IN_PASSWORD;
 
 @Component
 public class UserConverterImpl implements UserConverter {

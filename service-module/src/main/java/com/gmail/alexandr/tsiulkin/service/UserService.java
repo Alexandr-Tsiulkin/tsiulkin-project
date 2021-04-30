@@ -11,4 +11,5 @@ public interface UserService {
 
     void persist(AddUserDTO addUserDTO);
 
+    Long getCountUsers();
 }

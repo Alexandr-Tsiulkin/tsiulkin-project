@@ -48,8 +48,8 @@
 <div>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item" th:each="i : ${#numbers.sequence(beginPage, endPage)} ">
-                <a class="page-link" th:classappend="${currentPage}==${i}?'activepagenumber':''"
+            <li class="page-item" th:each="i : ${#numbers.sequence(page.beginPage, page.endPage)} ">
+                <a class="page-link" th:classappend="${page.currentPage}==${i}?'activepagenumber':''"
                    th:href="@{|/admin/users/${i}|}"
                    th:text="${i}"></a>
             </li>

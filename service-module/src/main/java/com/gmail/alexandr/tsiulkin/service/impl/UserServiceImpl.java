@@ -1,13 +1,14 @@
 package com.gmail.alexandr.tsiulkin.service.impl;
 
-import com.gmail.alexandr.tsiulkin.repository.UserRepository;
-import com.gmail.alexandr.tsiulkin.repository.model.Role;
-import com.gmail.alexandr.tsiulkin.repository.model.User;
-import com.gmail.alexandr.tsiulkin.repository.RoleRepository;
 import com.gmail.alexandr.tsiulkin.service.UserService;
+import com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
+import com.gmail.alexandr.tsiulkin.repository.RoleRepository;
+import com.gmail.alexandr.tsiulkin.repository.UserRepository;
+import com.gmail.alexandr.tsiulkin.repository.model.Role;
+import com.gmail.alexandr.tsiulkin.repository.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,14 +18,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.lang.invoke.MethodHandles;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant.ALPHA_NUMERIC_STRING;
-import static com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant.NUMBER_OF_CHARS_IN_PASSWORD;
 import static com.gmail.alexandr.tsiulkin.service.constant.UserPaginateConstant.MAXIMUM_USERS_ON_PAGE;
 
 @Service
@@ -44,7 +42,6 @@ public class UserServiceImpl implements UserService {
                            UserConverter userConverter,
                            JavaMailSender javaMailSender,
                            PasswordEncoder passwordEncoder,
-                           UserRepositoryPage userRepositoryPage,
                            Random random) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -57,17 +54,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public List<ShowUserDTO> getAllUsers(int page) {
-        Long countUsers = userRepository.getCountUsers();
-        logger.info("countUsers: {}", countUsers);
-        List<User> users = Collections.EMPTY_LIST;
-        if (countUsers > MAXIMUM_USERS_ON_PAGE) {
-            Long countOfPages = countUsers / MAXIMUM_USERS_ON_PAGE;
-            int currentPage = page + 1;
-            int beginPage = Math.max(1, currentPage - 2);
-            double endPage = Math.min(beginPage + 2, countOfPages);
-        }
         int startPosition = (page - 1) * MAXIMUM_USERS_ON_PAGE;
-        users = userRepository.findAll(startPosition, MAXIMUM_USERS_ON_PAGE);
+        List<User> users = userRepository.findAll(startPosition, MAXIMUM_USERS_ON_PAGE);
         return users.stream()
                 .map(userConverter::convert)
                 .collect(Collectors.toList());
@@ -95,6 +83,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    @Transactional
+    public Long getCountUsers() {
+        return userRepository.getCountUsers();
+    }
+
     private SimpleMailMessage getMailMessage(String email, String randomPassword, String recipientMail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(recipientMail);
@@ -107,9 +101,9 @@ public class UserServiceImpl implements UserService {
     private String generateRandomPassword() {
         logger.info("Generating Password");
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < NUMBER_OF_CHARS_IN_PASSWORD; i++) {
-            int character = (random.nextInt(ALPHA_NUMERIC_STRING.length()));
-            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        for (int i = 0; i < PasswordGenerateConstant.NUMBER_OF_CHARS_IN_PASSWORD; i++) {
+            int character = (random.nextInt(PasswordGenerateConstant.ALPHA_NUMERIC_STRING.length()));
+            builder.append(PasswordGenerateConstant.ALPHA_NUMERIC_STRING.charAt(character));
         }
         return builder.toString();
     }

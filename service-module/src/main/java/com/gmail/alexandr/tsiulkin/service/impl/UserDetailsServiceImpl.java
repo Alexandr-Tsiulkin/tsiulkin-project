@@ -1,8 +1,8 @@
 package com.gmail.alexandr.tsiulkin.service.impl;
 
+import com.gmail.alexandr.tsiulkin.service.model.UserLogin;
 import com.gmail.alexandr.tsiulkin.repository.UserRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
-import com.gmail.alexandr.tsiulkin.service.model.UserLogin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;

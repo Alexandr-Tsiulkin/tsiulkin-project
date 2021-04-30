@@ -1,7 +1,7 @@
 package com.gmail.alexandr.tsiulkin.repository.impl;
 
-import com.gmail.alexandr.tsiulkin.repository.RoleRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Role;
+import com.gmail.alexandr.tsiulkin.repository.RoleRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
