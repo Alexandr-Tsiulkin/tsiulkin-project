@@ -19,7 +19,7 @@ public class PageServiceImpl implements PageService {
         pageDTO.setCurrentPage(currentPage);
         long beginPage = Math.max(1, currentPage - 2);
         pageDTO.setBeginPage(beginPage);
-        double endPage = Math.min(beginPage + 3, countOfPages);
+        double endPage = Math.min(beginPage + 2, countOfPages);
         pageDTO.setEndPage((long) endPage);
         return pageDTO;
     }

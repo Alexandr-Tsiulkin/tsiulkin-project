@@ -2,9 +2,7 @@ package com.gmail.alexandr.tsiulkin.controller;
 
 import com.gmail.alexandr.tsiulkin.service.PageService;
 import com.gmail.alexandr.tsiulkin.service.UserService;
-import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -44,6 +42,7 @@ public class UserController {
         model.addAttribute("page", pageDTO);
         List<ShowUserDTO> users = userService.getAllUsers(page);
         model.addAttribute("users", users);
+        model.addAttribute("changeRoleUser", new ChangeUserRoleDTO());
         return "users";
     }
 
@@ -61,6 +60,36 @@ public class UserController {
             return "add-user";
         } else {
             userService.persist(addUserDTO);
+        }
+        return "redirect:/admin/users/1";
+    }
+
+    @PostMapping(value = "/admin/delete")
+    public String deleteUsers(@Valid DeleteUserDTO user, BindingResult result) {
+        List<Long> ids = user.getIds();
+        logger.info("ids: {}", ids);
+        if (!result.hasErrors()) {
+            for (Long id : ids) {
+                userService.deleteById(id);
+            }
+        }
+        return "redirect:/admin/users/1";
+    }
+
+    @GetMapping(value = "admin/reset-password/{id}")
+    public String resetPasswordById(@PathVariable Long id) {
+        userService.resetPassword(id);
+        return "redirect:/admin/users/1";
+    }
+
+    @PostMapping(value = "/admin/change-role/{id}")
+    public String changeRole(@Valid ChangeUserRoleDTO changeUserRoleDTO, BindingResult result) {
+        String roleName = changeUserRoleDTO.getRoleName();
+        logger.info("role name: {}", roleName);
+        Long id = changeUserRoleDTO.getId();
+        logger.info("id: {}", id);
+        if (!result.hasErrors()) {
+            userService.changeRoleById(changeUserRoleDTO);
         }
         return "redirect:/admin/users/1";
     }
