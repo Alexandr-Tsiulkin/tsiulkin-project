@@ -2,6 +2,7 @@ package com.gmail.alexandr.tsiulkin.service.model;
 
 import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,14 +13,11 @@ import java.lang.invoke.MethodHandles;
 import java.util.Collection;
 import java.util.HashSet;
 
+@RequiredArgsConstructor
 public class UserLogin implements UserDetails {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final User user;
-
-    public UserLogin(User user) {
-        this.user = user;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

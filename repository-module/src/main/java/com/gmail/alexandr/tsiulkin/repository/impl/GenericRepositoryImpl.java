@@ -42,11 +42,6 @@ public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
     }
 
     @Override
-    public void clear() {
-        entityManager.clear();
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
     public List<T> findAll() {
         String query = "from " + entityClass.getName() + " c";

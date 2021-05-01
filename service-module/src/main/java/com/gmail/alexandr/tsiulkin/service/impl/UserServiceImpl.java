@@ -10,6 +10,7 @@ import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ChangeUserRoleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
@@ -28,30 +29,16 @@ import static com.gmail.alexandr.tsiulkin.service.constant.MailConstant.RECIPIEN
 import static com.gmail.alexandr.tsiulkin.service.constant.UserPaginateConstant.MAXIMUM_USERS_ON_PAGE;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserConverter userConverter;
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
     private final Random random;
-
-    public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository,
-                           UserConverter userConverter,
-                           JavaMailSender javaMailSender,
-                           PasswordEncoder passwordEncoder,
-                           Random random) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.userConverter = userConverter;
-        this.javaMailSender = javaMailSender;
-        this.passwordEncoder = passwordEncoder;
-        this.random = random;
-    }
 
     @Override
     @Transactional
@@ -65,12 +52,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void persist(AddUserDTO addUserDTO) {
+    public ShowUserDTO persist(AddUserDTO addUserDTO) {
         String roleName = addUserDTO.getRole().name();
         Role role = roleRepository.findByRoleName(roleName);
         logger.info("role: {}", role);
+        User user = new User();
         if (Objects.nonNull(role)) {
-            User user = userConverter.convert(addUserDTO);
+            user = userConverter.convert(addUserDTO);
             user.setRole(role);
             String randomPassword = generateRandomPassword();
             logger.info("Password: {}", randomPassword);
@@ -82,6 +70,7 @@ public class UserServiceImpl implements UserService {
             SimpleMailMessage message = getMailMessageForAddUser(email, randomPassword, RECIPIENT_MAIL);
             javaMailSender.send(message);
         }
+        return userConverter.convert(user);
     }
 
     @Override
@@ -116,16 +105,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void changeRoleById(ChangeUserRoleDTO changeUserRoleDTO) {
-        Long id = changeUserRoleDTO.getId();
-        User user = userRepository.findById(id);
-        logger.info("old user:{}", user);
-        String roleName = changeUserRoleDTO.getRoleName();
-        Role role = user.getRole();
-        role.setRoleName(roleName);
-        user.setRole(role);
-        logger.info("new user:{}", user);
+    public ShowUserDTO changeRoleById(ChangeUserRoleDTO changeUserRoleDTO) {
+        String newRole = changeUserRoleDTO.getRoleName();
+        logger.info("new Role: {}", newRole);
+        Role byRoleName = roleRepository.findByRoleName(newRole);
+        logger.info("byRoleName: {}", byRoleName);
+        User user = userRepository.findById(changeUserRoleDTO.getId());
+        logger.info("user: {}", user);
+        byRoleName.getUsers().add(user);
         userRepository.merge(user);
+        return userConverter.convert(user);
     }
 
     private SimpleMailMessage getMailMessageForAddUser(String email, String randomPassword, String recipientMail) {

@@ -18,11 +18,6 @@ public class UserConverterImpl implements UserConverter {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Override
-    public User convert(ShowUserDTO showUserDTO) {
-        return null;
-    }
-
-    @Override
     public ShowUserDTO convert(User user) {
         ShowUserDTO showUserDTO = new ShowUserDTO();
         Long id = user.getId();

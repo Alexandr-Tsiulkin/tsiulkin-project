@@ -20,7 +20,7 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implem
 
     @Override
     public Long getCountUsers() {
-        String hql = "SELECT count(u.email) FROM User as u";
+        String hql = "SELECT count(u.id) FROM User as u";
         Query query = entityManager.createQuery(hql);
         return (Long) query.getSingleResult();
     }

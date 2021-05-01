@@ -13,6 +13,4 @@ public interface GenericRepository<I, T> {
     void removeById(I id);
 
     void merge(T entity);
-
-    void clear();
 }

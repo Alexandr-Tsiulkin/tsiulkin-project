@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Reviews</title>
+</head>
+<body>
+<form action="#" th:action="@{/admin/reviews/show}" method="post" id="checkbox_form_show"></form>
+<form action="#" th:action="@{/admin/reviews/delete}" method="post" id="checkbox_form_delete"></form>
+<table class="table table-hover container">
+    <caption class="caption-top fs-1">List of reviews</caption>
+    <thead class="table-light">
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">Last name</th>
+        <th scope="col">First name</th>
+        <th scope="col">Middle name</th>
+        <th scope="col">Review</th>
+        <th scope="col">Date</th>
+        <th scope="col">Show</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="review : ${reviews}">
+        <td th:text="${review.id}"></td>
+        <td th:text="${review.lastName}"></td>
+        <td th:text="${review.firstName}"></td>
+        <td th:text="${review.middleName}"></td>
+        <td th:text="${review.review}"></td>
+        <td th:text="${review.localDateTime}"></td>
+        <td>
+                <input type="checkbox" th:name="ids" form="checkbox_form_show" th:value="${review.id}" th:onchange="checked">
+        </td>
+        <td>
+            <input type="checkbox" th:name="ids" form="checkbox_form_delete" th:value="${review.id}">
+        </td>
+    </tbody>
+</table>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <button class="btn btn-primary" type="submit" form="checkbox_form_show">Show</button>
+    <button class="btn btn-primary" type="submit" form="checkbox_form_delete">Delete</button>
+</div>
+<div>
+    <span th:if="${page.countOfPages}>1">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:each="i : ${#numbers.sequence(page.beginPage, page.endPage)} ">
+                <a class="page-link" th:classappend="${page.currentPage}==${i}?'activepagenumber':''"
+                   th:href="@{|/admin/reviews/${i}|}"
+                   th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+    </span>
+</div>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

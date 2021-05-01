@@ -6,8 +6,6 @@ import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
 
 public interface UserConverter {
 
-    User convert (ShowUserDTO showUserDTO);
-
     ShowUserDTO convert (User user);
 
     User convert(AddUserDTO addUserDTO);

@@ -3,6 +3,7 @@ package com.gmail.alexandr.tsiulkin.config;
 import com.gmail.alexandr.tsiulkin.config.handler.CustomAccessDeniedHandler;
 import com.gmail.alexandr.tsiulkin.config.handler.CustomAuthenticationSuccessHandler;
 import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,14 +16,11 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final int BCRYPT_STRENGTH = 12;
     private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -1,8 +1,9 @@
 package com.gmail.alexandr.tsiulkin.service.impl;
 
-import com.gmail.alexandr.tsiulkin.service.model.UserLogin;
 import com.gmail.alexandr.tsiulkin.repository.UserRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
+import com.gmail.alexandr.tsiulkin.service.model.UserLogin;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,14 +16,11 @@ import java.lang.invoke.MethodHandles;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final UserRepository userRepository;
-
-    public UserDetailsServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     @Transactional

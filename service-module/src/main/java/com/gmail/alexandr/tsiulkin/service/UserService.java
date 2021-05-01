@@ -10,7 +10,7 @@ public interface UserService {
 
     List<ShowUserDTO> getAllUsers(int page);
 
-    void persist(AddUserDTO addUserDTO);
+    ShowUserDTO persist(AddUserDTO addUserDTO);
 
     Long getCountUsers();
 
@@ -18,5 +18,5 @@ public interface UserService {
 
     void resetPassword(Long id);
 
-    void changeRoleById(ChangeUserRoleDTO changeUserRoleDTO);
+    ShowUserDTO changeRoleById(ChangeUserRoleDTO changeUserRoleDTO);
 }

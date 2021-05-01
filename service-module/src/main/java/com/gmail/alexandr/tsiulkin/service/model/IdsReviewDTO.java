@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class DeleteUserDTO {
+public class IdsReviewDTO {
     @NotNull
     private List<Long> ids;
 }
