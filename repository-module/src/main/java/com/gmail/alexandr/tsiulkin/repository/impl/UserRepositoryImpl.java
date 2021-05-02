@@ -20,7 +20,7 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implem
 
     @Override
     public Long getCountUsers() {
-        String hql = "SELECT count(u.id) FROM User as u";
+        String hql = "SELECT COUNT(u.id) FROM User as u";
         Query query = entityManager.createQuery(hql);
         return (Long) query.getSingleResult();
     }
@@ -28,7 +28,7 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implem
     @Override
     @SuppressWarnings("unchecked")
     public List<User> findAll(int startPosition, int maximumUsersOnPage) {
-        String hql = "select u from User as u order by u.email asc";
+        String hql = "SELECT u FROM User as u ORDER BY u.email ASC";
         Query query = entityManager.createQuery(hql);
         query.setFirstResult(startPosition);
         query.setMaxResults(maximumUsersOnPage);

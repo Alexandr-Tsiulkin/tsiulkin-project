@@ -1,7 +1,9 @@
 package com.gmail.alexandr.tsiulkin.service.impl;
 
 import com.gmail.alexandr.tsiulkin.repository.ReviewRepository;
+import com.gmail.alexandr.tsiulkin.repository.StatusRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Review;
+import com.gmail.alexandr.tsiulkin.repository.model.Status;
 import com.gmail.alexandr.tsiulkin.service.ReviewService;
 import com.gmail.alexandr.tsiulkin.service.converter.ReviewConverter;
 import com.gmail.alexandr.tsiulkin.service.model.ShowReviewDTO;
@@ -25,6 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewConverter reviewConverter;
+    private final StatusRepository statusRepository;
 
     @Override
     @Transactional
@@ -50,8 +53,42 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ShowReviewDTO findById(Long id) {
-        Review review = reviewRepository.findById(id);
-        return reviewConverter.convert(review);
+    @Transactional
+    public List<ShowReviewDTO> findAllByShow() {
+        List<Review> reviews = reviewRepository.findAllByShow();
+        return reviews.stream()
+                .map(reviewConverter::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void changeStatusByIds(List<Long> ids) {
+        List<Review> reviews = reviewRepository.findAll();
+        List<Status> statuses = statusRepository.findAll();
+        if (ids == null) {
+            for (Review review : reviews) {
+                Status statusHide = statuses.get(1);
+                statusHide.getReviews().add(review);
+            }
+        } else {
+            for (Long id : ids) {
+                for (Review review : reviews) {
+                        changeStatus(statuses, id, review);
+                    }
+                }
+            }
+        }
+
+
+    private void changeStatus(List<Status> statuses, Long id, Review review) {
+        Long reviewId = review.getId();
+        if (reviewId.equals(id)) {
+            Status statusShow = statuses.get(0);
+            statusShow.getReviews().add(review);
+        } else {
+            Status statusHide = statuses.get(1);
+            statusHide.getReviews().add(review);
+        }
     }
 }

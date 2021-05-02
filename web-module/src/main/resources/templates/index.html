@@ -10,24 +10,9 @@
 <header class="p-3 bg-dark text-white">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"/>
-                </svg>
-            </a>
-
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li><a th:href="@{/}" class="nav-link px-2 text-secondary">Home</a></li>
             </ul>
-
-            <!--<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control form-control-dark" placeholder="Search...">
-            </form>-->
-
             <div class="text-end">
                 <a class="btn btn-outline-light me-2" th:href="@{/login}" role="button">Login</a>
                 <a class="btn btn-warning" th:href="@{/registration}" role="button">Sign-up</a>
@@ -35,51 +20,6 @@
         </div>
     </div>
 </header>
-<!--<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/about}">T-Project</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav active">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li>
-                            <a class="dropdown-item" th:href="@{/admin/users}">Users</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{/admin/add-user}">Add user</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{/admin/reviews}">Reviews</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="#">Seller</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Customer</a></li>
-            </ul>
-            <ul class="navbar navbar-right">
-                <li><a th:href="@{/registration}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-                <li><a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>-->
-<!--<p class="text-center fs-1">Start page</p>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/login}" role="button">Login</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/registration}" role="button">Registration</a>
-</div>-->
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

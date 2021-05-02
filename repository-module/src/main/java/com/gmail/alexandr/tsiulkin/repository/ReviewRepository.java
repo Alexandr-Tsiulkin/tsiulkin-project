@@ -9,4 +9,6 @@ public interface ReviewRepository extends GenericRepository<Long, Review> {
     Long getCountReviews();
 
     List<Review> findAll(int startPosition, int maximumReviewsOnPage);
+
+    List<Review> findAllByShow();
 }

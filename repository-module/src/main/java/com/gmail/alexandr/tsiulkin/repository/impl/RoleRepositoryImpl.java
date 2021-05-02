@@ -10,7 +10,7 @@ import javax.persistence.Query;
 public class RoleRepositoryImpl extends GenericRepositoryImpl<Long, Role> implements RoleRepository {
     @Override
     public Role findByRoleName(String roleName) {
-        String stringQuery = "select r from Role as r where r.roleName=:roleName";
+        String stringQuery = "SELECT r FROM Role as r WHERE r.roleName=:roleName";
         Query query = entityManager.createQuery(stringQuery);
         query.setParameter("roleName", roleName);
         return (Role) query.getSingleResult();

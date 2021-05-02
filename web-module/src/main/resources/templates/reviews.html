@@ -32,7 +32,12 @@
         <td th:text="${review.review}"></td>
         <td th:text="${review.localDateTime}"></td>
         <td>
-                <input type="checkbox" th:name="ids" form="checkbox_form_show" th:value="${review.id}" th:onchange="checked">
+            <div th:if="${review.status}==${T(com.gmail.alexandr.tsiulkin.service.model.StatusDTOEnum).SHOW.name()}">
+                <input type="checkbox" th:name="ids" form="checkbox_form_show" th:value="${review.id}" checked>
+            </div>
+            <div th:if="${review.status}==${T(com.gmail.alexandr.tsiulkin.service.model.StatusDTOEnum).HIDE.name()}">
+                <input type="checkbox" th:name="ids" form="checkbox_form_show" th:value="${review.id}">
+            </div>
         </td>
         <td>
             <input type="checkbox" th:name="ids" form="checkbox_form_delete" th:value="${review.id}">
@@ -40,7 +45,7 @@
     </tbody>
 </table>
 <div class="d-grid gap-2 col-6 mx-auto">
-    <button class="btn btn-primary" type="submit" form="checkbox_form_show">Show</button>
+    <button id="btn" class="btn btn-primary" type="submit" form="checkbox_form_show">Show</button>
     <button class="btn btn-primary" type="submit" form="checkbox_form_delete">Delete</button>
 </div>
 <div>

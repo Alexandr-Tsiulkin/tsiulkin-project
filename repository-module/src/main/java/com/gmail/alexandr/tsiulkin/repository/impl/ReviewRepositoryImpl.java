@@ -12,7 +12,7 @@ public class ReviewRepositoryImpl extends GenericRepositoryImpl<Long, Review> im
 
     @Override
     public Long getCountReviews() {
-        String hql = "SELECT count(r.id) FROM Review as r";
+        String hql = "SELECT COUNT(r.id) FROM Review as r";
         Query query = entityManager.createQuery(hql);
         return (Long) query.getSingleResult();
     }
@@ -20,10 +20,19 @@ public class ReviewRepositoryImpl extends GenericRepositoryImpl<Long, Review> im
     @Override
     @SuppressWarnings("unchecked")
     public List<Review> findAll(int startPosition, int maximumReviewsOnPage) {
-        String hql = "select r from Review as r order by r.localDate asc";
+        String hql = "SELECT r FROM Review as r ORDER BY r.localDate ASC";
         Query query = entityManager.createQuery(hql);
         query.setFirstResult(startPosition);
         query.setMaxResults(maximumReviewsOnPage);
+        return query.getResultList();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Review> findAllByShow() {
+        String hql = "SELECT r FROM Review as r JOIN r.status as st WHERE st.status=:status ORDER BY r.localDate ASC";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("status","SHOW");
         return query.getResultList();
     }
 }

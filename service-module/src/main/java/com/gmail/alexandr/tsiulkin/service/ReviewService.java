@@ -11,5 +11,7 @@ public interface ReviewService {
 
     void deleteById(Long id);
 
-    ShowReviewDTO findById(Long id);
+    List<ShowReviewDTO> findAllByShow();
+
+    void changeStatusByIds(List<Long> ids);
 }

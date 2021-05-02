@@ -17,4 +17,5 @@ public class ShowReviewDTO {
     private String middleName;
     private String review;
     private LocalDateTime localDateTime;
+    private String status;
 }
