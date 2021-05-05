@@ -25,7 +25,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${users}">
+    <tr th:each="user : ${pageDTO.users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.lastName}"></td>
         <td th:text="${user.firstName}"></td>
@@ -34,19 +34,18 @@
         <td th:text="${user.roleName}"></td>
         <td>
             <span th:unless="${user.email}==${#authentication.name}">
-                <input type="checkbox" th:name="ids" form="checkbox_form" th:value="${user.id}">
+                <input type="checkbox" name="checkedIds" form="checkbox_form" th:value="${user.id}">
             </span>
         </td>
         <td>
             <a class="btn btn-primary" th:href="@{/admin/reset-password/{id}(id=${user.id})}" role="button">
                 Reset password</a>
         </td>
-        <form action="#" th:action="@{/admin/change-role/{id}(id=${user.id})}" th:object="${changeRoleUser}"
-              method="post">
+        <form th:action="@{/admin/change-role/{id}(id=${user.id})}" method="post">
             <td>
             <span th:unless="${user.email}==${#authentication.name}">
             <div class="col-12">
-                <select class="form-select" aria-label="Default select example" th:field="*{roleName}">
+                <select class="form-select" aria-label="Default select example" name="roleName">
                     <option th:each="role : ${T(com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum).values()}"
                             th:value="${role.name()}" th:text="${role.name()}"></option>
                 </select>
@@ -75,17 +74,17 @@
     <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>
 </div>
 <div>
-    <span th:if="${page.countOfPages}>1">
+     <span th:if="${pageDTO.countOfPages gt 1}">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item" th:each="i : ${#numbers.sequence(page.beginPage, page.endPage)} ">
-                <a class="page-link" th:classappend="${page.currentPage}==${i}?'activepagenumber':''"
-                   th:href="@{|/admin/users/${i}|}"
+            <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
+                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                   th:href="@{/admin/users?page={id}(id=${i})}"
                    th:text="${i}"></a>
             </li>
         </ul>
     </nav>
-    </span>
+     </span>
 </div>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>

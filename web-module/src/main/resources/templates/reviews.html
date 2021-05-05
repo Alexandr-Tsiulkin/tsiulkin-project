@@ -7,59 +7,66 @@
     <title>Reviews</title>
 </head>
 <body>
-<form action="#" th:action="@{/admin/reviews/show}" method="post" id="checkbox_form_show"></form>
-<form action="#" th:action="@{/admin/reviews/delete}" method="post" id="checkbox_form_delete"></form>
-<table class="table table-hover container">
-    <caption class="caption-top fs-1">List of reviews</caption>
-    <thead class="table-light">
-    <tr>
-        <th scope="col">id</th>
-        <th scope="col">Last name</th>
-        <th scope="col">First name</th>
-        <th scope="col">Middle name</th>
-        <th scope="col">Review</th>
-        <th scope="col">Date</th>
-        <th scope="col">Show</th>
-        <th scope="col">Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="review : ${reviews}">
-        <td th:text="${review.id}"></td>
-        <td th:text="${review.lastName}"></td>
-        <td th:text="${review.firstName}"></td>
-        <td th:text="${review.middleName}"></td>
-        <td th:text="${review.review}"></td>
-        <td th:text="${review.localDateTime}"></td>
-        <td>
-            <div th:if="${review.status}==${T(com.gmail.alexandr.tsiulkin.service.model.StatusDTOEnum).SHOW.name()}">
-                <input type="checkbox" th:name="ids" form="checkbox_form_show" th:value="${review.id}" checked>
-            </div>
-            <div th:if="${review.status}==${T(com.gmail.alexandr.tsiulkin.service.model.StatusDTOEnum).HIDE.name()}">
-                <input type="checkbox" th:name="ids" form="checkbox_form_show" th:value="${review.id}">
-            </div>
-        </td>
-        <td>
-            <input type="checkbox" th:name="ids" form="checkbox_form_delete" th:value="${review.id}">
-        </td>
-    </tbody>
-</table>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <button id="btn" class="btn btn-primary" type="submit" form="checkbox_form_show">Show</button>
-    <button class="btn btn-primary" type="submit" form="checkbox_form_delete">Delete</button>
-</div>
+<form th:action="@{/admin/reviews/show}" method="post">
+    <table class="table table-hover container">
+        <caption class="caption-top fs-1">List of reviews</caption>
+        <thead class="table-light">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Last name</th>
+            <th scope="col">First name</th>
+            <th scope="col">Middle name</th>
+            <th scope="col">Review</th>
+            <th scope="col">Date</th>
+            <th scope="col">Show</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="review : ${pageDTO.reviews}">
+            <td th:text="${review.id}"></td>
+            <td th:text="${review.lastName}"></td>
+            <td th:text="${review.firstName}"></td>
+            <td th:text="${review.middleName}"></td>
+            <td th:text="${review.review}"></td>
+            <td th:text="${review.localDateTime}"></td>
+            <td>
+                <input type="checkbox" name="checkedIds" th:value="${review.id}"
+                       th:if="${review.status}==${T(com.gmail.alexandr.tsiulkin.service.model.StatusDTOEnum).SHOW.name()}"
+                       checked>
+                <input type="checkbox" name="checkedIds" th:value="${review.id}"
+                       th:if="${review.status}==${T(com.gmail.alexandr.tsiulkin.service.model.StatusDTOEnum).HIDE.name()}"
+                >
+                <input type="hidden" name="allIds" th:value="${review.id}">
+            </td>
+            <td>
+                <a class="btn btn-primary" type="submit" th:href="@{/admin/reviews/delete/{id}(id=${review.id})}"
+                   th:name="id" role="button"> Delete</a>
+            </td>
+        </tbody>
+    </table>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button id="btn" class="btn btn-primary" type="submit">Show</button>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <a class="btn btn-primary" th:href="@{/admin/welcome-admin}" role="button">Back</a>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>
+    </div>
+</form>
 <div>
-    <span th:if="${page.countOfPages}>1">
+     <span th:if="${pageDTO.countOfPages gt 1}">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item" th:each="i : ${#numbers.sequence(page.beginPage, page.endPage)} ">
-                <a class="page-link" th:classappend="${page.currentPage}==${i}?'activepagenumber':''"
-                   th:href="@{|/admin/reviews/${i}|}"
+            <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
+                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                   th:href="@{/admin/reviews?page={id}(id=${i})}"
                    th:text="${i}"></a>
             </li>
         </ul>
     </nav>
-    </span>
+     </span>
 </div>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>

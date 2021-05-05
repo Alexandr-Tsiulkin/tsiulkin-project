@@ -10,13 +10,13 @@
 <p class="text-lg-center fs-1">Welcome</p>
 <p class="text-lg-center fs-2" th:text="${#authentication.name}"></p>
 <div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/admin/users/1}" role="button">Users</a>
+    <a class="btn btn-primary" th:href="@{/admin/users}" role="button">Users</a>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-primary" th:href="@{/admin/add-user}" role="button">Add user</a>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/admin/reviews/1}" role="button">Reviews</a>
+    <a class="btn btn-primary" th:href="@{/admin/reviews}" role="button">Reviews</a>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>

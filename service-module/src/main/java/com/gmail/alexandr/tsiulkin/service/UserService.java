@@ -1,22 +1,19 @@
 package com.gmail.alexandr.tsiulkin.service;
 
+import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ChangeUserRoleDTO;
+import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
-
-import java.util.List;
 
 public interface UserService {
 
-    List<ShowUserDTO> getAllUsers(int page);
+    PageDTO getUsersByPage(Integer page);
 
-    ShowUserDTO persist(AddUserDTO addUserDTO);
-
-    Long getCountUsers();
+    void persist(AddUserDTO addUserDTO) throws ServiceException;
 
     void deleteById(Long id);
 
     void resetPassword(Long id);
 
-    ShowUserDTO changeRoleById(ChangeUserRoleDTO changeUserRoleDTO);
+    ShowUserDTO changeRoleById(String roleName, Long id);
 }

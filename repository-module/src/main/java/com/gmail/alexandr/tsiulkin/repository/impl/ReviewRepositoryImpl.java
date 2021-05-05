@@ -32,7 +32,7 @@ public class ReviewRepositoryImpl extends GenericRepositoryImpl<Long, Review> im
     public List<Review> findAllByShow() {
         String hql = "SELECT r FROM Review as r JOIN r.status as st WHERE st.status=:status ORDER BY r.localDate ASC";
         Query query = entityManager.createQuery(hql);
-        query.setParameter("status","SHOW");
+        query.setParameter("status", "SHOW");
         return query.getResultList();
     }
 }

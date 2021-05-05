@@ -2,11 +2,14 @@ package com.gmail.alexandr.tsiulkin.repository.impl;
 
 import com.gmail.alexandr.tsiulkin.repository.UserRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
+@Log4j2
 @Repository
 public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implements UserRepository {
 
@@ -15,6 +18,12 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implem
         String stringQuery = "SELECT u FROM User as u WHERE u.email=:email";
         Query query = entityManager.createQuery(stringQuery);
         query.setParameter("email", email);
+        try {
+            query.getSingleResult();
+        } catch (NoResultException e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
         return (User) query.getSingleResult();
     }
 

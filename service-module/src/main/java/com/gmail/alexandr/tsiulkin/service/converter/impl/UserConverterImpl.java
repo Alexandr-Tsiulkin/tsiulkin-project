@@ -15,8 +15,6 @@ import java.util.Objects;
 @Component
 public class UserConverterImpl implements UserConverter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
     @Override
     public ShowUserDTO convert(User user) {
         ShowUserDTO showUserDTO = new ShowUserDTO();

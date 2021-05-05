@@ -6,7 +6,6 @@ import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ChangeUserRoleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
 import org.junit.jupiter.api.Test;
@@ -70,11 +69,8 @@ class UserServiceTest {
 
     @Test
     void shouldChangeRoleById() {
-        ChangeUserRoleDTO changeUserRoleDTO = new ChangeUserRoleDTO();
         Long id = 1L;
-        changeUserRoleDTO.setId(id);
         String roleName = "newTestNameRole";
-        changeUserRoleDTO.setRoleName(roleName);
 
         Role role = new Role();
         role.setId(2L);
@@ -88,8 +84,8 @@ class UserServiceTest {
         roleTwo.setRoleName(oldRoleName);
         user.setRole(roleTwo);
 
-        when(roleRepository.findByRoleName(changeUserRoleDTO.getRoleName())).thenReturn(role);
-        when(userRepository.findById(changeUserRoleDTO.getId())).thenReturn(user);
+        when(roleRepository.findByRoleName(roleName)).thenReturn(role);
+        when(userRepository.findById(id)).thenReturn(user);
         user.setRole(role);
 
         ShowUserDTO showUserDTO = new ShowUserDTO();

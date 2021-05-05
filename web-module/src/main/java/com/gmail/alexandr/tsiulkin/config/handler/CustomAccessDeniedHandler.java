@@ -1,7 +1,6 @@
 package com.gmail.alexandr.tsiulkin.config.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,12 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 import java.util.Objects;
-
+@Log4j2
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
-
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Override
     public void handle(HttpServletRequest request,
@@ -27,7 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         if (Objects.nonNull(authentication)) {
             String name = authentication.getName();
             String uri = request.getRequestURI();
-            logger.info("User {} attempted to access the protected URL: {}", name, uri);
+            log.info("User {} attempted to access the protected URL: {}", name, uri);
         }
         response.sendRedirect(request.getContextPath() + "access-denied");
     }

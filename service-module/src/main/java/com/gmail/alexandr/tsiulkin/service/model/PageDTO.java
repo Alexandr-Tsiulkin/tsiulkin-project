@@ -1,16 +1,18 @@
 package com.gmail.alexandr.tsiulkin.service.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
 public class PageDTO {
 
     private Long countOfPages;
     private Long currentPage;
     private Long beginPage;
     private Long endPage;
+    private List<ShowUserDTO> users = new ArrayList<>();
+    private List<ShowReviewDTO> reviews = new ArrayList<>();
+    private Integer startPosition;
 }
