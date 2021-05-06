@@ -4,7 +4,7 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
     <meta charset="UTF-8">
-    <title>Reviews</title>
+    <title>Articles</title>
 </head>
 <body>
 <!--<form th:action="@{/customer/reviews/show}" method="post">-->
@@ -28,7 +28,7 @@
         <td th:text="${article.title}"></td>
         <td th:text="${article.firstName}"></td>
         <td th:text="${article.lastName}"></td>
-        <td th:text="${article.shortContext}"></td>
+        <td th:text="${article.shortContent}"></td>
         <td>
             <a class="btn btn-primary" type="submit" th:href="@{/customer/articles/{id}(id=${article.id})}"
                th:name="id" role="button">More details</a>

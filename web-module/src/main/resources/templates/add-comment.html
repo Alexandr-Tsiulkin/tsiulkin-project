@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Add comment</title>
+</head>
+<body>
+<form class="row row-cols-lg-auto g-3 align-items-center" method="post" th:object="${comment}">
+    <div class="col-12">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="fullContent">Full content</label>
+            <input type="text" class="form-control" id="fullContent" name="fullContent"
+                   required placeholder="Full content" th:field="*{fullContent}">
+            <input type="hidden" name="username" th:value="${#authentication.name}">
+        </div>
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('fullContent')}" th:errors="*{fullContent}"></div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Add comment</button>
+    </div>
+</form>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

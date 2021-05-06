@@ -1,35 +1,26 @@
 package com.gmail.alexandr.tsiulkin.repository.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "article")
-public class Article {
+@Table(name = "comment")
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "date")
     private LocalDateTime localDateTime;
-    @Column
-    private String title;
     @Column(name = "content")
     private String fullContent;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "customer_id")
     private User user;
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "article_id")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Set<Comment> comments = new HashSet<>();
+    private Article article;
 }

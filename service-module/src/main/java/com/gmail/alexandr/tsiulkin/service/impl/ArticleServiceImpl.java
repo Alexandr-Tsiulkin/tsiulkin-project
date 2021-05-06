@@ -2,9 +2,12 @@ package com.gmail.alexandr.tsiulkin.service.impl;
 
 import com.gmail.alexandr.tsiulkin.repository.ArticleRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Article;
+import com.gmail.alexandr.tsiulkin.repository.model.Comment;
 import com.gmail.alexandr.tsiulkin.service.ArticleService;
+import com.gmail.alexandr.tsiulkin.service.CommentService;
 import com.gmail.alexandr.tsiulkin.service.converter.ArticleConverter;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleConverter articleConverter;
+    private final CommentService commentService;
 
     @Override
     @Transactional
@@ -35,5 +39,12 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(articleConverter::convert)
                 .collect(Collectors.toList()));
         return pageDTO;
+    }
+
+    @Override
+    @Transactional
+    public ShowArticleDTO getArticleById(Long id) {
+        Article article = articleRepository.findById(id);
+        return articleConverter.convert(article);
     }
 }
