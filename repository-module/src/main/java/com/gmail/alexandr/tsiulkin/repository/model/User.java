@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@ToString(exclude = "reviews")
-@EqualsAndHashCode(exclude = "reviews")
 @Entity
 @Table(name = "user")
 public class User {
@@ -30,8 +28,14 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
-
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "customer_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Review> reviews = new HashSet<>();
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JoinColumn(name = "seller_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Article> articles = new HashSet<>();
 }

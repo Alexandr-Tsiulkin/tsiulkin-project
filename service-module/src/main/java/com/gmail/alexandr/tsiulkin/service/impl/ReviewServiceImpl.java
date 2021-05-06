@@ -7,7 +7,6 @@ import com.gmail.alexandr.tsiulkin.repository.model.Status;
 import com.gmail.alexandr.tsiulkin.service.ReviewService;
 import com.gmail.alexandr.tsiulkin.service.converter.ReviewConverter;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ShowReviewDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -37,15 +36,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public List<ShowReviewDTO> findAllByShow() {
-        List<Review> reviews = reviewRepository.findAllByShow();
-        return reviews.stream()
-                .map(reviewConverter::convert)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
     public void changeStatusByIds(List<Long> checkedIds, List<Long> allIds) {
         List<Status> statuses = statusRepository.findAll();
         if (checkedIds == null) {
@@ -71,6 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public PageDTO getReviewsByPage(Integer page) {
         Long countReviews = reviewRepository.getCountReviews();
         PageDTO pageDTO = getPageDTO(page, countReviews, MAXIMUM_REVIEWS_ON_PAGE);

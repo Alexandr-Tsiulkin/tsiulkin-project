@@ -10,5 +10,4 @@ public interface ReviewRepository extends GenericRepository<Long, Review> {
 
     List<Review> findAll(int startPosition, int maximumReviewsOnPage);
 
-    List<Review> findAllByShow();
 }

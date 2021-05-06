@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Reviews</title>
+</head>
+<body>
+<!--<form th:action="@{/customer/reviews/show}" method="post">-->
+<table class="table table-hover container">
+    <caption class="caption-top fs-1">List of articles</caption>
+    <thead class="table-light">
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">Date</th>
+        <th scope="col">Title</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Short content</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="article : ${pageDTO.articles}">
+        <td th:text="${article.id}"></td>
+        <td th:text="${article.date}"></td>
+        <td th:text="${article.title}"></td>
+        <td th:text="${article.firstName}"></td>
+        <td th:text="${article.lastName}"></td>
+        <td th:text="${article.shortContext}"></td>
+        <td>
+            <a class="btn btn-primary" type="submit" th:href="@{/customer/articles/{id}(id=${article.id})}"
+               th:name="id" role="button">More details</a>
+        </td>
+    </tbody>
+</table>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/customer/welcome-customer}" role="button">Back</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>
+</div>
+</form>
+<div>
+     <span th:if="${pageDTO.countOfPages gt 1}">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
+                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                   th:href="@{/admin/articles?page={id}(id=${i})}"
+                   th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+     </span>
+</div>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

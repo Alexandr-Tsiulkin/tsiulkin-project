@@ -14,5 +14,6 @@ public class PageDTO {
     private Long endPage;
     private List<ShowUserDTO> users = new ArrayList<>();
     private List<ShowReviewDTO> reviews = new ArrayList<>();
+    private List<ShowArticleDTO> articles = new ArrayList<>();
     private Integer startPosition;
 }
