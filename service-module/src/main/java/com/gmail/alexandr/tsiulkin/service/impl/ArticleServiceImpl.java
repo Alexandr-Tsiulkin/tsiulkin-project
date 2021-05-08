@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.ArticleConstant.MAXIMUM_ARTICLES_ON_PAGE;
-import static com.gmail.alexandr.tsiulkin.service.impl.ReviewServiceImpl.getPageDTO;
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getPageDTO;
 
 @RequiredArgsConstructor
 @Log4j2

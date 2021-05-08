@@ -6,7 +6,6 @@ import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.repository.model.UserDetails;
 import com.gmail.alexandr.tsiulkin.service.UserService;
-import com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
@@ -24,11 +23,11 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.UserPaginateConstant.MAXIMUM_USERS_ON_PAGE;
-import static com.gmail.alexandr.tsiulkin.service.impl.ReviewServiceImpl.getPageDTO;
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.generateRandomPassword;
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getPageDTO;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -40,7 +39,6 @@ public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
-    private final Random random;
     private final Environment environment;
 
     @Override
@@ -203,13 +201,5 @@ public class UserServiceImpl implements UserService {
         return message;
     }
 
-    private String generateRandomPassword() {
-        log.info("Generating Password");
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < PasswordGenerateConstant.NUMBER_OF_CHARS_IN_PASSWORD; i++) {
-            int character = (random.nextInt(PasswordGenerateConstant.ALPHA_NUMERIC_STRING.length()));
-            builder.append(PasswordGenerateConstant.ALPHA_NUMERIC_STRING.charAt(character));
-        }
-        return builder.toString();
-    }
+
 }

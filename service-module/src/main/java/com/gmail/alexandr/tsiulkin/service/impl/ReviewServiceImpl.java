@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.ReviewPaginateConstant.MAXIMUM_REVIEWS_ON_PAGE;
-import static java.lang.Math.*;
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getPageDTO;
 
 
 @RequiredArgsConstructor
@@ -73,20 +73,6 @@ public class ReviewServiceImpl implements ReviewService {
         return pageDTO;
     }
 
-    static PageDTO getPageDTO(Integer page, double countReviews, int MaximumObjectsOnPage) {
-        PageDTO pageDTO = new PageDTO();
-        double countOfPages = ceil(countReviews / MaximumObjectsOnPage);
-        pageDTO.setCountOfPages((long) countOfPages);
-        long currentPage = (page + 1);
-        pageDTO.setCurrentPage(currentPage);
-        long beginPage = max(1, currentPage - 2);
-        pageDTO.setBeginPage(beginPage);
-        double endPage = min(beginPage + 2, countOfPages);
-        pageDTO.setEndPage((long) endPage);
-        int startPosition = (page - 1) * MaximumObjectsOnPage;
-        pageDTO.setStartPosition(startPosition);
-        return pageDTO;
-    }
 
     private List<Long> removeCheckedId(List<Long> checkedIds, List<Long> allIds) {
         for (Long checkedId : checkedIds) {

@@ -13,13 +13,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.ArticleConstant.MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD;
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getFormatDateTime;
 
 @Component
 @Log4j2
@@ -34,8 +34,10 @@ public class ArticleConverterImpl implements ArticleConverter {
         Long id = article.getId();
         showArticleDTO.setId(id);
         LocalDateTime localDateTime = article.getLocalDateTime();
-        String formatDateTime = getFormatDateTime(localDateTime);
-        showArticleDTO.setDate(formatDateTime);
+        if (Objects.nonNull(localDateTime)) {
+            String formatDateTime = getFormatDateTime(localDateTime);
+            showArticleDTO.setDate(formatDateTime);
+        }
         String title = article.getTitle();
         showArticleDTO.setTitle(title);
         User user = article.getUser();
@@ -46,12 +48,9 @@ public class ArticleConverterImpl implements ArticleConverter {
             showArticleDTO.setLastName(lastName);
         }
         String fullContent = article.getFullContent();
-        showArticleDTO.setFullContent(fullContent);
-        if (fullContent.length() > MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD) {
-            String shortContent = fullContent.substring(1, MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD);
-            showArticleDTO.setShortContent(shortContent);
-        } else {
-            showArticleDTO.setShortContent(fullContent);
+        if (Objects.nonNull(fullContent)) {
+            showArticleDTO.setFullContent(fullContent);
+            addShortContent(showArticleDTO, fullContent);
         }
         Set<Comment> comments = article.getComments();
         if (!comments.isEmpty()) {
@@ -61,6 +60,15 @@ public class ArticleConverterImpl implements ArticleConverter {
             showArticleDTO.getComments().addAll(commentDTOs);
         }
         return showArticleDTO;
+    }
+
+    private void addShortContent(ShowArticleDTO showArticleDTO, String fullContent) {
+        if (fullContent.length() > MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD) {
+            String shortContent = fullContent.substring(1, MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD);
+            showArticleDTO.setShortContent(shortContent);
+        } else {
+            showArticleDTO.setShortContent(fullContent);
+        }
     }
 
     @Override
@@ -73,10 +81,5 @@ public class ArticleConverterImpl implements ArticleConverter {
         LocalDateTime localDateTime = LocalDateTime.now();
         article.setLocalDateTime(localDateTime);
         return article;
-    }
-
-    static String getFormatDateTime(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return localDateTime.format(formatter);
     }
 }

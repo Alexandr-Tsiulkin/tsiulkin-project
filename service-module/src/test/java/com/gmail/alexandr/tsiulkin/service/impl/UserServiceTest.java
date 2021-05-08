@@ -5,12 +5,9 @@ import com.gmail.alexandr.tsiulkin.repository.UserRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
-import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -29,43 +26,6 @@ class UserServiceTest {
     private RoleRepository roleRepository;
     @Mock
     private UserConverter userConverter;
-    @InjectMocks
-    private UserServiceImpl userService;
-
-
-    @Test
-    void shouldAddPasswordToUserAndSendLetterToMail() {
-        AddUserDTO addUserDTO = new AddUserDTO();
-        String lastName = "lastName";
-        addUserDTO.setLastName(lastName);
-        String firstName = "lastName";
-        addUserDTO.setFirstName(firstName);
-        String middleName = "lastName";
-        addUserDTO.setMiddleName(middleName);
-        String email = "email";
-        addUserDTO.setEmail(email);
-        RoleDTOEnum roleDTOEnum = RoleDTOEnum.SALE_USER;
-        addUserDTO.setRole(roleDTOEnum);
-
-        Role role = new Role();
-        Long id = 1L;
-        role.setId(id);
-        String roleName = "SALE_USER";
-        role.setRoleName(roleName);
-
-        when(roleRepository.findByRoleName(addUserDTO.getRole().name())).thenReturn(role);
-
-        User user = new User();
-        Long userId = 1L;
-        user.setId(userId);
-        user.setLastName(lastName);
-        user.setFirstName(firstName);
-        user.setMiddleName(middleName);
-        user.setRole(role);
-        String password = "password";
-        user.setPassword(password);
-        when(userConverter.convert(addUserDTO)).thenReturn(user);
-    }
 
     @Test
     void shouldChangeRoleById() {

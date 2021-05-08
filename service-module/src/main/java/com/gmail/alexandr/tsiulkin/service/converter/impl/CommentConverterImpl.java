@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static com.gmail.alexandr.tsiulkin.service.converter.impl.ArticleConverterImpl.getFormatDateTime;
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getFormatDateTime;
 
 @Component
 public class CommentConverterImpl implements CommentConverter {
