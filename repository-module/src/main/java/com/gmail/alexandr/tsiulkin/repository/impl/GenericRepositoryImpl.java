@@ -1,6 +1,8 @@
 package com.gmail.alexandr.tsiulkin.repository.impl;
 
 import com.gmail.alexandr.tsiulkin.repository.GenericRepository;
+import com.gmail.alexandr.tsiulkin.repository.exception.RepositoryException;
+import lombok.extern.log4j.Log4j2;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,6 +10,7 @@ import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+@Log4j2
 public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
 
     @PersistenceContext
@@ -32,8 +35,14 @@ public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
 
     @Override
     public void removeById(I id) {
-        T entity = entityManager.find(entityClass, id);
-        entityManager.remove(entity);
+        try {
+            T entity = entityManager.find(entityClass, id);
+            entityManager.remove(entity);
+        } catch (IllegalArgumentException e) {
+            log.error(e.getMessage(), e);
+            throw new RepositoryException(entityClass.getName() + " with id:=" + id + " was not found");
+        }
+
     }
 
     @Override
@@ -44,7 +53,7 @@ public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
     @Override
     @SuppressWarnings("unchecked")
     public List<T> findAll() {
-        String query = "from " + entityClass.getName() + " c";
+        String query = "from " + entityClass.getName();
         Query managerQuery = entityManager.createQuery(query);
         return managerQuery.getResultList();
     }

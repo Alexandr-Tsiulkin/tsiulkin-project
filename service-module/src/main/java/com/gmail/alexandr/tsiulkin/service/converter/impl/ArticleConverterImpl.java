@@ -5,6 +5,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.Comment;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.converter.ArticleConverter;
 import com.gmail.alexandr.tsiulkin.service.converter.CommentConverter;
+import com.gmail.alexandr.tsiulkin.service.model.AddArticleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowCommentDTO;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.gmail.alexandr.tsiulkin.service.constant.ArticleConstant.MAXIMUM_CHARS_FOR_SHORT_CONTEXT_FIELD;
+import static com.gmail.alexandr.tsiulkin.service.constant.ArticleConstant.MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD;
 
 @Component
 @Log4j2
@@ -46,8 +47,8 @@ public class ArticleConverterImpl implements ArticleConverter {
         }
         String fullContent = article.getFullContent();
         showArticleDTO.setFullContent(fullContent);
-        if (fullContent.length() > MAXIMUM_CHARS_FOR_SHORT_CONTEXT_FIELD) {
-            String shortContent = fullContent.substring(1, MAXIMUM_CHARS_FOR_SHORT_CONTEXT_FIELD);
+        if (fullContent.length() > MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD) {
+            String shortContent = fullContent.substring(1, MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD);
             showArticleDTO.setShortContent(shortContent);
         } else {
             showArticleDTO.setShortContent(fullContent);
@@ -60,6 +61,18 @@ public class ArticleConverterImpl implements ArticleConverter {
             showArticleDTO.getComments().addAll(commentDTOs);
         }
         return showArticleDTO;
+    }
+
+    @Override
+    public Article convert(AddArticleDTO addArticleDTO) {
+        Article article = new Article();
+        String title = addArticleDTO.getTitle();
+        article.setTitle(title);
+        String content = addArticleDTO.getContent();
+        article.setFullContent(content);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        article.setLocalDateTime(localDateTime);
+        return article;
     }
 
     static String getFormatDateTime(LocalDateTime localDateTime) {

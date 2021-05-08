@@ -47,6 +47,22 @@
         </select>
     </div>
     <div class="col-12">
+        <label class="visually-hidden" for="address">Address</label>
+        <div class="input-group">
+            <input type="address" class="form-control" id="address" name="address"
+                   required placeholder="Address" th:field="*{address}">
+        </div>
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+    </div>
+    <div class="col-12">
+        <label class="visually-hidden" for="telephone">Telephone</label>
+        <div class="input-group">
+            <input type="telephone" class="form-control" id="telephone" name="telephone"
+                   required placeholder="Telephone" th:field="*{telephone}">
+        </div>
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
+    </div>
+    <div class="col-12">
         <button type="submit" class="btn btn-primary">Add user</button>
     </div>
 </form>

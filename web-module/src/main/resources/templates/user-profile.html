@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<table class="table table-hover container">
+    <caption class="caption-top fs-1">Profile</caption>
+    <thead class="table-light">
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Telephone</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${userDetailsDTO.id}"></td>
+        <td th:text="${userDetailsDTO.firstName}"></td>
+        <td th:text="${userDetailsDTO.lastName}"></td>
+        <td th:text="${userDetailsDTO.address}"></td>
+        <td th:text="${userDetailsDTO.telephone}"></td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/customer/change-name}" method="post" th:object="${userDetailsDTO}">
+    <div class="col-12">
+        <label class="visually-hidden" for="firstName">First name</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="firstName" name="firstName"
+                   required placeholder="New first name">
+            <input type="hidden" name="id" th:value="*{id}">
+            <input type="hidden" name="lastName" th:value="*{lastName}">
+            <input type="hidden" name="address" th:value="*{address}">
+            <input type="hidden" name="telephone" th:value="*{telephone}">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Change name</button>
+    </div>
+</form>
+<form th:action="@{/customer/change-surname}" method="post" th:object="${userDetailsDTO}">
+    <div class="col-12">
+        <label class="visually-hidden" for="lastName">Last name</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="lastName" name="lastName"
+                   required placeholder="New last name">
+            <input type="hidden" name="id" th:value="*{id}">
+            <input type="hidden" name="firstName" th:value="*{firstName}">
+            <input type="hidden" name="address" th:value="*{address}">
+            <input type="hidden" name="telephone" th:value="*{telephone}">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Change surname</button>
+    </div>
+</form>
+<form th:action="@{/customer/change-address}" method="post" th:object="${userDetailsDTO}">
+    <div class="col-12">
+        <label class="visually-hidden" for="address">Address</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="address" name="address"
+                   required placeholder="New address">
+            <input type="hidden" name="id" th:value="*{id}">
+            <input type="hidden" name="firstName" th:value="*{firstName}">
+            <input type="hidden" name="lastName" th:value="*{lastName}">
+            <input type="hidden" name="telephone" th:value="*{telephone}">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Change address</button>
+    </div>
+</form>
+<form th:action="@{/customer/change-telephone}" method="post" th:object="${userDetailsDTO}">
+    <div class="col-12">
+        <label class="visually-hidden" for="telephone">Telephone</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="telephone" name="telephone"
+                   required placeholder="New telephone">
+            <input type="hidden" name="id" th:value="*{id}">
+            <input type="hidden" name="firstName" th:value="*{firstName}">
+            <input type="hidden" name="lastName" th:value="*{lastName}">
+            <input type="hidden" name="address" th:value="*{address}">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Change telephone</button>
+    </div>
+</form>
+<form th:action="@{/customer/change-password}" method="post" th:object="${userDetailsDTO}">
+    <div class="col-12">
+        <label class="visually-hidden" for="oldPassword">Password</label>
+        <input type="password" class="form-control" id="oldPassword" name="oldPassword"
+               required placeholder="Old password">
+        <label class="visually-hidden" for="newPassword">Password</label>
+        <input type="password" class="form-control" id="newPassword" name="newPassword"
+               required placeholder="New password">
+        <div class="input-group">
+            <input type="hidden" name="id" th:value="*{id}">
+            <input type="hidden" name="firstName" th:value="*{firstName}">
+            <input type="hidden" name="lastName" th:value="*{lastName}">
+            <input type="hidden" name="address" th:value="*{address}">
+            <input type="hidden" name="telephone" th:value="*{telephone}">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('oldPassword')}"
+                 th:errors="*{oldPassword}"></div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('newPassword')}"
+                 th:errors="*{newPassword}"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Change password</button>
+    </div>
+</form>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/customer/welcome-customer}" role="button">Back</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>
+</div>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

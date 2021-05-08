@@ -4,6 +4,7 @@ import com.gmail.alexandr.tsiulkin.repository.RoleRepository;
 import com.gmail.alexandr.tsiulkin.repository.UserRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
+import com.gmail.alexandr.tsiulkin.repository.model.UserDetails;
 import com.gmail.alexandr.tsiulkin.service.UserService;
 import com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
@@ -11,6 +12,7 @@ import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.UserDetailsDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.env.Environment;
@@ -114,6 +116,73 @@ public class UserServiceImpl implements UserService {
         byRoleName.getUsers().add(user);
         userRepository.merge(user);
         return userConverter.convert(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsDTO getUserByUserName(String userName) {
+        User user = userRepository.findUserByUsername(userName);
+        return userConverter.convertUserToUserDetailsDTO(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsDTO changeNameById(UserDetailsDTO userDetailsDTO) {
+        User user = userRepository.findById(userDetailsDTO.getId());
+        String firstName = userDetailsDTO.getFirstName();
+        user.setFirstName(firstName);
+        userRepository.merge(user);
+        return userConverter.convertUserToUserDetailsDTO(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsDTO changeSurnameById(UserDetailsDTO userDetailsDTO) {
+        User user = userRepository.findById(userDetailsDTO.getId());
+        String lastName = userDetailsDTO.getLastName();
+        user.setLastName(lastName);
+        userRepository.merge(user);
+        return userConverter.convertUserToUserDetailsDTO(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsDTO changeAddressById(UserDetailsDTO userDetailsDTO) {
+        User user = userRepository.findById(userDetailsDTO.getId());
+        String address = userDetailsDTO.getAddress();
+        UserDetails userDetails = user.getUserDetails();
+        userDetails.setAddress(address);
+        user.setUserDetails(userDetails);
+        userRepository.merge(user);
+        return userConverter.convertUserToUserDetailsDTO(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsDTO changeTelephoneById(UserDetailsDTO userDetailsDTO) {
+        User user = userRepository.findById(userDetailsDTO.getId());
+        String telephone = userDetailsDTO.getTelephone();
+        UserDetails userDetails = user.getUserDetails();
+        userDetails.setTelephone(telephone);
+        user.setUserDetails(userDetails);
+        userRepository.merge(user);
+        return userConverter.convertUserToUserDetailsDTO(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsDTO changePasswordById(UserDetailsDTO userDetailsDTO) throws ServiceException {
+        User user = userRepository.findById(userDetailsDTO.getId());
+        String oldPassword = userDetailsDTO.getOldPassword();
+        String userPassword = user.getPassword();
+        if (passwordEncoder.matches(oldPassword, userPassword)) {
+            String newPassword = passwordEncoder.encode(userDetailsDTO.getNewPassword());
+            user.setPassword(newPassword);
+            userRepository.merge(user);
+        } else {
+            throw new ServiceException("The current password was entered incorrectly");
+        }
+        return userDetailsDTO;
     }
 
     private SimpleMailMessage getMailMessageForAddUser(String email, String randomPassword, String recipientMail) {

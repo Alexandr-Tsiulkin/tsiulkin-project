@@ -6,18 +6,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+
 @Log4j2
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
-                       AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                       AccessDeniedException accessDeniedException) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.nonNull(authentication)) {
@@ -25,6 +25,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             String uri = request.getRequestURI();
             log.info("User {} attempted to access the protected URL: {}", name, uri);
         }
-        response.sendRedirect(request.getContextPath() + "access-denied");
+        response.sendRedirect("/access-denied");
     }
 }

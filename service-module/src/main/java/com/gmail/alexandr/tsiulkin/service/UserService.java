@@ -1,9 +1,9 @@
 package com.gmail.alexandr.tsiulkin.service;
 
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
-import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.*;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -16,4 +16,16 @@ public interface UserService {
     void resetPassword(Long id);
 
     ShowUserDTO changeRoleById(String roleName, Long id);
+
+    UserDetailsDTO getUserByUserName(String userName);
+
+    UserDetailsDTO changeNameById(UserDetailsDTO userDetailsDTO);
+
+    UserDetailsDTO changeSurnameById(UserDetailsDTO userDetailsDTO);
+
+    UserDetailsDTO changeAddressById(UserDetailsDTO userDetailsDTO);
+
+    UserDetailsDTO changeTelephoneById(UserDetailsDTO userDetailsDTO);
+
+    UserDetailsDTO changePasswordById(UserDetailsDTO userDetailsDTO) throws ServiceException;
 }

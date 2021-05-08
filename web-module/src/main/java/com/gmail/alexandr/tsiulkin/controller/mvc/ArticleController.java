@@ -1,4 +1,4 @@
-package com.gmail.alexandr.tsiulkin.controller;
+package com.gmail.alexandr.tsiulkin.controller.mvc;
 
 import com.gmail.alexandr.tsiulkin.service.ArticleService;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;

@@ -1,15 +1,14 @@
 package com.gmail.alexandr.tsiulkin.service.converter.impl;
 
-import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
 import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
+import com.gmail.alexandr.tsiulkin.repository.model.UserDetails;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.UserDetailsDTO;
 import org.springframework.stereotype.Component;
 
-import java.lang.invoke.MethodHandles;
 import java.util.Objects;
 
 @Component
@@ -48,8 +47,33 @@ public class UserConverterImpl implements UserConverter {
         user.setMiddleName(middleName);
         String email = addUserDTO.getEmail();
         user.setEmail(email);
+        UserDetails userDetails = new UserDetails();
+        String address = addUserDTO.getAddress();
+        userDetails.setAddress(address);
+        String telephone = addUserDTO.getTelephone();
+        userDetails.setTelephone(telephone);
+        userDetails.setUser(user);
+        user.setUserDetails(userDetails);
         return user;
     }
 
+    @Override
+    public UserDetailsDTO convertUserToUserDetailsDTO(User user) {
+        UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
+        Long id = user.getId();
+        userDetailsDTO.setId(id);
+        String firstName = user.getFirstName();
+        userDetailsDTO.setFirstName(firstName);
+        String lastName = user.getLastName();
+        userDetailsDTO.setLastName(lastName);
+        UserDetails userDetails = user.getUserDetails();
+        if (Objects.nonNull(userDetails)) {
+            String address = userDetails.getAddress();
+            userDetailsDTO.setAddress(address);
+            String telephone = userDetails.getTelephone();
+            userDetailsDTO.setTelephone(telephone);
+        }
+        return userDetailsDTO;
+    }
 
 }

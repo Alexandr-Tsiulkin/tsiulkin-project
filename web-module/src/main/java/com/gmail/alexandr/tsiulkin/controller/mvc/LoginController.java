@@ -1,4 +1,4 @@
-package com.gmail.alexandr.tsiulkin.controller;
+package com.gmail.alexandr.tsiulkin.controller.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,5 +24,10 @@ public class LoginController {
     @GetMapping(value = "/admin/welcome-admin")
     public String getAdmin() {
         return "welcome-admin";
+    }
+
+    @GetMapping(value = "/access-denied")
+    public String getAccessDeniedPage() {
+        return "access-denied";
     }
 }

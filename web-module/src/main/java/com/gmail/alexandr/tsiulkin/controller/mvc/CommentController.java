@@ -1,6 +1,5 @@
-package com.gmail.alexandr.tsiulkin.controller;
+package com.gmail.alexandr.tsiulkin.controller.mvc;
 
-import com.gmail.alexandr.tsiulkin.repository.model.Article;
 import com.gmail.alexandr.tsiulkin.service.CommentService;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddCommentDTO;
@@ -21,13 +20,6 @@ import javax.validation.Valid;
 public class CommentController {
 
     private final CommentService commentService;
-
-   /* @GetMapping(value = "/customer/comments/add{articleId}")
-    public String addPage(Model model, @PathVariable Long articleId) {
-        log.info("articleId:{}", articleId);
-        model.addAttribute("comment", new AddCommentDTO());
-        return "add-comment";
-    }*/
 
     @GetMapping(value = "/customer/comments/add")
     public String addPage(Model model) {

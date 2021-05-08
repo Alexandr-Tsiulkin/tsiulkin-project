@@ -185,4 +185,24 @@
                                  referencedTableName="article"
                                  referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="18" author="com.gmail.tsiulkin.alexandr">
+        <createTable tableName="user_details">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="address" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="telephone" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="user_details" baseColumnNames="user_id"
+                                 constraintName="fk_user_details_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

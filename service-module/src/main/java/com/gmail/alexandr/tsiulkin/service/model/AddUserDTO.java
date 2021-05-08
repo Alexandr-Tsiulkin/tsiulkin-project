@@ -37,5 +37,13 @@ public class AddUserDTO {
     private String email;
     @Enumerated(EnumType.STRING)
     private RoleDTOEnum role;
+    @NotBlank()
+    @NotNull()
+    @Size(max = MAXIMUM_ADDRESS_SIZE)
+    private String address;
+    @NotBlank()
+    @NotNull()
+    @Size(max = MAXIMUM_TELEPHONE_SIZE)
+    private String telephone;
 }
 
