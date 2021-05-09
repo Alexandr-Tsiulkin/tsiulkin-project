@@ -19,12 +19,14 @@ public class ReviewConverterImpl implements ReviewConverter {
         Long id = review.getId();
         showReviewDTO.setId(id);
         User user = review.getUser();
-        String lastName = user.getLastName();
-        showReviewDTO.setLastName(lastName);
-        String firstName = user.getFirstName();
-        showReviewDTO.setFirstName(firstName);
-        String middleName = user.getMiddleName();
-        showReviewDTO.setMiddleName(middleName);
+        if (Objects.nonNull(user)) {
+            String lastName = user.getLastName();
+            showReviewDTO.setLastName(lastName);
+            String firstName = user.getFirstName();
+            showReviewDTO.setFirstName(firstName);
+            String middleName = user.getMiddleName();
+            showReviewDTO.setMiddleName(middleName);
+        }
         showReviewDTO.setReview(review.getReview());
         LocalDateTime date = review.getLocalDate();
         showReviewDTO.setLocalDateTime(date);

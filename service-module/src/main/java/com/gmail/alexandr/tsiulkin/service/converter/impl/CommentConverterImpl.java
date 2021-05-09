@@ -22,8 +22,10 @@ public class CommentConverterImpl implements CommentConverter {
         Long id = comment.getId();
         showCommentDTO.setId(id);
         LocalDateTime localDateTime = comment.getLocalDateTime();
-        String formatDateTime = getFormatDateTime(localDateTime);
-        showCommentDTO.setDate(formatDateTime);
+        if (Objects.nonNull(localDateTime)) {
+            String formatDateTime = getFormatDateTime(localDateTime);
+            showCommentDTO.setDate(formatDateTime);
+        }
         String fullContent = comment.getFullContent();
         showCommentDTO.setFullContent(fullContent);
         User user = comment.getUser();

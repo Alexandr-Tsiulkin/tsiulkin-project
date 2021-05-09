@@ -56,9 +56,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void persist(AddUserDTO addUserDTO) throws ServiceException {
+    public void addUserAndSendPasswordToEmail(AddUserDTO addUserDTO) throws ServiceException {
+        SimpleMailMessage message = persist(addUserDTO);
+        if (Objects.nonNull(message)) {
+            javaMailSender.send(message);
+        }
+    }
+
+    @Override
+    @Transactional
+    public SimpleMailMessage persist(AddUserDTO addUserDTO) throws ServiceException {
         User userByUsername = userRepository.findUserByUsername(addUserDTO.getEmail());
-        log.info("userByUsername: {}", userByUsername);
+        SimpleMailMessage message = new SimpleMailMessage();
         if (Objects.isNull(userByUsername)) {
             String roleName = addUserDTO.getRole().name();
             Role role = roleRepository.findByRoleName(roleName);
@@ -69,15 +78,15 @@ public class UserServiceImpl implements UserService {
                 String randomPassword = generateRandomPassword();
                 String encodePassword = passwordEncoder.encode(randomPassword);
                 user.setPassword(encodePassword);
-                userRepository.persist(user);
                 String email = user.getEmail();
                 String recipientMail = environment.getProperty("spring.mail.username");
-                SimpleMailMessage message = getMailMessageForAddUser(email, randomPassword, recipientMail);
-                javaMailSender.send(message);
+                message = getMailMessageForAddUser(email, randomPassword, recipientMail);
+                userRepository.persist(user);
             }
         } else {
             throw new ServiceException("User with username: " + addUserDTO.getEmail() + " already exists");
         }
+        return message;
     }
 
     @Override
@@ -88,19 +97,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void resetPassword(Long id) {
+    public void resetPasswordAndSendToEmail(Long id) {
+        SimpleMailMessage message = resetPassword(id);
+        if (Objects.nonNull(message)) {
+            javaMailSender.send(message);
+        }
+    }
+
+    @Override
+    @Transactional
+    public SimpleMailMessage resetPassword(Long id) {
         User user = userRepository.findById(id);
+        SimpleMailMessage message = new SimpleMailMessage();
         if (Objects.nonNull(user)) {
             String randomPassword = generateRandomPassword();
             String encodePassword = passwordEncoder.encode(randomPassword);
             user.setPassword(encodePassword);
-            userRepository.merge(user);
             String firstName = user.getFirstName();
             String recipientMail = environment.getProperty("spring.mail.username");
-            log.info("recipientMail: {}", recipientMail);
-            SimpleMailMessage message = getMailMessageForResetPassword(firstName, randomPassword, recipientMail);
-            javaMailSender.send(message);
+            message = getMailMessageForResetPassword(firstName, randomPassword, recipientMail);
+            userRepository.merge(user);
         }
+        return message;
     }
 
     @Override

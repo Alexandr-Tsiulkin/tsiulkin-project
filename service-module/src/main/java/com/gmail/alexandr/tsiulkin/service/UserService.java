@@ -2,18 +2,17 @@ package com.gmail.alexandr.tsiulkin.service;
 
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.*;
-
-import java.util.List;
+import org.springframework.mail.SimpleMailMessage;
 
 public interface UserService {
 
     PageDTO getUsersByPage(Integer page);
 
-    void persist(AddUserDTO addUserDTO) throws ServiceException;
+    SimpleMailMessage persist(AddUserDTO addUserDTO) throws ServiceException;
 
     void deleteById(Long id);
 
-    void resetPassword(Long id);
+    SimpleMailMessage resetPassword(Long id);
 
     ShowUserDTO changeRoleById(String roleName, Long id);
 
@@ -28,4 +27,8 @@ public interface UserService {
     UserDetailsDTO changeTelephoneById(UserDetailsDTO userDetailsDTO);
 
     UserDetailsDTO changePasswordById(UserDetailsDTO userDetailsDTO) throws ServiceException;
+
+    void addUserAndSendPasswordToEmail(AddUserDTO addUserDTO) throws ServiceException;
+
+    void resetPasswordAndSendToEmail(Long id);
 }

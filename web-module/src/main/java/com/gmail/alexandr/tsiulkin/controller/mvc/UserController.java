@@ -45,7 +45,7 @@ public class UserController {
             log.info("errors:{}", error);
             return "add-user";
         } else {
-            userService.persist(addUserDTO);
+            userService.addUserAndSendPasswordToEmail(addUserDTO);
         }
         return "redirect:/admin/users";
     }
@@ -61,7 +61,7 @@ public class UserController {
 
     @GetMapping(value = "/admin/reset-password/{id}")
     public String resetPasswordById(@PathVariable Long id) {
-        userService.resetPassword(id);
+        userService.resetPasswordAndSendToEmail(id);
         return "redirect:/admin/users";
     }
 
