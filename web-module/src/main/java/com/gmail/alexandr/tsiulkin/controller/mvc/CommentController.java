@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,6 +40,12 @@ public class CommentController {
             log.info("go persist comment");
         }
         return "redirect:/customer/articles";
+    }
+
+    @GetMapping(value = "/seller/comments/{id}/delete")
+    public String deleteArticle(@PathVariable("id") Long id) throws ServiceException {
+        commentService.isDeleteById(id);
+        return "redirect:/seller/articles";
     }
 
 }

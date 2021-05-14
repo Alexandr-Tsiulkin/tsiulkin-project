@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
+import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
 import static java.lang.Math.*;
 
 @Log4j2
@@ -16,12 +17,11 @@ import static java.lang.Math.*;
 public final class ServiceUtil {
 
     public static String getFormatDateTime(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
         return localDateTime.format(formatter);
     }
 
     public static String generateRandomPassword() {
-        log.info("Generating Password");
         StringBuilder builder = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < PasswordGenerateConstant.NUMBER_OF_CHARS_IN_PASSWORD; i++) {
@@ -31,9 +31,9 @@ public final class ServiceUtil {
         return builder.toString();
     }
 
-    public static PageDTO getPageDTO(Integer page, double countReviews, int MaximumObjectsOnPage) {
+    public static PageDTO getPageDTO(Integer page, double countReviews, int maximumObjectsOnPage) {
         PageDTO pageDTO = new PageDTO();
-        double countOfPages = ceil(countReviews / MaximumObjectsOnPage);
+        double countOfPages = ceil(countReviews / maximumObjectsOnPage);
         pageDTO.setCountOfPages((long) countOfPages);
         long currentPage = (page + 1);
         pageDTO.setCurrentPage(currentPage);
@@ -41,7 +41,7 @@ public final class ServiceUtil {
         pageDTO.setBeginPage(beginPage);
         double endPage = min(beginPage + 2, countOfPages);
         pageDTO.setEndPage((long) endPage);
-        int startPosition = (page - 1) * MaximumObjectsOnPage;
+        int startPosition = (page - 1) * maximumObjectsOnPage;
         pageDTO.setStartPosition(startPosition);
         return pageDTO;
     }

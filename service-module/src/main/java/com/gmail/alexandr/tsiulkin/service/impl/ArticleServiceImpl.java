@@ -34,8 +34,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public PageDTO getArticlesByPage(Integer page) {
-        Long countReviews = articleRepository.getCountArticles();
-        PageDTO pageDTO = getPageDTO(page, countReviews, MAXIMUM_ARTICLES_ON_PAGE);
+        Long countArticles = articleRepository.getCountArticles();
+        PageDTO pageDTO = getPageDTO(page, countArticles, MAXIMUM_ARTICLES_ON_PAGE);
         log.info("pageDTO: {}", pageDTO);
         List<Article> articles = articleRepository.findAll(pageDTO.getStartPosition(), MAXIMUM_ARTICLES_ON_PAGE);
         pageDTO.getArticles().addAll(articles.stream()

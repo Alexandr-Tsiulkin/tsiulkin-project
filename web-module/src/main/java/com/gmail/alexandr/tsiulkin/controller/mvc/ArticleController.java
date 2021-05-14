@@ -57,7 +57,7 @@ public class ArticleController {
         return "redirect:/seller/articles";
     }
 
-    @GetMapping(value = "/seller/articles/delete/{id}")
+    @GetMapping(value = "/seller/articles/{id}/delete")
     public String deleteArticle(@PathVariable("id") Long id) throws ServiceException {
         articleService.isDeleteById(id);
         return "redirect:/seller/articles";

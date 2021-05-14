@@ -15,34 +15,34 @@ import static com.gmail.alexandr.tsiulkin.service.constant.UserValidationConstan
 public class AddUserDTO {
 
     private Long id;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_LAST_NAME_SIZE)
     @Pattern(regexp = ONLY_LATIN_LETTERS_REGEXP)
     private String lastName;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_FIRST_NAME_SIZE)
     @Pattern(regexp = ONLY_LATIN_LETTERS_REGEXP)
     private String firstName;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_MIDDLE_NAME_SIZE)
     @Pattern(regexp = ONLY_LATIN_LETTERS_REGEXP)
     private String middleName;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_EMAIL_NAME_SIZE)
     @Pattern(regexp = EMAIL_REGEXP)
     private String email;
     @Enumerated(EnumType.STRING)
     private RoleDTOEnum role;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_ADDRESS_SIZE)
     private String address;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_TELEPHONE_SIZE)
     private String telephone;
 }

@@ -33,4 +33,11 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentConverter.convert(addCommentDTO, user, article);
         commentRepository.persist(comment);
     }
+
+    @Override
+    @Transactional
+    public boolean isDeleteById(Long id) {
+        commentRepository.removeById(id);
+        return true;
+    }
 }

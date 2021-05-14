@@ -38,7 +38,7 @@
                th:name="id" role="button">More details</a>
         </td>
         <td sec:authorize="hasAuthority('SALE_USER')">
-            <a class="btn btn-primary" type="submit" th:href="@{/seller/articles/delete/{id}(id=${article.id})}"
+            <a class="btn btn-primary" type="submit" th:href="@{/seller/articles/{id}/delete/(id=${article.id})}"
                th:name="id" role="button">Delete</a>
         </td>
     </tbody>

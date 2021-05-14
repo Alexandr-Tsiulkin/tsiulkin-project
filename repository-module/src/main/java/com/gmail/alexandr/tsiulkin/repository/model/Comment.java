@@ -17,7 +17,7 @@ public class Comment {
     private LocalDateTime localDateTime;
     @Column(name = "content")
     private String fullContent;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "customer_id")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

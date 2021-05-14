@@ -1,10 +1,10 @@
 package com.gmail.alexandr.tsiulkin.controller.api;
 
-import com.gmail.alexandr.tsiulkin.service.ArticleService;
+import com.gmail.alexandr.tsiulkin.service.ItemService;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
-import com.gmail.alexandr.tsiulkin.service.model.AddArticleDTO;
+import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ErrorDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ShowItemDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -25,36 +25,36 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Log4j2
-public class ArticleAPIController {
+public class ItemsAPIController {
 
-    private final ArticleService articleService;
+    private final ItemService itemService;
 
-    @GetMapping(value = "/articles")
-    public List<ShowArticleDTO> getArticles() {
-        return articleService.getArticles();
+    @GetMapping(value = "/items")
+    public List<ShowItemDTO> getItems() {
+        return itemService.getItems();
     }
 
-    @GetMapping(value = "/articles/{id}")
-    public ShowArticleDTO getArticleById(@PathVariable Long id) {
-        return articleService.getArticleById(id);
+    @GetMapping(value = "/items/{id}")
+    public ShowItemDTO getItemById(@PathVariable Long id) {
+        return itemService.getItemById(id);
     }
 
-    @PostMapping(value = "/articles")
-    public ResponseEntity<Object> addArticle(@RequestBody @Valid AddArticleDTO addArticleDTO,
-                                             BindingResult result) {
+    @PostMapping(value = "/items")
+    public ResponseEntity<Object> addItem(@RequestBody @Valid AddItemDTO addItemDTO,
+                                          BindingResult result) {
         if (result.hasErrors()) {
             ErrorDTO errorDTO = new ErrorDTO();
             errorDTO.setErrors(result.getFieldErrors());
             return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
         } else {
-            articleService.persist(addArticleDTO);
+            itemService.persist(addItemDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
 
-    @DeleteMapping(value = "/articles/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) throws ServiceException {
-        boolean deleteById = articleService.isDeleteById(id);
+    @DeleteMapping(value = "/items/{id}")
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id) throws ServiceException {
+        boolean deleteById = itemService.isDeleteById(id);
         if (deleteById) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

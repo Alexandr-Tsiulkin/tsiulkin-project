@@ -205,4 +205,37 @@
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="19" author="com.gmail.tsiulkin.alexandr">
+        <createTable tableName="item">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unique_number" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="20" author="com.gmail.tsiulkin.alexandr">
+        <createTable tableName="item_details">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="item_details" baseColumnNames="item_id"
+                                 constraintName="fk_item_details_item"
+                                 referencedTableName="item"
+                                 referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

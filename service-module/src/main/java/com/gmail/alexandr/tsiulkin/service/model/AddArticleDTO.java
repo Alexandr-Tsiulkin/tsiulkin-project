@@ -13,12 +13,12 @@ import static com.gmail.alexandr.tsiulkin.service.constant.ArticleConstant.MAXIM
 public class AddArticleDTO {
 
     private Long id;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_CHARS_FOR_TITLE_FIELD, message = "Title must be between 1 and 20 characters")
     private String title;
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_CHARS_FOR_FULL_CONTENT_FIELD, message = "Full content must be between 1 and 1000 characters")
     private String content;
     private Long sellerId;

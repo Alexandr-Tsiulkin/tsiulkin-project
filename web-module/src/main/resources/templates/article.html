@@ -30,21 +30,32 @@
     </tbody>
 </table>
 <span sec:authorize="hasAuthority('SALE_USER')">
-    <form th:action="@{/seller/change-title}" method="post" th:object="${userDetailsDTO}">
+    <form th:action="@{/seller/change-title}" method="post" th:object="${article}">
     <div class="col-12">
-        <label class="visually-hidden" for="firstName">First name</label>
+        <label class="visually-hidden" for="title">Title</label>
         <div class="input-group">
-            <input type="text" class="form-control" id="firstName" name="firstName"
-                   required placeholder="New first name">
+            <input type="text" class="form-control" id="title" name="title"
+                   required placeholder="New title">
             <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="lastName" th:value="*{lastName}">
-            <input type="hidden" name="address" th:value="*{address}">
-            <input type="hidden" name="telephone" th:value="*{telephone}">
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
         </div>
     </div>
     <div class="col-12">
         <button type="submit" class="btn btn-primary">Change title</button>
+    </div>
+</form>
+    <form th:action="@{/seller/change-content}" method="post" th:object="${article}">
+    <div class="col-12">
+        <label class="visually-hidden" for="fullContent">Content</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="fullContent" name="fullContent"
+                   required placeholder="New Content">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('fullContent')}" th:errors="*{fullContent}"></div>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Change content</button>
     </div>
 </form>
 </span>
@@ -52,13 +63,17 @@
     <div class="media border p-3">
         <div class="media-body">
             <p class="fs-2" th:text="${comment.firstName}+' '+${comment.lastName}"></p>
-            <p class="fst-italic">Posted: <span th:text="${comment.date}"></span> </p>
+            <p class="fst-italic">Posted: <span th:text="${comment.date}"></span></p>
             <p class="fs-4" th:text="${comment.fullContent}"></p>
+            <div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">
+                <a class="btn btn-primary" th:href="@{/seller/comments/{id}/delete(id=${comment.id})}" role="button">Delete</a>
+            </div>
         </div>
     </div>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
-    <a class="btn btn-primary" th:href="@{/customer/comments/add?article={id}(id=${article.id})}" role="button">Add comment</a>
+    <a class="btn btn-primary" th:href="@{/customer/comments/add?article={id}(id=${article.id})}" role="button">Add
+        comment</a>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
     <a class="btn btn-primary" th:href="@{/customer/articles}" role="button">Back</a>

@@ -10,8 +10,8 @@ import static com.gmail.alexandr.tsiulkin.service.constant.CommentValidationCons
 
 @Data
 public class AddCommentDTO {
-    @NotBlank()
-    @NotNull()
+    @NotBlank
+    @NotNull
     @Size(max = MAXIMUM_FULL_CONTENT_SIZE)
     private String fullContent;
 }
