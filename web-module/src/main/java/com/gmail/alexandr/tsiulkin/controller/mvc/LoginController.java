@@ -11,7 +11,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping(value = "/user/welcome-seller")
+    @GetMapping(value = "/seller/welcome-seller")
     public String getSeller() {
         return "welcome-seller";
     }

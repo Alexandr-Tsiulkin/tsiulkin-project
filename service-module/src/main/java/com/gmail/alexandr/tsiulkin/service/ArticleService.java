@@ -18,4 +18,6 @@ public interface ArticleService {
     void persist(AddArticleDTO addArticleDTO);
 
     boolean isDeleteById(Long id) throws ServiceException;
+
+    void add(AddArticleDTO addArticleDTO, String userName) throws ServiceException;
 }

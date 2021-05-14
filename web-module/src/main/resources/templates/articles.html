@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
@@ -18,6 +18,7 @@
         <th scope="col">Last name</th>
         <th scope="col">Short content</th>
         <th scope="col"></th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -28,26 +29,51 @@
         <td th:text="${article.firstName}"></td>
         <td th:text="${article.lastName}"></td>
         <td th:text="${article.shortContent}"></td>
-        <td>
+        <td sec:authorize="hasAuthority('CUSTOMER_USER')">
             <a class="btn btn-primary" type="submit" th:href="@{/customer/articles/{id}(id=${article.id})}"
                th:name="id" role="button">More details</a>
         </td>
+        <td sec:authorize="hasAuthority('SALE_USER')">
+            <a class="btn btn-primary" type="submit" th:href="@{/seller/articles/{id}(id=${article.id})}"
+               th:name="id" role="button">More details</a>
+        </td>
+        <td sec:authorize="hasAuthority('SALE_USER')">
+            <a class="btn btn-primary" type="submit" th:href="@{/seller/articles/delete/{id}(id=${article.id})}"
+               th:name="id" role="button">Delete</a>
+        </td>
     </tbody>
 </table>
-<div class="d-grid gap-2 col-6 mx-auto">
+<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
     <a class="btn btn-primary" th:href="@{/customer/welcome-customer}" role="button">Back</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">
+    <a class="btn btn-primary" th:href="@{/seller/articles/add}" role="button">Add article</a>
+    <a class="btn btn-primary" th:href="@{/seller/welcome-seller}" role="button">Back</a>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>
 </div>
 </form>
-<div>
+<div sec:authorize="hasAuthority('CUSTOMER_USER')">
      <span th:if="${pageDTO.countOfPages gt 1}">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
                 <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
-                   th:href="@{/admin/articles?page={id}(id=${i})}"
+                   th:href="@{/customer/articles?page={id}(id=${i})}"
+                   th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+     </span>
+</div>
+<div sec:authorize="hasAuthority('SALE_USER')">
+     <span th:if="${pageDTO.countOfPages gt 1}">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
+                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                   th:href="@{/seller/articles?page={id}(id=${i})}"
                    th:text="${i}"></a>
             </li>
         </ul>

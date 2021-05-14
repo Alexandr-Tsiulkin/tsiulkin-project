@@ -35,6 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAuthority(RoleDTOEnum.ADMINISTRATOR.name())
                 .antMatchers("/customer/**")
                 .hasAuthority(RoleDTOEnum.CUSTOMER_USER.name())
+                .antMatchers("/seller/**")
+                .hasAuthority(RoleDTOEnum.SALE_USER.name())
                 .antMatchers("/", "/login", "/access-denied")
                 .permitAll()
                 .and()

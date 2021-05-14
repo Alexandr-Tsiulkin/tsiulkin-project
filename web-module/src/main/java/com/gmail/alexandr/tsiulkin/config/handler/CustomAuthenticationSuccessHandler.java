@@ -21,6 +21,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             response.sendRedirect("/admin/welcome-admin");
         } else if (roles.contains(RoleDTOEnum.CUSTOMER_USER.name())) {
             response.sendRedirect("/customer/welcome-customer");
+        } else if (roles.contains(RoleDTOEnum.SALE_USER.name())) {
+            response.sendRedirect("/seller/welcome-seller");
         }
     }
 }

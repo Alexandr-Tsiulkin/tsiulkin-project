@@ -6,6 +6,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.Article;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.ArticleService;
 import com.gmail.alexandr.tsiulkin.service.converter.ArticleConverter;
+import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddArticleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
@@ -76,5 +77,18 @@ public class ArticleServiceImpl implements ArticleService {
     public boolean isDeleteById(Long id) {
         articleRepository.removeById(id);
         return true;
+    }
+
+    @Override
+    @Transactional
+    public void add(AddArticleDTO addArticleDTO, String userName) throws ServiceException {
+        User user = userRepository.findUserByUsername(userName);
+        if (Objects.nonNull(user)) {
+            Article article = articleConverter.convert(addArticleDTO);
+            article.setUser(user);
+            articleRepository.persist(article);
+        } else {
+            throw new ServiceException("User with username: " + userName + " was not found");
+        }
     }
 }
