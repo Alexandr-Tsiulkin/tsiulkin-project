@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ACCESS_DENIED_PATH;
+
 @Log4j2
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -25,6 +27,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             String uri = request.getRequestURI();
             log.info("User {} attempted to access the protected URL: {}", name, uri);
         }
-        response.sendRedirect("/access-denied");
+        response.sendRedirect(ACCESS_DENIED_PATH);
     }
 }

@@ -3,10 +3,11 @@ package com.gmail.alexandr.tsiulkin.service.model;
 import lombok.Data;
 import org.springframework.validation.FieldError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class ErrorDTO {
 
-    private List<FieldError> errors;
+    private List<FieldError> errors = new ArrayList<>();
 }

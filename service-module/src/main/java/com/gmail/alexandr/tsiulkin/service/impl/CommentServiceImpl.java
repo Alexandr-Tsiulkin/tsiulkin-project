@@ -11,9 +11,13 @@ import com.gmail.alexandr.tsiulkin.service.converter.CommentConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddCommentDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
+
+import static com.gmail.alexandr.tsiulkin.service.util.SecurityUtil.getAuthentication;
 
 @Log4j2
 @Service
@@ -27,11 +31,17 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void persist(AddCommentDTO addCommentDTO, String userName, Long articleId) {
+    public void persist(AddCommentDTO addCommentDTO, Long articleId) {
+        Authentication authentication = getAuthentication();
+        String userName = authentication.getName();
         User user = userRepository.findUserByUsername(userName);
-        Article article = articleRepository.findById(articleId);
-        Comment comment = commentConverter.convert(addCommentDTO, user, article);
-        commentRepository.persist(comment);
+        if (Objects.nonNull(user)) {
+            Comment comment = commentConverter.convert(addCommentDTO);
+            comment.setUser(user);
+            Article article = articleRepository.findById(articleId);
+            comment.setArticle(article);
+            commentRepository.persist(comment);
+        }
     }
 
     @Override

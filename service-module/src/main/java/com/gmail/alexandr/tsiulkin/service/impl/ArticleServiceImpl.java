@@ -12,6 +12,7 @@ import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.ArticleConstant.MAXIMUM_ARTICLES_ON_PAGE;
+import static com.gmail.alexandr.tsiulkin.service.util.SecurityUtil.getAuthentication;
 import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getPageDTO;
 
 @RequiredArgsConstructor
@@ -62,18 +64,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public void persist(AddArticleDTO addArticleDTO) {
-        Long sellerId = addArticleDTO.getSellerId();
-        Article article = articleConverter.convert(addArticleDTO);
-        User user = userRepository.findById(sellerId);
-        if (Objects.nonNull(user)) {
-            article.setUser(user);
-        }
-        articleRepository.persist(article);
-    }
-
-    @Override
-    @Transactional
     public boolean isDeleteById(Long id) {
         articleRepository.removeById(id);
         return true;
@@ -81,7 +71,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public void add(AddArticleDTO addArticleDTO, String userName) throws ServiceException {
+    public void add(AddArticleDTO addArticleDTO) throws ServiceException {
+        Authentication authentication = getAuthentication();
+        String userName = authentication.getName();
         User user = userRepository.findUserByUsername(userName);
         if (Objects.nonNull(user)) {
             Article article = articleConverter.convert(addArticleDTO);

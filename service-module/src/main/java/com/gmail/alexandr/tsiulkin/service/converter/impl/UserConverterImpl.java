@@ -6,7 +6,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.UserDetails;
 import com.gmail.alexandr.tsiulkin.service.converter.UserConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.UserDetailsDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ShowUserDetailsDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -58,22 +58,22 @@ public class UserConverterImpl implements UserConverter {
     }
 
     @Override
-    public UserDetailsDTO convertUserToUserDetailsDTO(User user) {
-        UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
+    public ShowUserDetailsDTO convertUserToUserDetailsDTO(User user) {
+        ShowUserDetailsDTO showUserDetailsDTO = new ShowUserDetailsDTO();
         Long id = user.getId();
-        userDetailsDTO.setId(id);
+        showUserDetailsDTO.setId(id);
         String firstName = user.getFirstName();
-        userDetailsDTO.setFirstName(firstName);
+        showUserDetailsDTO.setFirstName(firstName);
         String lastName = user.getLastName();
-        userDetailsDTO.setLastName(lastName);
+        showUserDetailsDTO.setLastName(lastName);
         UserDetails userDetails = user.getUserDetails();
         if (Objects.nonNull(userDetails)) {
             String address = userDetails.getAddress();
-            userDetailsDTO.setAddress(address);
+            showUserDetailsDTO.setAddress(address);
             String telephone = userDetails.getTelephone();
-            userDetailsDTO.setTelephone(telephone);
+            showUserDetailsDTO.setTelephone(telephone);
         }
-        return userDetailsDTO;
+        return showUserDetailsDTO;
     }
 
 }

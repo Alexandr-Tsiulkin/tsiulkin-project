@@ -62,7 +62,7 @@
 <div class="container" th:each="comment : ${article.comments}">
     <div class="media border p-3">
         <div class="media-body">
-            <p class="fs-2" th:text="${comment.firstName}+' '+${comment.lastName}"></p>
+            <p class="fs-2" th:text="${comment.fullName}"></p>
             <p class="fst-italic">Posted: <span th:text="${comment.date}"></span></p>
             <p class="fs-4" th:text="${comment.fullContent}"></p>
             <div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">

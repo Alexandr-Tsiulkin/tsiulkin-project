@@ -38,10 +38,10 @@
             </span>
         </td>
         <td>
-            <a class="btn btn-primary" th:href="@{/admin/reset-password/{id}(id=${user.id})}" role="button">
+            <a class="btn btn-primary" th:href="@{/admin/users/{id}/reset-password/(id=${user.id})}" role="button">
                 Reset password</a>
         </td>
-        <form th:action="@{/admin/change-role/{id}(id=${user.id})}" method="post">
+        <form th:action="@{/admin/users/{id}/change-role/(id=${user.id})}" method="post">
             <td>
             <span th:unless="${user.email}==${#authentication.name}">
             <div class="col-12">
@@ -65,7 +65,7 @@
     <button class="btn btn-primary" type="submit" form="checkbox_form">Delete</button>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/admin/add-user}" role="button">Add user</a>
+    <a class="btn btn-primary" th:href="@{/admin/users/add}" role="button">Add user</a>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto">
     <a class="btn btn-primary" th:href="@{/admin/welcome-admin}" role="button">Back</a>

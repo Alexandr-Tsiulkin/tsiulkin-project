@@ -5,7 +5,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.repository.model.UserDetails;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.UserDetailsDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ShowUserDetailsDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -164,9 +164,9 @@ class UserConverterImplTest {
     @Test
     void shouldConvertUserToUserDetailsDTOAndReturnNotNullObject() {
         User user = new User();
-        UserDetailsDTO userDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
+        ShowUserDetailsDTO showUserDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
 
-        assertNotNull(userDetailsDTO);
+        assertNotNull(showUserDetailsDTO);
     }
 
     @Test
@@ -174,9 +174,9 @@ class UserConverterImplTest {
         User user = new User();
         Long id = 1L;
         user.setId(id);
-        UserDetailsDTO userDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
+        ShowUserDetailsDTO showUserDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
 
-        assertEquals(id, userDetailsDTO.getId());
+        assertEquals(id, showUserDetailsDTO.getId());
     }
 
     @Test
@@ -184,9 +184,9 @@ class UserConverterImplTest {
         User user = new User();
         String firstName = "test first name";
         user.setFirstName(firstName);
-        UserDetailsDTO userDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
+        ShowUserDetailsDTO showUserDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
 
-        assertEquals(firstName, userDetailsDTO.getFirstName());
+        assertEquals(firstName, showUserDetailsDTO.getFirstName());
     }
 
     @Test
@@ -194,9 +194,9 @@ class UserConverterImplTest {
         User user = new User();
         String lastName = "test last name";
         user.setLastName(lastName);
-        UserDetailsDTO userDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
+        ShowUserDetailsDTO showUserDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
 
-        assertEquals(lastName, userDetailsDTO.getLastName());
+        assertEquals(lastName, showUserDetailsDTO.getLastName());
     }
 
     @Test
@@ -206,9 +206,9 @@ class UserConverterImplTest {
         userDetails.setAddress(address);
         User user = new User();
         user.setUserDetails(userDetails);
-        UserDetailsDTO userDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
+        ShowUserDetailsDTO showUserDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
 
-        assertEquals(address, userDetailsDTO.getAddress());
+        assertEquals(address, showUserDetailsDTO.getAddress());
     }
 
     @Test
@@ -218,8 +218,8 @@ class UserConverterImplTest {
         userDetails.setTelephone(telephone);
         User user = new User();
         user.setUserDetails(userDetails);
-        UserDetailsDTO userDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
+        ShowUserDetailsDTO showUserDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
 
-        assertEquals(telephone, userDetailsDTO.getTelephone());
+        assertEquals(telephone, showUserDetailsDTO.getTelephone());
     }
 }

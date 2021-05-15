@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ARTICLES_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.CUSTOMER_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.SELLER_PATH;
+
 @RequiredArgsConstructor
 @Log4j2
 @Controller
@@ -24,40 +28,39 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    @GetMapping(value = {"/customer/articles","/seller/articles"})
+    @GetMapping(value = {CUSTOMER_PATH + ARTICLES_PATH,
+            SELLER_PATH + ARTICLES_PATH})
     public String getArticlesByPagination(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
         PageDTO pageDTO = articleService.getArticlesByPage(page);
         model.addAttribute("pageDTO", pageDTO);
         return "articles";
     }
 
-    @GetMapping(value = {"/customer/articles/{id}","/seller/articles/{id}"})
+    @GetMapping(value = {CUSTOMER_PATH + ARTICLES_PATH + "/{id}",
+            SELLER_PATH + ARTICLES_PATH + "/{id}"})
     public String getArticleById(Model model, @PathVariable("id") Long id) {
         ShowArticleDTO article = articleService.getArticleById(id);
         model.addAttribute("article", article);
         return "article";
     }
 
-    @GetMapping(value = "/seller/articles/add")
+    @GetMapping(value = SELLER_PATH + ARTICLES_PATH + "/add")
     public String addPage(Model model) {
         model.addAttribute("article", new AddArticleDTO());
         return "add-article";
     }
 
-    @PostMapping(value = "/seller/articles/add")
-    public String add(@Valid AddArticleDTO addArticleDTO, BindingResult error,
-                      @RequestParam(value = "username") String userName) throws ServiceException {
+    @PostMapping(value = SELLER_PATH + ARTICLES_PATH + "/add")
+    public String add(@Valid AddArticleDTO addArticleDTO, BindingResult error) throws ServiceException {
         if (error.hasErrors()) {
-            log.info("errors:{}", error);
             return "add-article";
         } else {
-            articleService.add(addArticleDTO, userName);
-            log.info("go persist article");
+            articleService.add(addArticleDTO);
         }
         return "redirect:/seller/articles";
     }
 
-    @GetMapping(value = "/seller/articles/{id}/delete")
+    @GetMapping(value = SELLER_PATH + ARTICLES_PATH + "/{id}/delete")
     public String deleteArticle(@PathVariable("id") Long id) throws ServiceException {
         articleService.isDeleteById(id);
         return "redirect:/seller/articles";

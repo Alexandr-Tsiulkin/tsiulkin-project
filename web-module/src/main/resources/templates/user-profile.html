@@ -20,96 +20,48 @@
     </thead>
     <tbody>
     <tr>
-        <td th:text="${userDetailsDTO.id}"></td>
-        <td th:text="${userDetailsDTO.firstName}"></td>
-        <td th:text="${userDetailsDTO.lastName}"></td>
-        <td th:text="${userDetailsDTO.address}"></td>
-        <td th:text="${userDetailsDTO.telephone}"></td>
+        <td th:text="${userDetails.id}"></td>
+        <td th:text="${userDetails.firstName}"></td>
+        <td th:text="${userDetails.lastName}"></td>
+        <td th:text="${userDetails.address}"></td>
+        <td th:text="${userDetails.telephone}"></td>
     </tr>
     </tbody>
 </table>
-<form th:action="@{/customer/change-name}" method="post" th:object="${userDetailsDTO}">
+<form th:action="@{/customer/users/{id}/change-parameter(id=${userDetails.id})}" method="post"
+      th:object="${addUserDetails}">
     <div class="col-12">
-        <label class="visually-hidden" for="firstName">First name</label>
-        <div class="input-group">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="firstName">First name</label>
             <input type="text" class="form-control" id="firstName" name="firstName"
-                   required placeholder="New first name">
-            <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="lastName" th:value="*{lastName}">
-            <input type="hidden" name="address" th:value="*{address}">
-            <input type="hidden" name="telephone" th:value="*{telephone}">
+                   placeholder="New first name" th:field="*{firstName}">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
         </div>
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change name</button>
-    </div>
-</form>
-<form th:action="@{/customer/change-surname}" method="post" th:object="${userDetailsDTO}">
-    <div class="col-12">
-        <label class="visually-hidden" for="lastName">Last name</label>
-        <div class="input-group">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="lastName">Last name</label>
             <input type="text" class="form-control" id="lastName" name="lastName"
-                   required placeholder="New last name">
-            <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="firstName" th:value="*{firstName}">
-            <input type="hidden" name="address" th:value="*{address}">
-            <input type="hidden" name="telephone" th:value="*{telephone}">
+                   placeholder="New last name" th:field="*{lastName}">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
         </div>
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change surname</button>
-    </div>
-</form>
-<form th:action="@{/customer/change-address}" method="post" th:object="${userDetailsDTO}">
-    <div class="col-12">
-        <label class="visually-hidden" for="address">Address</label>
-        <div class="input-group">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="address">Address</label>
             <input type="text" class="form-control" id="address" name="address"
-                   required placeholder="New address">
-            <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="firstName" th:value="*{firstName}">
-            <input type="hidden" name="lastName" th:value="*{lastName}">
-            <input type="hidden" name="telephone" th:value="*{telephone}">
+                   placeholder="New address" th:field="*{address}">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
         </div>
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change address</button>
-    </div>
-</form>
-<form th:action="@{/customer/change-telephone}" method="post" th:object="${userDetailsDTO}">
-    <div class="col-12">
-        <label class="visually-hidden" for="telephone">Telephone</label>
-        <div class="input-group">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="telephone">Telephone</label>
             <input type="text" class="form-control" id="telephone" name="telephone"
-                   required placeholder="New telephone">
-            <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="firstName" th:value="*{firstName}">
-            <input type="hidden" name="lastName" th:value="*{lastName}">
-            <input type="hidden" name="address" th:value="*{address}">
+                   placeholder="New telephone" th:field="*{telephone}">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
         </div>
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change telephone</button>
-    </div>
-</form>
-<form th:action="@{/customer/change-password}" method="post" th:object="${userDetailsDTO}">
-    <div class="col-12">
-        <label class="visually-hidden" for="oldPassword">Password</label>
-        <input type="password" class="form-control" id="oldPassword" name="oldPassword"
-               required placeholder="Old password">
-        <label class="visually-hidden" for="newPassword">Password</label>
-        <input type="password" class="form-control" id="newPassword" name="newPassword"
-               required placeholder="New password">
-        <div class="input-group">
-            <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="firstName" th:value="*{firstName}">
-            <input type="hidden" name="lastName" th:value="*{lastName}">
-            <input type="hidden" name="address" th:value="*{address}">
-            <input type="hidden" name="telephone" th:value="*{telephone}">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="oldPassword">Password</label>
+            <input type="password" class="form-control" id="oldPassword" name="oldPassword"
+                   placeholder="Old password" th:field="*{oldPassword}">
+            <label class="visually-hidden" for="newPassword">Password</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword"
+                   placeholder="New password" th:field="*{newPassword}">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('oldPassword')}"
                  th:errors="*{oldPassword}"></div>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('newPassword')}"
@@ -117,7 +69,7 @@
         </div>
     </div>
     <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change password</button>
+        <button type="submit" class="btn btn-primary">Change parameter</button>
     </div>
 </form>
 <div class="d-grid gap-2 col-6 mx-auto">

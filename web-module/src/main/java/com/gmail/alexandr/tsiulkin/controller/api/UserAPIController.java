@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.USERS_PATH;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping(REST_API_USER_PATH)
 @RequiredArgsConstructor
 public class UserAPIController {
 
     private final UserService userService;
 
-    @PostMapping(value = "/users")
+    @PostMapping(value = USERS_PATH)
     public ResponseEntity<Object> addUser(@RequestBody @Valid AddUserDTO addUserDTO,
                                           BindingResult result) throws ServiceException {
         if (result.hasErrors()) {

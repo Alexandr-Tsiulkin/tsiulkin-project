@@ -15,9 +15,7 @@ public interface ArticleService {
 
     List<ShowArticleDTO> getArticles();
 
-    void persist(AddArticleDTO addArticleDTO);
-
     boolean isDeleteById(Long id) throws ServiceException;
 
-    void add(AddArticleDTO addArticleDTO, String userName) throws ServiceException;
+    void add(AddArticleDTO addArticleDTO) throws ServiceException;
 }

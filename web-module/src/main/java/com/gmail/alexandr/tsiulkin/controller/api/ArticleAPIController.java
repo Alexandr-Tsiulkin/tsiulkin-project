@@ -21,38 +21,41 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ARTICLES_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping(REST_API_USER_PATH)
 @RequiredArgsConstructor
 @Log4j2
 public class ArticleAPIController {
 
     private final ArticleService articleService;
 
-    @GetMapping(value = "/articles")
+    @GetMapping(value = ARTICLES_PATH)
     public List<ShowArticleDTO> getArticles() {
         return articleService.getArticles();
     }
 
-    @GetMapping(value = "/articles/{id}")
+    @GetMapping(value = ARTICLES_PATH + "/{id}")
     public ShowArticleDTO getArticleById(@PathVariable Long id) {
         return articleService.getArticleById(id);
     }
 
-    @PostMapping(value = "/articles")
+    @PostMapping(value = ARTICLES_PATH)
     public ResponseEntity<Object> addArticle(@RequestBody @Valid AddArticleDTO addArticleDTO,
-                                             BindingResult result) {
+                                             BindingResult result) throws ServiceException {
         if (result.hasErrors()) {
             ErrorDTO errorDTO = new ErrorDTO();
             errorDTO.setErrors(result.getFieldErrors());
             return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
         } else {
-            articleService.persist(addArticleDTO);
+            articleService.add(addArticleDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
 
-    @DeleteMapping(value = "/articles/{id}")
+    @DeleteMapping(value = ARTICLES_PATH + "/{id}")
     public ResponseEntity<Void> deleteArticle(@PathVariable Long id) throws ServiceException {
         boolean deleteById = articleService.isDeleteById(id);
         if (deleteById) {

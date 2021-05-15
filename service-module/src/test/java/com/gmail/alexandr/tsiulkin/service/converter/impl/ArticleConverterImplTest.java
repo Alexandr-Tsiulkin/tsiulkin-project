@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -66,7 +67,7 @@ class ArticleConverterImplTest {
         Article article = new Article();
         LocalDateTime localDateTime = LocalDateTime.now();
         article.setLocalDateTime(localDateTime);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
         String formatLocalDate = formatter.format(localDateTime);
         ShowArticleDTO showArticleDTO = articleConverter.convert(article);
 
@@ -147,7 +148,7 @@ class ArticleConverterImplTest {
     @Test
     void shouldFormatLocalDateTime() {
         LocalDateTime localDateTime = LocalDateTime.of(2021, 5, 8, 20, 2, 55);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
         String formatData = "2021-05-08 20:02:55";
         assertEquals(formatData, localDateTime.format(formatter));
     }

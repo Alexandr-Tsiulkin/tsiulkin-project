@@ -11,6 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ADMIN_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.CUSTOMER_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.SELLER_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.WELCOME_ADMIN_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.WELCOME_CUSTOMER_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.WELCOME_SELLER_PATH;
+
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -18,11 +25,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                                         Authentication authentication) throws IOException, ServletException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (roles.contains(RoleDTOEnum.ADMINISTRATOR.name())) {
-            response.sendRedirect("/admin/welcome-admin");
+            response.sendRedirect(ADMIN_PATH + WELCOME_ADMIN_PATH);
         } else if (roles.contains(RoleDTOEnum.CUSTOMER_USER.name())) {
-            response.sendRedirect("/customer/welcome-customer");
+            response.sendRedirect(CUSTOMER_PATH + WELCOME_CUSTOMER_PATH);
         } else if (roles.contains(RoleDTOEnum.SALE_USER.name())) {
-            response.sendRedirect("/seller/welcome-seller");
+            response.sendRedirect(SELLER_PATH + WELCOME_SELLER_PATH);
         }
     }
 }

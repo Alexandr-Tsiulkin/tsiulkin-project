@@ -1,6 +1,5 @@
 package com.gmail.alexandr.tsiulkin.service.converter.impl;
 
-import com.gmail.alexandr.tsiulkin.repository.model.Article;
 import com.gmail.alexandr.tsiulkin.repository.model.Comment;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.converter.CommentConverter;
@@ -31,18 +30,16 @@ public class CommentConverterImpl implements CommentConverter {
         User user = comment.getUser();
         if (Objects.nonNull(user)) {
             String firstName = user.getFirstName();
-            showCommentDTO.setFirstName(firstName);
             String lastName = user.getLastName();
-            showCommentDTO.setLastName(lastName);
+            String fullName = String.format("%s %s", firstName, lastName);
+            showCommentDTO.setFullName(fullName);
         }
         return showCommentDTO;
     }
 
     @Override
-    public Comment convert(AddCommentDTO addCommentDTO, User user, Article article) {
+    public Comment convert(AddCommentDTO addCommentDTO) {
         Comment comment = new Comment();
-        comment.setArticle(article);
-        comment.setUser(user);
         LocalDateTime localDateTime = LocalDateTime.now();
         comment.setLocalDateTime(localDateTime);
         String fullContent = addCommentDTO.getFullContent();

@@ -21,7 +21,6 @@
             <label class="visually-hidden" for="content">Content</label>
             <input type="text" class="form-control" id="content" name="content"
                    required placeholder="Content" th:field="*{content}">
-            <input type="hidden" name="username" th:value="${#authentication.name}">
         </div>
         <div class="alert alert-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
     </div>

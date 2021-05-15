@@ -14,4 +14,6 @@ public class ShowUserDTO {
     private String middleName;
     private String email;
     private String roleName;
+    private String password;
+    private String encryptedPassword;
 }

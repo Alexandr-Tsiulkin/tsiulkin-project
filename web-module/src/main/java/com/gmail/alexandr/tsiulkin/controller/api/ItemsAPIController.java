@@ -21,25 +21,28 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ITEMS_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping(REST_API_USER_PATH)
 @RequiredArgsConstructor
 @Log4j2
 public class ItemsAPIController {
 
     private final ItemService itemService;
 
-    @GetMapping(value = "/items")
+    @GetMapping(value = ITEMS_PATH)
     public List<ShowItemDTO> getItems() {
         return itemService.getItems();
     }
 
-    @GetMapping(value = "/items/{id}")
+    @GetMapping(value = ITEMS_PATH + "/{id}")
     public ShowItemDTO getItemById(@PathVariable Long id) {
         return itemService.getItemById(id);
     }
 
-    @PostMapping(value = "/items")
+    @PostMapping(value = ITEMS_PATH)
     public ResponseEntity<Object> addItem(@RequestBody @Valid AddItemDTO addItemDTO,
                                           BindingResult result) {
         if (result.hasErrors()) {
@@ -52,7 +55,7 @@ public class ItemsAPIController {
         }
     }
 
-    @DeleteMapping(value = "/items/{id}")
+    @DeleteMapping(value = ITEMS_PATH + "/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) throws ServiceException {
         boolean deleteById = itemService.isDeleteById(id);
         if (deleteById) {

@@ -1,12 +1,16 @@
 package com.gmail.alexandr.tsiulkin.controller.mvc;
 
+import com.gmail.alexandr.tsiulkin.service.MailService;
 import com.gmail.alexandr.tsiulkin.service.UserService;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.AddUserDetailsDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
-import com.gmail.alexandr.tsiulkin.service.model.UserDetailsDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ShowUserDetailsDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,34 +22,41 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ADMIN_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.USERS_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.USER_ADD_PATH;
+import static com.gmail.alexandr.tsiulkin.service.util.SecurityUtil.getAuthentication;
+
 @Log4j2
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final MailService mailService;
 
-    @GetMapping(value = "/admin/users")
+    @GetMapping(value = ADMIN_PATH + USERS_PATH)
     public String getUsersByPagination(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
         PageDTO pageDTO = userService.getUsersByPage(page);
         model.addAttribute("pageDTO", pageDTO);
         return "users";
     }
 
-    @GetMapping(value = "/admin/add-user")
+    @GetMapping(value = ADMIN_PATH + USER_ADD_PATH)
     public String addPage(Model model) {
         model.addAttribute("user", new AddUserDTO());
         return "add-user";
     }
 
-    @PostMapping(value = "/admin/add-user")
+    @PostMapping(value = ADMIN_PATH + USER_ADD_PATH)
     public String add(@Valid AddUserDTO addUserDTO, BindingResult error) throws ServiceException {
         log.info("addUser:{}", addUserDTO);
         if (error.hasErrors()) {
             log.info("errors:{}", error);
             return "add-user";
         } else {
-            userService.addUserAndSendPasswordToEmail(addUserDTO);
+            ShowUserDTO userDTO = userService.persist(addUserDTO);
+            mailService.sendPasswordToEmailAfterAddUser(userDTO);
         }
         return "redirect:/admin/users";
     }
@@ -59,13 +70,14 @@ public class UserController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping(value = "/admin/reset-password/{id}")
+    @GetMapping(value = "/admin/users/{id}/reset-password")
     public String resetPasswordById(@PathVariable Long id) {
-        userService.resetPasswordAndSendToEmail(id);
+        ShowUserDTO userDTO = userService.resetPassword(id);
+        mailService.sendPasswordToEmailAfterResetPassword(userDTO);
         return "redirect:/admin/users";
     }
 
-    @PostMapping(value = "/admin/change-role/{id}")
+    @PostMapping(value = "/admin/users/{id}/change-role")
     public String changeRole(@RequestParam("roleName") String roleName,
                              @PathVariable Long id) {
         userService.changeRoleById(roleName, id);
@@ -73,76 +85,27 @@ public class UserController {
     }
 
     @GetMapping(value = "/customer/user-profile")
-    public String getUserProfile(Model model,
-                                 @RequestParam(value = "username") String userName) {
-        UserDetailsDTO userDetailsDTO = userService.getUserByUserName(userName);
-        model.addAttribute("userDetailsDTO", userDetailsDTO);
+    public String getUserProfile(Model model) {
+        Authentication authentication = getAuthentication();
+        String userName = authentication.getName();
+        ShowUserDetailsDTO showUserDetailsDTO = userService.getUserByUserName(userName);
+        model.addAttribute("userDetails", showUserDetailsDTO);
+        model.addAttribute("addUserDetails", new AddUserDetailsDTO());
         return "user-profile";
     }
 
-    @PostMapping(value = "/customer/change-name")
-    public String changeNameById(@Valid UserDetailsDTO userDetailsDTO, BindingResult result) {
-        log.info("userDetailsDTO: {}", userDetailsDTO);
+    @PostMapping(value = "/customer/users/{id}/change-parameter")
+    public String changeParameterById(@Valid AddUserDetailsDTO addUserDetailsDTO,
+                                      BindingResult result,
+                                      @PathVariable Long id,
+                                      Model model) throws ServiceException {
         if (result.hasErrors()) {
-            log.info("errors:{}", result);
+            ShowUserDetailsDTO showUserDetailsDTO = userService.getUserById(id);
+            model.addAttribute("userDetails", showUserDetailsDTO);
+            model.addAttribute("addUserDetails", new AddUserDetailsDTO());
             return "user-profile";
         }
-        log.info("userDetailsDTO: {}", userDetailsDTO.getId());
-        log.info("newFirstName: {}", userDetailsDTO.getFirstName());
-        userService.changeNameById(userDetailsDTO);
-        return "redirect:/customer/welcome-customer";
-    }
-
-    @PostMapping(value = "/customer/change-surname")
-    public String changeSurnameById(@Valid UserDetailsDTO userDetailsDTO, BindingResult result) {
-        log.info("userDetailsDTO: {}", userDetailsDTO);
-        if (result.hasErrors()) {
-            log.info("errors:{}", result);
-            return "user-profile";
-        }
-        log.info("id: {}", userDetailsDTO.getId());
-        log.info("newFirstName: {}", userDetailsDTO.getLastName());
-        userService.changeSurnameById(userDetailsDTO);
-        return "redirect:/customer/welcome-customer";
-    }
-
-    @PostMapping(value = "/customer/change-address")
-    public String changeAddressById(@Valid UserDetailsDTO userDetailsDTO, BindingResult result) {
-        log.info("userDetailsDTO: {}", userDetailsDTO);
-        if (result.hasErrors()) {
-            log.info("errors:{}", result);
-            return "user-profile";
-        }
-        log.info("id: {}", userDetailsDTO.getId());
-        log.info("newAddress: {}", userDetailsDTO.getAddress());
-        userService.changeAddressById(userDetailsDTO);
-        return "redirect:/customer/welcome-customer";
-    }
-
-    @PostMapping(value = "/customer/change-telephone")
-    public String changeTelephoneById(@Valid UserDetailsDTO userDetailsDTO, BindingResult result) {
-        log.info("userDetailsDTO: {}", userDetailsDTO);
-        if (result.hasErrors()) {
-            log.info("errors:{}", result);
-            return "user-profile";
-        }
-        log.info("id: {}", userDetailsDTO.getId());
-        log.info("newTelephone: {}", userDetailsDTO.getTelephone());
-        userService.changeTelephoneById(userDetailsDTO);
-        return "redirect:/customer/welcome-customer";
-    }
-
-    @PostMapping(value = "/customer/change-password")
-    public String changePasswordById(@Valid UserDetailsDTO userDetailsDTO, BindingResult result) throws ServiceException {
-        log.info("userDetailsDTO: {}", userDetailsDTO);
-        if (result.hasErrors()) {
-            log.info("errors:{}", result);
-            return "user-profile";
-        }
-        log.info("id: {}", userDetailsDTO.getId());
-        log.info("oldPassword: {}", userDetailsDTO.getOldPassword());
-        log.info("newPassword: {}", userDetailsDTO.getNewPassword());
-        userService.changePasswordById(userDetailsDTO);
-        return "redirect:/customer/welcome-customer";
+        userService.changeParameterById(addUserDetailsDTO, id);
+        return "redirect:/customer/user-profile";
     }
 }

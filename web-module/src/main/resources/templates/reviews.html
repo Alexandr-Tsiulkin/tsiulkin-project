@@ -40,7 +40,7 @@
                 <input type="hidden" name="allIds" th:value="${review.id}">
             </td>
             <td>
-                <a class="btn btn-primary" type="submit" th:href="@{/admin/reviews/delete/{id}(id=${review.id})}"
+                <a class="btn btn-primary" type="submit" th:href="@{/admin/reviews/{id}/delete/(id=${review.id})}"
                    th:name="id" role="button"> Delete</a>
             </td>
         </tbody>

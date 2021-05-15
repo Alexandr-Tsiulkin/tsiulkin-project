@@ -12,8 +12,6 @@ import java.util.Random;
 import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
 import static java.lang.Math.*;
 
-@Log4j2
-@RequiredArgsConstructor
 public final class ServiceUtil {
 
     public static String getFormatDateTime(LocalDateTime localDateTime) {

@@ -13,7 +13,6 @@
             <label class="visually-hidden" for="fullContent">Comment</label>
             <input type="text" class="form-control" id="fullContent" name="fullContent"
                    required placeholder="Comment" th:field="*{fullContent}">
-            <input type="hidden" name="username" th:value="${#authentication.name}">
         </div>
         <div class="alert alert-danger" th:if="${#fields.hasErrors('fullContent')}" th:errors="*{fullContent}"></div>
     </div>

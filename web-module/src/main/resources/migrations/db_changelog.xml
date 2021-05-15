@@ -238,4 +238,22 @@
                                  referencedTableName="item"
                                  referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="21" author="com.gmail.tsiulkin.alexandr">
+        <renameColumn tableName="article"
+                      oldColumnName="seller_id"
+                      newColumnName="user_id"
+                      columnDataType="int"/>
+    </changeSet>
+    <changeSet id="22" author="com.gmail.tsiulkin.alexandr">
+        <renameColumn tableName="comment"
+                      oldColumnName="customer_id"
+                      newColumnName="user_id"
+                      columnDataType="int"/>
+    </changeSet>
+    <changeSet id="23" author="com.gmail.tsiulkin.alexandr">
+        <renameColumn tableName="review"
+                      oldColumnName="customer_id"
+                      newColumnName="user_id"
+                      columnDataType="int"/>
+    </changeSet>
 </databaseChangeLog>

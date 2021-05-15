@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.COMMENTS_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.CUSTOMER_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.SELLER_PATH;
+
 @RequiredArgsConstructor
 @Log4j2
 @Controller
@@ -22,27 +26,25 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping(value = "/customer/comments/add")
+    @GetMapping(value = CUSTOMER_PATH + COMMENTS_PATH + "/add")
     public String addPage(Model model) {
         model.addAttribute("comment", new AddCommentDTO());
         return "add-comment";
     }
 
-    @PostMapping(value = "/customer/comments/add")
+    @PostMapping(value = CUSTOMER_PATH + COMMENTS_PATH + "/add")
     public String add(@Valid AddCommentDTO addCommentDTO, BindingResult error,
-                      @RequestParam(value = "username") String userName,
                       @RequestParam(name = "article") Long id) throws ServiceException {
         if (error.hasErrors()) {
             log.info("errors:{}", error);
             return "add-comment";
         } else {
-            commentService.persist(addCommentDTO, userName, id);
-            log.info("go persist comment");
+            commentService.persist(addCommentDTO, id);
         }
         return "redirect:/customer/articles";
     }
 
-    @GetMapping(value = "/seller/comments/{id}/delete")
+    @GetMapping(value = SELLER_PATH + COMMENTS_PATH + "/{id}/delete")
     public String deleteArticle(@PathVariable("id") Long id) throws ServiceException {
         commentService.isDeleteById(id);
         return "redirect:/seller/articles";

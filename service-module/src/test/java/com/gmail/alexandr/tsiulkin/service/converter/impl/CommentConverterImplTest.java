@@ -1,6 +1,5 @@
 package com.gmail.alexandr.tsiulkin.service.converter.impl;
 
-import com.gmail.alexandr.tsiulkin.repository.model.Article;
 import com.gmail.alexandr.tsiulkin.repository.model.Comment;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.model.AddCommentDTO;
@@ -15,6 +14,7 @@ import org.mockito.quality.Strictness;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -48,7 +48,7 @@ class CommentConverterImplTest {
         Comment comment = new Comment();
         LocalDateTime localDateTime = LocalDateTime.now();
         comment.setLocalDateTime(localDateTime);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
         String formatLocalDate = formatter.format(localDateTime);
         ShowCommentDTO showCommentDTO = commentConverter.convert(comment);
 
@@ -66,61 +66,26 @@ class CommentConverterImplTest {
     }
 
     @Test
-    void shouldConvertCommentToShowCommentDTOAndReturnRightFirstName() {
+    void shouldConvertCommentToShowCommentDTOAndReturnRightFullName() {
         Comment comment = new Comment();
         String firstName = "test first name";
+        String lastName = "test last name";
+        String fullName = "test first name test last name";
         User user = new User();
         user.setFirstName(firstName);
-        comment.setUser(user);
-        ShowCommentDTO showCommentDTO = commentConverter.convert(comment);
-
-        assertEquals(firstName, showCommentDTO.getFirstName());
-    }
-
-    @Test
-    void shouldConvertCommentToShowCommentDTOAndReturnRightLastName() {
-        Comment comment = new Comment();
-        String lastName = "test last name";
-        User user = new User();
         user.setLastName(lastName);
         comment.setUser(user);
         ShowCommentDTO showCommentDTO = commentConverter.convert(comment);
 
-        assertEquals(lastName, showCommentDTO.getLastName());
+        assertEquals(fullName, showCommentDTO.getFullName());
     }
 
     @Test
     void shouldConvertAddCommentDTOAndUserAndArticleToCommentAndReturnNotNullObject() {
         AddCommentDTO addCommentDTO = new AddCommentDTO();
-        User user = new User();
-        Article article = new Article();
-        Comment comment = commentConverter.convert(addCommentDTO, user, article);
+        Comment comment = commentConverter.convert(addCommentDTO);
 
         assertNotNull(comment);
-    }
-
-    @Test
-    void shouldConvertAddCommentDTOAndUserAndArticleToCommentAndReturnRightUser() {
-        User user = new User();
-        Comment comment = new Comment();
-        comment.setUser(user);
-        AddCommentDTO addCommentDTO = new AddCommentDTO();
-        Article article = new Article();
-        Comment convertComment = commentConverter.convert(addCommentDTO, user, article);
-
-        assertEquals(user, convertComment.getUser());
-    }
-
-    @Test
-    void shouldConvertAddCommentDTOAndUserAndArticleToCommentAndReturnRightArticle() {
-        Article article = new Article();
-        Comment comment = new Comment();
-        comment.setArticle(article);
-        AddCommentDTO addCommentDTO = new AddCommentDTO();
-        User user = new User();
-        Comment convertComment = commentConverter.convert(addCommentDTO, user, article);
-
-        assertEquals(article, convertComment.getArticle());
     }
 
     @Test
@@ -129,9 +94,7 @@ class CommentConverterImplTest {
         LocalDateTime localDateTime = LocalDateTime.now();
         comment.setLocalDateTime(localDateTime);
         AddCommentDTO addCommentDTO = new AddCommentDTO();
-        Article article = new Article();
-        User user = new User();
-        Comment convertComment = commentConverter.convert(addCommentDTO, user, article);
+        Comment convertComment = commentConverter.convert(addCommentDTO);
 
         assertEquals(localDateTime, convertComment.getLocalDateTime());
     }
