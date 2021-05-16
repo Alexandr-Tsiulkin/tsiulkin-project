@@ -17,4 +17,5 @@ public interface PathConstant {
     String USER_ADD_PATH = "/users/add";
     String REVIEWS_PATH = "/reviews";
     String LOGIN_PAGE_PATH = "/login";
+    String USER_PROFILE_PATH = "/user-profile";
 }

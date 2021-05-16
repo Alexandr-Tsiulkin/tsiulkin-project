@@ -15,16 +15,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
 
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ADMIN_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.CUSTOMER_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.USERS_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.USER_ADD_PATH;
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.USER_PROFILE_PATH;
 import static com.gmail.alexandr.tsiulkin.service.util.SecurityUtil.getAuthentication;
 
 @Log4j2
@@ -61,7 +65,7 @@ public class UserController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping(value = "/admin/users/delete")
+    @PostMapping(value = ADMIN_PATH + USERS_PATH + "/delete")
     public String deleteUsers(@RequestParam("checkedIds") List<Long> checkedIds) {
         log.info("checkedIds: {}", checkedIds);
         for (Long id : checkedIds) {
@@ -70,42 +74,42 @@ public class UserController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping(value = "/admin/users/{id}/reset-password")
+    @GetMapping(value = ADMIN_PATH + USERS_PATH + "/{id}/reset-password")
     public String resetPasswordById(@PathVariable Long id) {
         ShowUserDTO userDTO = userService.resetPassword(id);
         mailService.sendPasswordToEmailAfterResetPassword(userDTO);
         return "redirect:/admin/users";
     }
 
-    @PostMapping(value = "/admin/users/{id}/change-role")
+    @PostMapping(value = ADMIN_PATH + USERS_PATH + "/{id}/change-role")
     public String changeRole(@RequestParam("roleName") String roleName,
                              @PathVariable Long id) {
         userService.changeRoleById(roleName, id);
         return "redirect:/admin/users";
     }
 
-    @GetMapping(value = "/customer/user-profile")
+    @GetMapping(value = CUSTOMER_PATH + USER_PROFILE_PATH)
     public String getUserProfile(Model model) {
         Authentication authentication = getAuthentication();
         String userName = authentication.getName();
         ShowUserDetailsDTO showUserDetailsDTO = userService.getUserByUserName(userName);
         model.addAttribute("userDetails", showUserDetailsDTO);
-        model.addAttribute("addUserDetails", new AddUserDetailsDTO());
+        if (!model.containsAttribute("addUserDetails")) {
+            model.addAttribute("addUserDetails", new AddUserDetailsDTO());
+        }
         return "user-profile";
     }
 
-    @PostMapping(value = "/customer/users/{id}/change-parameter")
-    public String changeParameterById(@Valid AddUserDetailsDTO addUserDetailsDTO,
+    @PostMapping(value = CUSTOMER_PATH + USERS_PATH + "/{id}/change-parameter")
+    public String changeParameterById(@Valid @ModelAttribute("addUserDetails") AddUserDetailsDTO addUserDetailsDTO,
                                       BindingResult result,
-                                      @PathVariable Long id,
-                                      Model model) throws ServiceException {
+                                      RedirectAttributes redirectAttributes) throws ServiceException {
         if (result.hasErrors()) {
-            ShowUserDetailsDTO showUserDetailsDTO = userService.getUserById(id);
-            model.addAttribute("userDetails", showUserDetailsDTO);
-            model.addAttribute("addUserDetails", new AddUserDetailsDTO());
-            return "user-profile";
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addUserDetails", result);
+            redirectAttributes.addFlashAttribute("addUserDetails", addUserDetailsDTO);
+            return "redirect:/customer/user-profile";
         }
-        userService.changeParameterById(addUserDetailsDTO, id);
+        userService.changeParameterById(addUserDetailsDTO);
         return "redirect:/customer/user-profile";
     }
 }

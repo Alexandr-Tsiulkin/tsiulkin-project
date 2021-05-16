@@ -38,4 +38,16 @@ public class ItemController {
         model.addAttribute("item", showItemDTO);
         return "item";
     }
+
+    @GetMapping(value = SELLER_PATH + ITEMS_PATH + "/{uuid}/delete")
+    public String deleteItemByUuid(@PathVariable UUID uuid) {
+        itemService.isDeleteByUuid(uuid);
+        return "redirect:/seller/items";
+    }
+
+    @GetMapping(value = SELLER_PATH + ITEMS_PATH + "/{uuid}/copy")
+    public String copyItemByUuid(@PathVariable UUID uuid) {
+        itemService.isCopyItemByUuid(uuid);
+        return "redirect:/seller/items";
+    }
 }

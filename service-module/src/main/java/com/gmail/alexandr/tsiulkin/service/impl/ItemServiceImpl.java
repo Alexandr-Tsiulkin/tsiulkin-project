@@ -2,6 +2,7 @@ package com.gmail.alexandr.tsiulkin.service.impl;
 
 import com.gmail.alexandr.tsiulkin.repository.ItemRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Item;
+import com.gmail.alexandr.tsiulkin.repository.model.ItemDetails;
 import com.gmail.alexandr.tsiulkin.service.ItemService;
 import com.gmail.alexandr.tsiulkin.service.converter.ItemConverter;
 import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
@@ -12,7 +13,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -57,11 +60,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public void persist(AddItemDTO addItemDTO) {
+    public boolean isPersist(AddItemDTO addItemDTO) {
         Item item = itemConverter.convert(addItemDTO);
         UUID uuid = UUID.randomUUID();
         item.setUuid(uuid);
         itemRepository.persist(item);
+        return true;
     }
 
     @Override
@@ -72,8 +76,44 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ShowItemDTO getItemByUuid(UUID uuid) {
         Item item = itemRepository.findByUuid(uuid);
         return itemConverter.convert(item);
+    }
+
+    @Override
+    @Transactional
+    public boolean isDeleteByUuid(UUID uuid) {
+        Item item = itemRepository.findByUuid(uuid);
+        if (Objects.nonNull(item)) {
+            itemRepository.removeById(item.getId());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public boolean isCopyItemByUuid(UUID uuid) {
+        Item item = itemRepository.findByUuid(uuid);
+        if (Objects.nonNull(item)) {
+            Item copyItem = new Item();
+            copyFieldsByItem(copyItem, item);
+            itemRepository.persist(copyItem);
+            return true;
+        }
+        return false;
+    }
+
+    private void copyFieldsByItem(Item copyItem, Item item) {
+        UUID uuid = UUID.randomUUID();
+        copyItem.setUuid(uuid);
+        String title = item.getTitle();
+        copyItem.setTitle(title);
+        BigDecimal price = item.getPrice();
+        copyItem.setPrice(price);
+        ItemDetails itemDetails = item.getItemDetails();
+        copyItem.setItemDetails(itemDetails);
     }
 }

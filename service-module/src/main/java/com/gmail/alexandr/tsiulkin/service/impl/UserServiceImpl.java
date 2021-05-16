@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
     public PageDTO getUsersByPage(Integer page) {
         Long countUsers = userRepository.getCountUsers();
         PageDTO pageDTO = getPageDTO(page, countUsers, MAXIMUM_USERS_ON_PAGE);
-        log.info("PageDTO: {}", pageDTO);
         List<User> users = userRepository.findAll(pageDTO.getStartPosition(), MAXIMUM_USERS_ON_PAGE);
         pageDTO.getUsers().addAll(users.stream()
                 .map(userConverter::convert)
@@ -99,11 +98,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ShowUserDTO changeRoleById(String roleName, Long id) {
-        log.info("new Role: {}", roleName);
         Role byRoleName = roleRepository.findByRoleName(roleName);
-        log.info("byRoleName: {}", byRoleName);
         User user = userRepository.findById(id);
-        log.info("user: {}", user);
         byRoleName.getUsers().add(user);
         userRepository.merge(user);
         return userConverter.convert(user);
@@ -118,50 +114,40 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void changeParameterById(AddUserDetailsDTO addUserDetailsDTO, Long id) throws ServiceException {
+    public void changeParameterById(AddUserDetailsDTO addUserDetailsDTO) throws ServiceException {
         User user = userRepository.findById(addUserDetailsDTO.getId());
         User changeUser = changeUserFields(addUserDetailsDTO, user);
         userRepository.merge(changeUser);
     }
 
-    @Override
-    @Transactional
-    public ShowUserDetailsDTO getUserById(Long id) {
-        User user = userRepository.findById(id);
-        return userConverter.convertUserToUserDetailsDTO(user);
-    }
-
     private User changeUserFields(AddUserDetailsDTO addUserDetailsDTO, User user) throws ServiceException {
-        if (!addUserDetailsDTO.getFirstName().isBlank()) {
-            String firstName = addUserDetailsDTO.getFirstName();
+        String firstName = addUserDetailsDTO.getFirstName();
+        if (firstName != null && !firstName.isBlank()) {
             user.setFirstName(firstName);
         }
-        if (!addUserDetailsDTO.getLastName().isBlank()) {
-            String lastName = addUserDetailsDTO.getLastName();
+        String lastName = addUserDetailsDTO.getLastName();
+        if (lastName != null && !lastName.isBlank()) {
             user.setLastName(lastName);
         }
-        if (!addUserDetailsDTO.getAddress().isBlank()) {
-            String address = addUserDetailsDTO.getAddress();
+        String address = addUserDetailsDTO.getAddress();
+        if (address != null && !address.isBlank()) {
             UserDetails userDetails = user.getUserDetails();
             userDetails.setAddress(address);
             user.setUserDetails(userDetails);
         }
-        if (!addUserDetailsDTO.getTelephone().isBlank()) {
-            String telephone = addUserDetailsDTO.getTelephone();
+        String telephone = addUserDetailsDTO.getTelephone();
+        if (telephone != null && !telephone.isBlank()) {
             UserDetails userDetails = user.getUserDetails();
             userDetails.setTelephone(telephone);
             user.setUserDetails(userDetails);
         }
-        if (!addUserDetailsDTO.getFirstName().isBlank()) {
-            String firstName = addUserDetailsDTO.getFirstName();
-            user.setFirstName(firstName);
-        }
-        if (!addUserDetailsDTO.getOldPassword().isBlank() && !addUserDetailsDTO.getNewPassword().isBlank()) {
-            String oldPassword = addUserDetailsDTO.getOldPassword();
+        String oldPassword = addUserDetailsDTO.getOldPassword();
+        String newPassword = addUserDetailsDTO.getNewPassword();
+        if (oldPassword != null && !oldPassword.isBlank() && newPassword != null && !newPassword.isBlank()) {
             String userPassword = user.getPassword();
             if (passwordEncoder.matches(oldPassword, userPassword)) {
-                String newPassword = passwordEncoder.encode(addUserDetailsDTO.getNewPassword());
-                user.setPassword(newPassword);
+                String encodePassword = passwordEncoder.encode(addUserDetailsDTO.getNewPassword());
+                user.setPassword(encodePassword);
             } else {
                 throw new ServiceException("The current password was entered incorrectly");
             }

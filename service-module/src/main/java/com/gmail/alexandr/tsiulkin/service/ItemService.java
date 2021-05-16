@@ -15,9 +15,13 @@ public interface ItemService {
 
     ShowItemDTO getItemById(Long id);
 
-    void persist(AddItemDTO addItemDTO);
+    boolean isPersist(AddItemDTO addItemDTO);
 
     boolean isDeleteById(Long id);
 
     ShowItemDTO getItemByUuid(UUID uuid);
+
+    boolean isDeleteByUuid(UUID uuid);
+
+    boolean isCopyItemByUuid(UUID uuid);
 }

@@ -8,6 +8,7 @@ import com.gmail.alexandr.tsiulkin.service.ArticleService;
 import com.gmail.alexandr.tsiulkin.service.converter.ArticleConverter;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddArticleDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ChangeArticleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,7 +40,6 @@ public class ArticleServiceImpl implements ArticleService {
     public PageDTO getArticlesByPage(Integer page) {
         Long countArticles = articleRepository.getCountArticles();
         PageDTO pageDTO = getPageDTO(page, countArticles, MAXIMUM_ARTICLES_ON_PAGE);
-        log.info("pageDTO: {}", pageDTO);
         List<Article> articles = articleRepository.findAll(pageDTO.getStartPosition(), MAXIMUM_ARTICLES_ON_PAGE);
         pageDTO.getArticles().addAll(articles.stream()
                 .map(articleConverter::convert)
@@ -71,16 +72,44 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public void add(AddArticleDTO addArticleDTO) throws ServiceException {
+    public boolean isAdd(AddArticleDTO addArticleDTO) throws ServiceException {
         Authentication authentication = getAuthentication();
-        String userName = authentication.getName();
-        User user = userRepository.findUserByUsername(userName);
-        if (Objects.nonNull(user)) {
-            Article article = articleConverter.convert(addArticleDTO);
-            article.setUser(user);
-            articleRepository.persist(article);
-        } else {
-            throw new ServiceException("User with username: " + userName + " was not found");
+        if (Objects.nonNull(authentication)) {
+            String userName = authentication.getName();
+            User user = userRepository.findUserByUsername(userName);
+            if (Objects.nonNull(user)) {
+                Article article = articleConverter.convert(addArticleDTO);
+                article.setUser(user);
+                articleRepository.persist(article);
+                return true;
+            } else {
+                throw new ServiceException("User with username: " + userName + " was not found");
+            }
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public ShowArticleDTO changeParameterById(ChangeArticleDTO changeArticleDTO, Long id) {
+        Article article = articleRepository.findById(id);
+        changeArticleFields(changeArticleDTO, article);
+        articleRepository.merge(article);
+        return articleConverter.convert(article);
+    }
+
+    private void changeArticleFields(ChangeArticleDTO changeArticleDTO, Article article) {
+        String title = changeArticleDTO.getTitle();
+        if (title != null && !title.isBlank()) {
+            article.setTitle(title);
+        }
+        String content = changeArticleDTO.getContent();
+        if (content != null && !content.isBlank()) {
+            article.setFullContent(content);
+        }
+        if (title != null && !title.isBlank() || content != null && !content.isBlank()) {
+            LocalDateTime newDateTime = LocalDateTime.now();
+            article.setLocalDateTime(newDateTime);
         }
     }
 }

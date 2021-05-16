@@ -30,32 +30,23 @@
     </tbody>
 </table>
 <span sec:authorize="hasAuthority('SALE_USER')">
-    <form th:action="@{/seller/change-title}" method="post" th:object="${article}">
+    <form th:action="@{/seller/articles/{id}/change-parameter(id=${article.id})}" method="post" th:object="${changeArticle}">
     <div class="col-12">
         <label class="visually-hidden" for="title">Title</label>
         <div class="input-group">
             <input type="text" class="form-control" id="title" name="title"
-                   required placeholder="New title">
-            <input type="hidden" name="id" th:value="*{id}">
+                   placeholder="New title">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
         </div>
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change title</button>
-    </div>
-</form>
-    <form th:action="@{/seller/change-content}" method="post" th:object="${article}">
-    <div class="col-12">
-        <label class="visually-hidden" for="fullContent">Content</label>
         <div class="input-group">
-            <input type="text" class="form-control" id="fullContent" name="fullContent"
-                   required placeholder="New Content">
-            <input type="hidden" name="id" th:value="*{id}">
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('fullContent')}" th:errors="*{fullContent}"></div>
+            <input type="text" class="form-control" id="content" name="content"
+                   placeholder="New Content">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('content')}"
+                 th:errors="*{content}"></div>
         </div>
     </div>
     <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change content</button>
+        <button type="submit" class="btn btn-primary">Change parameter</button>
     </div>
 </form>
 </span>

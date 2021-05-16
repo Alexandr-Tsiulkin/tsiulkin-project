@@ -50,7 +50,7 @@ public class ItemsAPIController {
             errorDTO.setErrors(result.getFieldErrors());
             return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
         } else {
-            itemService.persist(addItemDTO);
+            itemService.isPersist(addItemDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }

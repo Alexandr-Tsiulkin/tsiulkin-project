@@ -3,6 +3,7 @@ package com.gmail.alexandr.tsiulkin.controller.mvc;
 import com.gmail.alexandr.tsiulkin.service.ArticleService;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddArticleDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ChangeArticleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -41,6 +44,9 @@ public class ArticleController {
     public String getArticleById(Model model, @PathVariable("id") Long id) {
         ShowArticleDTO article = articleService.getArticleById(id);
         model.addAttribute("article", article);
+        if (!model.containsAttribute("changeArticle")) {
+            model.addAttribute("changeArticle", new ChangeArticleDTO());
+        }
         return "article";
     }
 
@@ -55,7 +61,7 @@ public class ArticleController {
         if (error.hasErrors()) {
             return "add-article";
         } else {
-            articleService.add(addArticleDTO);
+            articleService.isAdd(addArticleDTO);
         }
         return "redirect:/seller/articles";
     }
@@ -64,5 +70,19 @@ public class ArticleController {
     public String deleteArticle(@PathVariable("id") Long id) throws ServiceException {
         articleService.isDeleteById(id);
         return "redirect:/seller/articles";
+    }
+
+    @PostMapping(value = "/seller/articles/{id}/change-parameter")
+    public String changeParameterById(@Valid @ModelAttribute("changeArticle") ChangeArticleDTO changeArticleDTO,
+                                      BindingResult result,
+                                      @PathVariable Long id,
+                                      RedirectAttributes redirectAttributes){
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeArticle", result);
+            redirectAttributes.addFlashAttribute("changeArticle", changeArticleDTO);
+            return String.format("redirect:/seller/articles/%d", id);
+        }
+        articleService.changeParameterById(changeArticleDTO, id);
+        return String.format("redirect:/seller/articles/%d", id);
     }
 }

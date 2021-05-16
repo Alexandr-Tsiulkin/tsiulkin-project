@@ -2,9 +2,9 @@ package com.gmail.alexandr.tsiulkin.service;
 
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.AddUserDetailsDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
-import com.gmail.alexandr.tsiulkin.service.model.AddUserDetailsDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDetailsDTO;
 
 public interface UserService {
@@ -21,7 +21,5 @@ public interface UserService {
 
     ShowUserDetailsDTO getUserByUserName(String userName);
 
-    void changeParameterById(AddUserDetailsDTO addUserDetailsDTO, Long id) throws ServiceException;
-
-    ShowUserDetailsDTO getUserById(Long id);
+    void changeParameterById(AddUserDetailsDTO addUserDetailsDTO) throws ServiceException;
 }

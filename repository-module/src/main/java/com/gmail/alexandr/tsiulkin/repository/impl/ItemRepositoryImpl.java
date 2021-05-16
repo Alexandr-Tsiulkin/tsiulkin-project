@@ -2,13 +2,17 @@ package com.gmail.alexandr.tsiulkin.repository.impl;
 
 import com.gmail.alexandr.tsiulkin.repository.ItemRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Item;
+import com.gmail.alexandr.tsiulkin.repository.model.User;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
+@Log4j2
 public class ItemRepositoryImpl extends GenericRepositoryImpl<Long, Item> implements ItemRepository {
 
     @Override
@@ -33,6 +37,12 @@ public class ItemRepositoryImpl extends GenericRepositoryImpl<Long, Item> implem
         String hql = "SELECT i FROM Item as i WHERE i.uuid=:uuid";
         Query query = entityManager.createQuery(hql);
         query.setParameter("uuid", uuid);
+        try {
+            query.getSingleResult();
+        } catch (NoResultException e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
         return (Item) query.getSingleResult();
     }
 }

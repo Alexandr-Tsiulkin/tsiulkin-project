@@ -2,6 +2,7 @@ package com.gmail.alexandr.tsiulkin.service;
 
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddArticleDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ChangeArticleDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
 
@@ -17,5 +18,7 @@ public interface ArticleService {
 
     boolean isDeleteById(Long id) throws ServiceException;
 
-    void add(AddArticleDTO addArticleDTO) throws ServiceException;
+    boolean isAdd(AddArticleDTO addArticleDTO) throws ServiceException;
+
+    ShowArticleDTO changeParameterById(ChangeArticleDTO changeArticleDTO, Long id);
 }
