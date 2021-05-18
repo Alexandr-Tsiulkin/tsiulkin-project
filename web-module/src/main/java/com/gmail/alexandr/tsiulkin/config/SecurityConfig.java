@@ -6,6 +6,7 @@ import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 @RequiredArgsConstructor
+@Profile("!test")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final int BCRYPT_STRENGTH = 12;

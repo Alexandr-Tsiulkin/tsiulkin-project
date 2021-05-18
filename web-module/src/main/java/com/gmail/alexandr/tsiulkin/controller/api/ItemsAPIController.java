@@ -1,7 +1,6 @@
 package com.gmail.alexandr.tsiulkin.controller.api;
 
 import com.gmail.alexandr.tsiulkin.service.ItemService;
-import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ErrorDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowItemDTO;
@@ -47,7 +46,7 @@ public class ItemsAPIController {
                                           BindingResult result) {
         if (result.hasErrors()) {
             ErrorDTO errorDTO = new ErrorDTO();
-            errorDTO.setErrors(result.getFieldErrors());
+            errorDTO.getErrors().addAll(result.getFieldErrors());
             return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
         } else {
             itemService.isPersist(addItemDTO);
@@ -56,7 +55,7 @@ public class ItemsAPIController {
     }
 
     @DeleteMapping(value = ITEMS_PATH + "/{id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable Long id) throws ServiceException {
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
         boolean deleteById = itemService.isDeleteById(id);
         if (deleteById) {
             return new ResponseEntity<>(HttpStatus.OK);

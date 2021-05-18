@@ -1,0 +1,19 @@
+package com.gmail.alexandr.tsiulkin.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
+
+@Profile("test")
+@Configuration
+public class TestApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers(REST_API_USER_PATH + "/**");
+    }
+}
