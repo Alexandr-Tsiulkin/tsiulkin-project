@@ -1,1 +1,1 @@
-web: java -jar target/web-module-1.0.0-SNAPSHOT.jar
+web: java -jar target/web-module-1.0.0-SNAPSHOT.jar $PORT
