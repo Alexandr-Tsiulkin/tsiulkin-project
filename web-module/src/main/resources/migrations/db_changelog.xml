@@ -89,6 +89,30 @@
             <column name="password" value="$2y$12$keSA6xr/80a9RN9ufZthMugHlQS.MamwJ6axIrGAMeRpj0aT6CoDq "/>
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'ADMINISTRATOR')"/>
         </insert>
+        <insert tableName="user">
+            <column name="last_name" value="Seller"/>
+            <column name="first_name" value="Seller"/>
+            <column name="middle_name" value="Seller"/>
+            <column name="email" value="seller@gmail.com"/>
+            <column name="password" value="$2y$12$BBX3sl7LkCMh7Og.MDQVZ..J4d7E7eCm4rkLvPGKQbjePDzyXVOOK "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SALE_USER')"/>
+        </insert>
+        <insert tableName="user">
+            <column name="last_name" value="Customer"/>
+            <column name="first_name" value="Customer"/>
+            <column name="middle_name" value="Customer"/>
+            <column name="email" value="customer@gmail.com"/>
+            <column name="password" value="$2y$12$RVDlJGxXkW9vmpyebtajN.qnPvJ2LyR1IJM5b3moNCCDRpxxMJGsK "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'CUSTOMER_USER')"/>
+        </insert>
+        <insert tableName="user">
+            <column name="last_name" value="Rest"/>
+            <column name="first_name" value="Rest"/>
+            <column name="middle_name" value="Rest"/>
+            <column name="email" value="rest@gmail.com"/>
+            <column name="password" value="$2y$12$z6LpFZqGK70TzW8qQtAvSO71zPRxDuDbxYDqt.499ihqnC.HXBJQG "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SECURE_API_USER')"/>
+        </insert>
     </changeSet>
     <changeSet id="8" author="com.gmail.tsiulkin.alexandr">
         <addColumn tableName="review">
