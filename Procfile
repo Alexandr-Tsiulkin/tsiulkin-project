@@ -1,1 +1,1 @@
-web: java -jar target/web-module-1.0.0-SNAPSHOT.jar $PORT
+web: $JAVA_OPTS -jar target/heroku-demo-0.0.1-SNAPSHOT.jar -Dserver.port=$PORT
