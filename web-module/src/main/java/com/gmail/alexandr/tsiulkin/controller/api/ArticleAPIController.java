@@ -38,7 +38,7 @@ public class ArticleAPIController {
     }
 
     @GetMapping(value = ARTICLES_PATH + "/{id}")
-    public ShowArticleDTO getArticleById(@PathVariable Long id) {
+    public ShowArticleDTO getArticleById(@PathVariable Long id) throws ServiceException {
         return articleService.getArticleById(id);
     }
 
@@ -50,7 +50,7 @@ public class ArticleAPIController {
             errorDTO.setErrors(result.getFieldErrors());
             return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
         } else {
-            articleService.isAdd(addArticleDTO);
+            articleService.Add(addArticleDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }

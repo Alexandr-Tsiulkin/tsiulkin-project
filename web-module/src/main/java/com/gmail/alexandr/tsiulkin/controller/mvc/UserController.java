@@ -69,13 +69,13 @@ public class UserController {
     public String deleteUsers(@RequestParam("checkedIds") List<Long> checkedIds) {
         log.info("checkedIds: {}", checkedIds);
         for (Long id : checkedIds) {
-            userService.deleteById(id);
+            userService.isDeleteById(id);
         }
         return "redirect:/admin/users";
     }
 
     @GetMapping(value = ADMIN_PATH + USERS_PATH + "/{id}/reset-password")
-    public String resetPasswordById(@PathVariable Long id) {
+    public String resetPasswordById(@PathVariable Long id) throws ServiceException {
         ShowUserDTO userDTO = userService.resetPassword(id);
         mailService.sendPasswordToEmailAfterResetPassword(userDTO);
         return "redirect:/admin/users";
@@ -83,13 +83,13 @@ public class UserController {
 
     @PostMapping(value = ADMIN_PATH + USERS_PATH + "/{id}/change-role")
     public String changeRole(@RequestParam("roleName") String roleName,
-                             @PathVariable Long id) {
+                             @PathVariable Long id) throws ServiceException {
         userService.changeRoleById(roleName, id);
         return "redirect:/admin/users";
     }
 
     @GetMapping(value = CUSTOMER_PATH + USER_PROFILE_PATH)
-    public String getUserProfile(Model model) {
+    public String getUserProfile(Model model) throws ServiceException {
         Authentication authentication = getAuthentication();
         String userName = authentication.getName();
         ShowUserDetailsDTO showUserDetailsDTO = userService.getUserByUserName(userName);

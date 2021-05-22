@@ -2,6 +2,8 @@ package com.gmail.alexandr.tsiulkin.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.alexandr.tsiulkin.service.ArticleService;
+import com.gmail.alexandr.tsiulkin.service.model.ShowArticleDTO;
+import com.gmail.alexandr.tsiulkin.service.model.ShowCommentDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
@@ -10,11 +12,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Collections;
+import java.util.List;
 
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ARTICLES_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +37,7 @@ class ArticleAPIControllerTest {
     @MockBean
     private ArticleService articleService;
 
-    @MockBean
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Test
@@ -48,7 +56,7 @@ class ArticleAPIControllerTest {
         verify(articleService, times(1)).getArticles();
     }
 
-  /*  @Test
+    @Test
     void shouldReturnCollectionOfObjectsWhenWeRequestGEtArticles() throws Exception {
         ShowArticleDTO showArticleDTO = new ShowArticleDTO();
         showArticleDTO.setId(1L);
@@ -65,15 +73,14 @@ class ArticleAPIControllerTest {
         showCommentDTO.setFullContent("content");
         showArticleDTO.getComments().add(showCommentDTO);
 
-        List<ShowArticleDTO> objects = Collections.singletonList(showArticleDTO);
+        List<ShowArticleDTO> articles = Collections.singletonList(showArticleDTO);
 
-        when(articleService.getArticles()).thenReturn(objects);
+        when(articleService.getArticles()).thenReturn(articles);
 
         MvcResult mvcResult = mockMvc.perform(get(REST_API_USER_PATH + ARTICLES_PATH)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        log.info("content: {}",contentAsString);
-        assertThat(contentAsString).isEqualToIgnoringCase(objectMapper.writeValueAsString(objects));
-    }*/
+        assertThat(contentAsString).isEqualToIgnoringCase(objectMapper.writeValueAsString(articles));
+    }
 }

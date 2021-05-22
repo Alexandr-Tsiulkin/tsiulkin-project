@@ -1,9 +1,8 @@
 package com.gmail.alexandr.tsiulkin.security;
 
 
-import com.gmail.alexandr.tsiulkin.config.UserDetailsServiceConfig;
+import com.gmail.alexandr.tsiulkin.config.TestUserDetailsServiceConfig;
 import com.gmail.alexandr.tsiulkin.controller.api.ItemsAPIController;
-import com.gmail.alexandr.tsiulkin.service.ArticleService;
 import com.gmail.alexandr.tsiulkin.service.ItemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ARTICLES_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ITEMS_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = ItemsAPIController.class,
         excludeAutoConfiguration = UserDetailsServiceAutoConfiguration.class)
-@Import(UserDetailsServiceConfig.class)
+@Import(TestUserDetailsServiceConfig.class)
 public class ItemSecurityAPITest {
 
     @Autowired

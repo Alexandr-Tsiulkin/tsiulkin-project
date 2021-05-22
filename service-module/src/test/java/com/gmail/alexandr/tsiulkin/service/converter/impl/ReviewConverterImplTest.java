@@ -14,7 +14,6 @@ import org.mockito.quality.Strictness;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -22,14 +21,6 @@ class ReviewConverterImplTest {
 
     @InjectMocks
     private ReviewConverterImpl reviewConverter;
-
-    @Test
-    void shouldConvertReviewToShowReviewDTOAndReturnNotNullObject() {
-        Review review = new Review();
-        ShowReviewDTO showReviewDTO = reviewConverter.convert(review);
-
-        assertNotNull(showReviewDTO);
-    }
 
     @Test
     void shouldConvertReviewToShowReviewDTOAndReturnRightId() {

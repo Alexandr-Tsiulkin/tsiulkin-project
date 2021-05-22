@@ -2,7 +2,6 @@ package com.gmail.alexandr.tsiulkin.repository.impl;
 
 import com.gmail.alexandr.tsiulkin.repository.ItemRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Item;
-import com.gmail.alexandr.tsiulkin.repository.model.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 

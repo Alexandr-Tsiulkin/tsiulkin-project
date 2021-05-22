@@ -1,0 +1,1 @@
+INSERT INTO orders(number_of_orders) VALUES (1);

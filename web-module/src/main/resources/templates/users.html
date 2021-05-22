@@ -11,7 +11,7 @@
 <table class="table table-hover container">
     <caption class="caption-top fs-1">List of users</caption>
     <thead class="table-light">
-    <tr>
+    <tr style="text-align: center">
         <th scope="col">id</th>
         <th scope="col">Last name</th>
         <th scope="col">First name</th>
@@ -19,13 +19,11 @@
         <th scope="col">Email</th>
         <th scope="col">Role</th>
         <th scope="col">Delete</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+        <th colspan="3">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${pageDTO.users}">
+    <tr style="text-align: center" th:each="user : ${pageDTO.users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.lastName}"></td>
         <td th:text="${user.firstName}"></td>

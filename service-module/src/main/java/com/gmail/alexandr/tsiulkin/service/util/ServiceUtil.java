@@ -2,15 +2,15 @@ package com.gmail.alexandr.tsiulkin.service.util;
 
 import com.gmail.alexandr.tsiulkin.service.constant.PasswordGenerateConstant;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
-import static java.lang.Math.*;
+import static java.lang.Math.ceil;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public final class ServiceUtil {
 

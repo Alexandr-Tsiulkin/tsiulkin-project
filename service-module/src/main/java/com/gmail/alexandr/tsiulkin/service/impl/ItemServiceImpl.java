@@ -5,6 +5,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.Item;
 import com.gmail.alexandr.tsiulkin.repository.model.ItemDetails;
 import com.gmail.alexandr.tsiulkin.service.ItemService;
 import com.gmail.alexandr.tsiulkin.service.converter.ItemConverter;
+import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowItemDTO;
@@ -53,19 +54,23 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ShowItemDTO getItemById(Long id) {
+    public ShowItemDTO getItemById(Long id) throws ServiceException {
         Item item = itemRepository.findById(id);
-        return itemConverter.convert(item);
+        if (Objects.nonNull(item)) {
+            return itemConverter.convert(item);
+        } else {
+            throw new ServiceException(String.format("Item with id: %s was not found", id));
+        }
     }
 
     @Override
     @Transactional
-    public boolean isPersist(AddItemDTO addItemDTO) {
+    public ShowItemDTO persist(AddItemDTO addItemDTO) {
         Item item = itemConverter.convert(addItemDTO);
         UUID uuid = UUID.randomUUID();
         item.setUuid(uuid);
         itemRepository.persist(item);
-        return true;
+        return itemConverter.convert(item);
     }
 
     @Override
@@ -77,33 +82,39 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ShowItemDTO getItemByUuid(UUID uuid) {
+    public ShowItemDTO getItemByUuid(UUID uuid) throws ServiceException {
         Item item = itemRepository.findByUuid(uuid);
-        return itemConverter.convert(item);
+        if (Objects.nonNull(item)) {
+            return itemConverter.convert(item);
+        } else {
+            throw new ServiceException(String.format("Item with uuid: %s was not found", uuid));
+        }
     }
 
     @Override
     @Transactional
-    public boolean isDeleteByUuid(UUID uuid) {
+    public boolean isDeleteByUuid(UUID uuid) throws ServiceException {
         Item item = itemRepository.findByUuid(uuid);
         if (Objects.nonNull(item)) {
             itemRepository.removeById(item.getId());
             return true;
+        } else {
+            throw new ServiceException(String.format("Item with uuid: %s was not found", uuid));
         }
-        return false;
     }
 
     @Override
     @Transactional
-    public boolean isCopyItemByUuid(UUID uuid) {
+    public boolean isCopyItemByUuid(UUID uuid) throws ServiceException {
         Item item = itemRepository.findByUuid(uuid);
         if (Objects.nonNull(item)) {
             Item copyItem = new Item();
             copyFieldsByItem(copyItem, item);
             itemRepository.persist(copyItem);
             return true;
+        } else {
+            throw new ServiceException(String.format("Item with uuid: %s was not found", uuid));
         }
-        return false;
     }
 
     private void copyFieldsByItem(Item copyItem, Item item) {

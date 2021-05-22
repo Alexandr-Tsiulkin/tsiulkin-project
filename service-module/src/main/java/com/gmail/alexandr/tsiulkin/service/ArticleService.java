@@ -12,13 +12,13 @@ public interface ArticleService {
 
     PageDTO getArticlesByPage(Integer page);
 
-    ShowArticleDTO getArticleById(Long id);
+    ShowArticleDTO getArticleById(Long id) throws ServiceException;
 
     List<ShowArticleDTO> getArticles();
 
     boolean isDeleteById(Long id) throws ServiceException;
 
-    boolean isAdd(AddArticleDTO addArticleDTO) throws ServiceException;
+    ShowArticleDTO Add(AddArticleDTO addArticleDTO) throws ServiceException;
 
-    ShowArticleDTO changeParameterById(ChangeArticleDTO changeArticleDTO, Long id);
+    ShowArticleDTO changeParameterById(ChangeArticleDTO changeArticleDTO, Long id) throws ServiceException;
 }

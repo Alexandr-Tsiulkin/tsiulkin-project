@@ -1,6 +1,6 @@
 package com.gmail.alexandr.tsiulkin.security;
 
-import com.gmail.alexandr.tsiulkin.config.UserDetailsServiceConfig;
+import com.gmail.alexandr.tsiulkin.config.TestUserDetailsServiceConfig;
 import com.gmail.alexandr.tsiulkin.controller.mvc.LoginController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = LoginController.class,
         excludeAutoConfiguration = UserDetailsServiceAutoConfiguration.class)
-@Import(UserDetailsServiceConfig.class)
+@Import(TestUserDetailsServiceConfig.class)
 public class AuthorizationSecurityTest {
 
     @Autowired

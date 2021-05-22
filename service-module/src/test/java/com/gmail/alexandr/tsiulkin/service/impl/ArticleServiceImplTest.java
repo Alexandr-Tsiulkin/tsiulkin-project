@@ -27,9 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -81,30 +79,28 @@ class ArticleServiceImplTest {
     }
 
     @Test
-    void shouldFindArticleByIdAndReturnNullIfItemNotFound() {
+    void shouldFindArticleByIdAndReturnExceptionIfArticleNotFound() {
         Long id = 1L;
-        Article article = articleRepository.findById(id);
-        assertNull(article);
+        assertThrows(ServiceException.class, () -> articleService.getArticleById(id));
     }
 
     @Test
-    void shouldFindArticleByIdAndReturnNotNullIfItemWasFound() {
-        Long id = 1L;
-        ShowArticleDTO articleDTO = new ShowArticleDTO();
-        articleDTO.setId(id);
-        when(articleService.getArticleById(id)).thenReturn(articleDTO);
-
-        assertNotNull(articleDTO);
-    }
-
-    @Test
-    void shouldGetArticleById() {
+    void shouldFindArticleByIdAndReturnNotNullIfArticleWasFound() {
         Long id = 1L;
         Article article = new Article();
         article.setId(id);
         when(articleRepository.findById(id)).thenReturn(article);
         ShowArticleDTO articleDTO = new ShowArticleDTO();
-        articleDTO.setId(id);
+        assertNotNull(articleDTO);
+    }
+
+    @Test
+    void shouldGetArticleById() throws ServiceException {
+        Long id = 1L;
+        Article article = new Article();
+        article.setId(id);
+        when(articleRepository.findById(id)).thenReturn(article);
+        ShowArticleDTO articleDTO = new ShowArticleDTO();
         when(articleConverter.convert(article)).thenReturn(articleDTO);
 
         ShowArticleDTO articleById = articleService.getArticleById(id);
@@ -121,118 +117,102 @@ class ArticleServiceImplTest {
     }
 
     @Test
-    void shouldAddArticleAndReturnTrueIfAddedSuccessfully() throws ServiceException {
+    void shouldAddArticleAndReturnRightAddDateIfAddedSuccessfully() throws ServiceException {
         User user = new User();
-        Authentication authentication = new Authentication() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return null;
-            }
-
-            @Override
-            public Object getCredentials() {
-                return null;
-            }
-
-            @Override
-            public Object getDetails() {
-                return null;
-            }
-
-            @Override
-            public Object getPrincipal() {
-                return null;
-            }
-
-            @Override
-            public boolean isAuthenticated() {
-                return true;
-            }
-
-            @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            public String getName() {
-                return "test@gmail.com";
-            }
-        };
+        user.setId(1L);
+        user.setLastName("Test last name");
+        Authentication authentication = getAuthenticationWithUserName();
         SecurityContextHolder.getContext().setAuthentication(authentication);
         when(userRepository.findUserByUsername(authentication.getName())).thenReturn(user);
         AddArticleDTO addArticleDTO = new AddArticleDTO();
+        addArticleDTO.setId(1L);
+        addArticleDTO.setTitle("test title");
+        addArticleDTO.setContent("test content");
+        addArticleDTO.setSellerId(user.getId());
         Article article = new Article();
         when(articleConverter.convert(addArticleDTO)).thenReturn(article);
-        boolean isAddArticle = articleService.isAdd(addArticleDTO);
+        ShowArticleDTO showArticleDTO = new ShowArticleDTO();
+        when(articleConverter.convert(article)).thenReturn(showArticleDTO);
 
-        assertTrue(isAddArticle);
+        ShowArticleDTO showArticle = articleService.Add(addArticleDTO);
+
+        assertEquals(showArticle.getDate(), showArticleDTO.getDate());
     }
 
+
     @Test
-    void shouldAddArticleAndReturnFalseIfUserWasNotAuthentication() throws ServiceException {
-        SecurityContextHolder.getContext().setAuthentication(null);
+    void shouldAddArticleAndReturnExceptionIfUserWasNotAuthentication() {
         AddArticleDTO addArticleDTO = new AddArticleDTO();
-        boolean isAddArticle = articleService.isAdd(addArticleDTO);
-
-        assertFalse(isAddArticle);
+        assertThrows(ServiceException.class, () -> articleService.Add(addArticleDTO));
     }
 
     @Test
-    void shouldAddArticleAndReturnFalseIfUserWasNotFoundWithUserName() {
-        Authentication authentication = new Authentication() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return null;
-            }
-
-            @Override
-            public Object getCredentials() {
-                return null;
-            }
-
-            @Override
-            public Object getDetails() {
-                return null;
-            }
-
-            @Override
-            public Object getPrincipal() {
-                return null;
-            }
-
-            @Override
-            public boolean isAuthenticated() {
-                return true;
-            }
-
-            @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            public String getName() {
-                return "test@gmail.com";
-            }
-        };
+    void shouldAddArticleAndReturnExceptionIfUserWasNotFoundWithUserName() {
+        Authentication authentication = getAuthenticationWithUserName();
         SecurityContextHolder.getContext().setAuthentication(authentication);
         when(userRepository.findUserByUsername(authentication.getName())).thenReturn(null);
         AddArticleDTO addArticleDTO = new AddArticleDTO();
         Article article = new Article();
         when(articleConverter.convert(addArticleDTO)).thenReturn(article);
 
-        assertThrows(ServiceException.class, () -> articleService.isAdd(addArticleDTO));
+        assertThrows(ServiceException.class, () -> articleService.Add(addArticleDTO));
     }
 
     @Test
-    void shouldChangeParameterByIdAndReturnNotNullObject(){
-        ChangeArticleDTO changeArticleDTO = new ChangeArticleDTO();
+    void shouldChangeParameterByIdAndReturnExceptionIfArticleWithIdNotFound() {
         Long id = 1L;
+        assertThrows(ServiceException.class, () -> articleService.getArticleById(id));
+    }
+
+    @Test
+    void shouldChangeParameterByIdAndReturnNotNullObject() throws ServiceException {
+        Long id = 1L;
+        Article article = new Article();
+        when(articleRepository.findById(id)).thenReturn(article);
+        ChangeArticleDTO changeArticleDTO = new ChangeArticleDTO();
         ShowArticleDTO showArticleDTO = new ShowArticleDTO();
-        when(articleService.changeParameterById(changeArticleDTO,id)).thenReturn(showArticleDTO);
+        when(articleService.changeParameterById(changeArticleDTO, id)).thenReturn(showArticleDTO);
 
         assertNotNull(showArticleDTO);
+    }
+
+    private Authentication getAuthenticationWithUserName() {
+        return new Authentication() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return null;
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return null;
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
+            }
+
+            @Override
+            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
+            }
+
+            @Override
+            public String getName() {
+                return "test@gmail.com";
+            }
+        };
     }
 
 }

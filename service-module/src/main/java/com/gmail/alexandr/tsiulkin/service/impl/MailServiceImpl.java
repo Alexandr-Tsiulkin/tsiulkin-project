@@ -4,7 +4,7 @@ import com.gmail.alexandr.tsiulkin.service.MailService;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,18 +15,17 @@ import org.springframework.stereotype.Service;
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender javaMailSender;
-    private final Environment environment;
+    @Value("${spring.mail.username}")
+    private String recipientMail;
 
     @Override
     public void sendPasswordToEmailAfterAddUser(ShowUserDTO userDTO) {
-        String recipientMail = environment.getProperty("spring.mail.username");
         SimpleMailMessage message = getMailMessageForAddUser(userDTO, recipientMail);
         javaMailSender.send(message);
     }
 
     @Override
     public void sendPasswordToEmailAfterResetPassword(ShowUserDTO userDTO) {
-        String recipientMail = environment.getProperty("spring.mail.username");
         SimpleMailMessage message = getMailMessageForResetPassword(userDTO, recipientMail);
         javaMailSender.send(message);
     }

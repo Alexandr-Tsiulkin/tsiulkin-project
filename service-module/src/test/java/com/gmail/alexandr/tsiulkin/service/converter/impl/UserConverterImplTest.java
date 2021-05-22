@@ -4,6 +4,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.Role;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.repository.model.UserDetails;
 import com.gmail.alexandr.tsiulkin.service.model.AddUserDTO;
+import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowUserDetailsDTO;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -22,14 +22,6 @@ class UserConverterImplTest {
 
     @InjectMocks
     private UserConverterImpl userConverter;
-
-    @Test
-    void shouldConvertUserToShowUserDTOAndReturnNotNullObject() {
-        User user = new User();
-        ShowUserDTO showUserDTO = userConverter.convert(user);
-
-        assertNotNull(showUserDTO);
-    }
 
     @Test
     void shouldConvertUserToShowUserDTOAndReturnRightId() {
@@ -84,21 +76,13 @@ class UserConverterImplTest {
     @Test
     void shouldConvertUserToShowUserDTOAndReturnRightRoleName() {
         Role role = new Role();
-        String roleName = "ADMINISTRATOR";
+        String roleName = RoleDTOEnum.ADMINISTRATOR.name();
         role.setRoleName(roleName);
         User user = new User();
         user.setRole(role);
         ShowUserDTO showUserDTO = userConverter.convert(user);
 
         assertEquals(roleName, showUserDTO.getRoleName());
-    }
-
-    @Test
-    void shouldConvertAddUserDTOToUserAndReturnNotNullObject() {
-        AddUserDTO addUserDTO = new AddUserDTO();
-        User user = userConverter.convert(addUserDTO);
-
-        assertNotNull(user);
     }
 
     @Test
@@ -159,14 +143,6 @@ class UserConverterImplTest {
         User user = userConverter.convert(addUserDTO);
 
         assertEquals(telephone, user.getUserDetails().getTelephone());
-    }
-
-    @Test
-    void shouldConvertUserToUserDetailsDTOAndReturnNotNullObject() {
-        User user = new User();
-        ShowUserDetailsDTO showUserDetailsDTO = userConverter.convertUserToUserDetailsDTO(user);
-
-        assertNotNull(showUserDetailsDTO);
     }
 
     @Test

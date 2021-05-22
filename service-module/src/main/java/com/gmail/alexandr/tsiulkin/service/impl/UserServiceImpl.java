@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -52,7 +53,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ShowUserDTO persist(AddUserDTO addUserDTO) throws ServiceException {
-        ShowUserDTO showUserDTO = new ShowUserDTO();
         User userByUsername = userRepository.findUserByUsername(addUserDTO.getEmail());
         if (Objects.isNull(userByUsername)) {
             String roleName = addUserDTO.getRole().name();
@@ -64,86 +64,107 @@ public class UserServiceImpl implements UserService {
                 String encodePassword = passwordEncoder.encode(randomPassword);
                 user.setPassword(encodePassword);
                 userRepository.persist(user);
-                showUserDTO = userConverter.convert(user);
+                ShowUserDTO showUserDTO = userConverter.convert(user);
                 showUserDTO.setPassword(randomPassword);
+                return showUserDTO;
+            } else {
+                throw new ServiceException(String.format("User with role: %s was not found", addUserDTO.getRole().name()));
             }
         } else {
-            throw new ServiceException("User with username: " + addUserDTO.getEmail() + " already exists");
+            throw new ServiceException(String.format("User with username: %s already exists", addUserDTO.getEmail()));
         }
-        return showUserDTO;
     }
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
+    public boolean isDeleteById(Long id) {
         userRepository.removeById(id);
+        return true;
     }
 
     @Override
     @Transactional
-    public ShowUserDTO resetPassword(Long id) {
+    public ShowUserDTO resetPassword(Long id) throws ServiceException {
         User user = userRepository.findById(id);
-        ShowUserDTO showUserDTO = new ShowUserDTO();
         if (Objects.nonNull(user)) {
             String randomPassword = generateRandomPassword();
             String encodePassword = passwordEncoder.encode(randomPassword);
             user.setPassword(encodePassword);
             userRepository.merge(user);
-            showUserDTO = userConverter.convert(user);
+            ShowUserDTO showUserDTO = userConverter.convert(user);
             showUserDTO.setPassword(randomPassword);
+            return showUserDTO;
+        } else {
+            throw new ServiceException(String.format("User with id: %s was not found", id));
         }
-        return showUserDTO;
     }
 
     @Override
     @Transactional
-    public ShowUserDTO changeRoleById(String roleName, Long id) {
-        Role byRoleName = roleRepository.findByRoleName(roleName);
-        User user = userRepository.findById(id);
-        byRoleName.getUsers().add(user);
-        userRepository.merge(user);
-        return userConverter.convert(user);
+    public ShowUserDTO changeRoleById(String roleName, Long id) throws ServiceException {
+        Role roleByRoleName = roleRepository.findByRoleName(roleName);
+        if (Objects.nonNull(roleByRoleName)) {
+            User user = userRepository.findById(id);
+            if (Objects.nonNull(user)) {
+                roleByRoleName.getUsers().add(user);
+                userRepository.merge(user);
+                return userConverter.convert(user);
+            } else {
+                throw new ServiceException(String.format("User with id: %s was not found", id));
+            }
+        } else {
+            throw new ServiceException(String.format("User with role: %s was not found", roleName));
+        }
     }
 
     @Override
     @Transactional
-    public ShowUserDetailsDTO getUserByUserName(String userName) {
+    public ShowUserDetailsDTO getUserByUserName(String userName) throws ServiceException {
         User user = userRepository.findUserByUsername(userName);
-        return userConverter.convertUserToUserDetailsDTO(user);
+        if (Objects.nonNull(user)) {
+            return userConverter.convertUserToUserDetailsDTO(user);
+        } else {
+            throw new ServiceException(String.format("User with username: %s was not found", userName));
+        }
     }
 
     @Override
     @Transactional
-    public void changeParameterById(AddUserDetailsDTO addUserDetailsDTO) throws ServiceException {
+    public ShowUserDetailsDTO changeParameterById(AddUserDetailsDTO addUserDetailsDTO) throws ServiceException {
         User user = userRepository.findById(addUserDetailsDTO.getId());
-        User changeUser = changeUserFields(addUserDetailsDTO, user);
-        userRepository.merge(changeUser);
+        if (Objects.nonNull(user)) {
+            User changeUser = changeUserFields(addUserDetailsDTO, user);
+            userRepository.merge(changeUser);
+            return userConverter.convertUserToUserDetailsDTO(changeUser);
+        } else {
+            throw new ServiceException(String.format("User with id: %s was not found", addUserDetailsDTO.getId()));
+        }
     }
 
     private User changeUserFields(AddUserDetailsDTO addUserDetailsDTO, User user) throws ServiceException {
         String firstName = addUserDetailsDTO.getFirstName();
-        if (firstName != null && !firstName.isBlank()) {
+        if (StringUtils.hasText(firstName)) {
             user.setFirstName(firstName);
         }
         String lastName = addUserDetailsDTO.getLastName();
-        if (lastName != null && !lastName.isBlank()) {
+        if (StringUtils.hasText(lastName)) {
             user.setLastName(lastName);
         }
         String address = addUserDetailsDTO.getAddress();
-        if (address != null && !address.isBlank()) {
+        if (StringUtils.hasText(address)) {
             UserDetails userDetails = user.getUserDetails();
             userDetails.setAddress(address);
             user.setUserDetails(userDetails);
         }
         String telephone = addUserDetailsDTO.getTelephone();
-        if (telephone != null && !telephone.isBlank()) {
+        if (StringUtils.hasText(telephone)) {
             UserDetails userDetails = user.getUserDetails();
             userDetails.setTelephone(telephone);
             user.setUserDetails(userDetails);
         }
         String oldPassword = addUserDetailsDTO.getOldPassword();
         String newPassword = addUserDetailsDTO.getNewPassword();
-        if (oldPassword != null && !oldPassword.isBlank() && newPassword != null && !newPassword.isBlank()) {
+        if (StringUtils.hasText(oldPassword) && StringUtils.hasText(newPassword)) {
             String userPassword = user.getPassword();
             if (passwordEncoder.matches(oldPassword, userPassword)) {
                 String encodePassword = passwordEncoder.encode(addUserDetailsDTO.getNewPassword());

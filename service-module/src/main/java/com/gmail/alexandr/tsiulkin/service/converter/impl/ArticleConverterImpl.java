@@ -39,7 +39,9 @@ public class ArticleConverterImpl implements ArticleConverter {
             showArticleDTO.setDate(formatDateTime);
         }
         String title = article.getTitle();
-        showArticleDTO.setTitle(title);
+        if (Objects.nonNull(title)) {
+            showArticleDTO.setTitle(title);
+        }
         User user = article.getUser();
         if (Objects.nonNull(user)) {
             String firstName = user.getFirstName();
@@ -78,8 +80,6 @@ public class ArticleConverterImpl implements ArticleConverter {
         article.setTitle(title);
         String content = addArticleDTO.getContent();
         article.setFullContent(content);
-        LocalDateTime localDateTime = LocalDateTime.now();
-        article.setLocalDateTime(localDateTime);
         return article;
     }
 }

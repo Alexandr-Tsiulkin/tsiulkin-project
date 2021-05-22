@@ -13,13 +13,13 @@ public interface UserService {
 
     ShowUserDTO persist(AddUserDTO addUserDTO) throws ServiceException;
 
-    void deleteById(Long id);
+    boolean isDeleteById(Long id);
 
-    ShowUserDTO resetPassword(Long id);
+    ShowUserDTO resetPassword(Long id) throws ServiceException;
 
-    ShowUserDTO changeRoleById(String roleName, Long id);
+    ShowUserDTO changeRoleById(String roleName, Long id) throws ServiceException;
 
-    ShowUserDetailsDTO getUserByUserName(String userName);
+    ShowUserDetailsDTO getUserByUserName(String userName) throws ServiceException;
 
-    void changeParameterById(AddUserDetailsDTO addUserDetailsDTO) throws ServiceException;
+    ShowUserDetailsDTO changeParameterById(AddUserDetailsDTO addUserDetailsDTO) throws ServiceException;
 }

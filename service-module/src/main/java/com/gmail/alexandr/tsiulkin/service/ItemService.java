@@ -1,5 +1,6 @@
 package com.gmail.alexandr.tsiulkin.service;
 
+import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowItemDTO;
@@ -13,15 +14,15 @@ public interface ItemService {
 
     List<ShowItemDTO> getItems();
 
-    ShowItemDTO getItemById(Long id);
+    ShowItemDTO getItemById(Long id) throws ServiceException;
 
-    boolean isPersist(AddItemDTO addItemDTO);
+    ShowItemDTO persist(AddItemDTO addItemDTO);
 
     boolean isDeleteById(Long id);
 
-    ShowItemDTO getItemByUuid(UUID uuid);
+    ShowItemDTO getItemByUuid(UUID uuid) throws ServiceException;
 
-    boolean isDeleteByUuid(UUID uuid);
+    boolean isDeleteByUuid(UUID uuid) throws ServiceException;
 
-    boolean isCopyItemByUuid(UUID uuid);
+    boolean isCopyItemByUuid(UUID uuid) throws ServiceException;
 }

@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -23,14 +22,6 @@ class ItemConverterImplTest {
 
     @InjectMocks
     private ItemConverterImpl itemConverter;
-
-    @Test
-    void shouldConvertItemToShowItemDTOAndReturnNotNullObject() {
-        Item item = new Item();
-        ShowItemDTO showItemDTO = itemConverter.convert(item);
-
-        assertNotNull(showItemDTO);
-    }
 
     @Test
     void shouldConvertItemToShowItemDTOAndReturnRightId() {
@@ -82,14 +73,6 @@ class ItemConverterImplTest {
         ShowItemDTO showItemDTO = itemConverter.convert(item);
 
         assertEquals(content, showItemDTO.getContent());
-    }
-
-    @Test
-    void shouldConvertAddItemDTOToItemAndReturnNotNullObject() {
-        AddItemDTO addItemDTO = new AddItemDTO();
-        Item item = itemConverter.convert(addItemDTO);
-
-        assertNotNull(item);
     }
 
     @Test

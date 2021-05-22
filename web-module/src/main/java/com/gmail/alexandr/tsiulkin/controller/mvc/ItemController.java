@@ -1,6 +1,7 @@
 package com.gmail.alexandr.tsiulkin.controller.mvc;
 
 import com.gmail.alexandr.tsiulkin.service.ItemService;
+import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowItemDTO;
 import lombok.RequiredArgsConstructor;
@@ -33,20 +34,20 @@ public class ItemController {
     }
 
     @GetMapping(value = SELLER_PATH + ITEMS_PATH + "/{uuid}")
-    public String getItemDetailsByUuid(@PathVariable UUID uuid, Model model) {
+    public String getItemDetailsByUuid(@PathVariable UUID uuid, Model model) throws ServiceException {
         ShowItemDTO showItemDTO = itemService.getItemByUuid(uuid);
         model.addAttribute("item", showItemDTO);
         return "item";
     }
 
     @GetMapping(value = SELLER_PATH + ITEMS_PATH + "/{uuid}/delete")
-    public String deleteItemByUuid(@PathVariable UUID uuid) {
+    public String deleteItemByUuid(@PathVariable UUID uuid) throws ServiceException {
         itemService.isDeleteByUuid(uuid);
         return "redirect:/seller/items";
     }
 
     @GetMapping(value = SELLER_PATH + ITEMS_PATH + "/{uuid}/copy")
-    public String copyItemByUuid(@PathVariable UUID uuid) {
+    public String copyItemByUuid(@PathVariable UUID uuid) throws ServiceException {
         itemService.isCopyItemByUuid(uuid);
         return "redirect:/seller/items";
     }

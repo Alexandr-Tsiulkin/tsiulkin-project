@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -24,14 +23,6 @@ class CommentConverterImplTest {
 
     @InjectMocks
     private CommentConverterImpl commentConverter;
-
-    @Test
-    void shouldConvertCommentToShowCommentDTOAndReturnNotNullObject() {
-        Comment comment = new Comment();
-        ShowCommentDTO showCommentDTO = commentConverter.convert(comment);
-
-        assertNotNull(showCommentDTO);
-    }
 
     @Test
     void shouldConvertCommentToShowCommentDTOAndReturnRightId() {
@@ -78,14 +69,6 @@ class CommentConverterImplTest {
         ShowCommentDTO showCommentDTO = commentConverter.convert(comment);
 
         assertEquals(fullName, showCommentDTO.getFullName());
-    }
-
-    @Test
-    void shouldConvertAddCommentDTOAndUserAndArticleToCommentAndReturnNotNullObject() {
-        AddCommentDTO addCommentDTO = new AddCommentDTO();
-        Comment comment = commentConverter.convert(addCommentDTO);
-
-        assertNotNull(comment);
     }
 
     @Test

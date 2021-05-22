@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -33,14 +32,6 @@ class ArticleConverterImplTest {
     private CommentConverter commentConverter;
     @InjectMocks
     private ArticleConverterImpl articleConverter;
-
-    @Test
-    void shouldConvertArticleToShowArticleDTOAndReturnNotNullObject() {
-        Article article = new Article();
-        ShowArticleDTO showArticleDTO = articleConverter.convert(article);
-
-        assertNotNull(showArticleDTO);
-    }
 
     @Test
     void shouldConvertArticleToShowArticleDTOAndReturnRightId() {
@@ -116,14 +107,6 @@ class ArticleConverterImplTest {
 
         assertEquals(commentDTOs, showArticleDTO.getComments());
     }
-
-    @Test
-    void shouldConvertAddArticleDTOToArticleAndReturnNotNullObject() {
-        AddArticleDTO addArticleDTO = new AddArticleDTO();
-        Article article = articleConverter.convert(addArticleDTO);
-        assertNotNull(article);
-    }
-
 
     @Test
     void shouldConvertAddArticleDTOToArticleAndReturnRightTitle() {

@@ -41,7 +41,7 @@ public class ArticleController {
 
     @GetMapping(value = {CUSTOMER_PATH + ARTICLES_PATH + "/{id}",
             SELLER_PATH + ARTICLES_PATH + "/{id}"})
-    public String getArticleById(Model model, @PathVariable("id") Long id) {
+    public String getArticleById(Model model, @PathVariable("id") Long id) throws ServiceException {
         ShowArticleDTO article = articleService.getArticleById(id);
         model.addAttribute("article", article);
         if (!model.containsAttribute("changeArticle")) {
@@ -61,7 +61,7 @@ public class ArticleController {
         if (error.hasErrors()) {
             return "add-article";
         } else {
-            articleService.isAdd(addArticleDTO);
+            articleService.Add(addArticleDTO);
         }
         return "redirect:/seller/articles";
     }
@@ -76,7 +76,7 @@ public class ArticleController {
     public String changeParameterById(@Valid @ModelAttribute("changeArticle") ChangeArticleDTO changeArticleDTO,
                                       BindingResult result,
                                       @PathVariable Long id,
-                                      RedirectAttributes redirectAttributes){
+                                      RedirectAttributes redirectAttributes) throws ServiceException {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeArticle", result);
             redirectAttributes.addFlashAttribute("changeArticle", changeArticleDTO);

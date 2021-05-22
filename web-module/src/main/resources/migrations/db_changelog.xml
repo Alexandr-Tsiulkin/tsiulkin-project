@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet id="1" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="1" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="role">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -13,7 +13,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="2" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="2" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="user">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -38,13 +38,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="3" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="3" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="user" baseColumnNames="role_id"
                                  constraintName="fk_user_role"
                                  referencedTableName="role"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="4" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="4" author="alexandr.tsiulkin@gmail.com">
         <insert tableName="role">
             <column name="role_name" value="ADMINISTRATOR"/>
         </insert>
@@ -58,7 +58,7 @@
             <column name="role_name" value="SECURE_API_USER"/>
         </insert>
     </changeSet>
-    <changeSet id="5" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="5" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="review">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -74,13 +74,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="6" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="6" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="review" baseColumnNames="customer_id"
                                  constraintName="fk_review_customer"
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="7" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="7" author="alexandr.tsiulkin@gmail.com">
         <insert tableName="user">
             <column name="last_name" value="Tsiulkin"/>
             <column name="first_name" value="Aliaksandr"/>
@@ -114,7 +114,7 @@
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SECURE_API_USER')"/>
         </insert>
     </changeSet>
-    <changeSet id="8" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="8" author="alexandr.tsiulkin@gmail.com">
         <addColumn tableName="review">
             <column afterColumn="customer_id"
                     name="status_id"
@@ -123,7 +123,7 @@
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="9" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="9" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="status_review">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -133,13 +133,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="10" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="10" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="review" baseColumnNames="status_id"
                                  constraintName="fk_review_status"
                                  referencedTableName="status_review"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="11" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="11" author="alexandr.tsiulkin@gmail.com">
         <insert tableName="status_review">
             <column name="status" value="SHOW"/>
         </insert>
@@ -147,7 +147,7 @@
             <column name="status" value="HIDE"/>
         </insert>
     </changeSet>
-    <changeSet id="12" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="12" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="article">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -166,13 +166,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="13" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="13" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="article" baseColumnNames="seller_id"
                                  constraintName="fk_article_seller"
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="14" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="14" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="comment">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -188,13 +188,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="15" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="15" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="comment" baseColumnNames="customer_id"
                                  constraintName="fk_comment_customer"
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="16" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="16" author="alexandr.tsiulkin@gmail.com">
         <addColumn tableName="comment">
             <column afterColumn="customer_id"
                     name="article_id"
@@ -209,7 +209,7 @@
                                  referencedTableName="article"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="18" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="18" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="user_details">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -229,7 +229,7 @@
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="19" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="19" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="item">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -245,7 +245,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="20" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="20" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="item_details">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -262,22 +262,32 @@
                                  referencedTableName="item"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="21" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="21" author="alexandr.tsiulkin@gmail.com">
         <renameColumn tableName="article"
                       oldColumnName="seller_id"
                       newColumnName="user_id"
                       columnDataType="int"/>
     </changeSet>
-    <changeSet id="22" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="22" author="alexandr.tsiulkin@gmail.com">
         <renameColumn tableName="comment"
                       oldColumnName="customer_id"
                       newColumnName="user_id"
                       columnDataType="int"/>
     </changeSet>
-    <changeSet id="23" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="23" author="alexandr.tsiulkin@gmail.com">
         <renameColumn tableName="review"
                       oldColumnName="customer_id"
                       newColumnName="user_id"
                       columnDataType="int"/>
+    </changeSet>
+    <changeSet id="24" author="alexandr.tsiulkin@gmail.com">
+        <createTable tableName="orders">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="number_of_orders" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 </databaseChangeLog>
