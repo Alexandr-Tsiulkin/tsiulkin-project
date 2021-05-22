@@ -203,7 +203,7 @@
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="17" author="com.gmail.tsiulkin.alexandr">
+    <changeSet id="17" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="comment" baseColumnNames="article_id"
                                  constraintName="fk_comment_article"
                                  referencedTableName="article"
