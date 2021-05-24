@@ -59,7 +59,7 @@ public class OrdersAPIControllerTest {
         Long id = 1L;
         showOrderDTO.setId(id);
         Long numberOfOrder = 1L;
-        showOrderDTO.setNumberOfOrder(numberOfOrder);
+        showOrderDTO.setNumberOfItems(numberOfOrder);
 
         when(orderService.getOrders()).thenReturn(Collections.singletonList(showOrderDTO));
 

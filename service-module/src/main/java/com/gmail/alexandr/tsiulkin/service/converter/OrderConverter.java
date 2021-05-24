@@ -6,4 +6,6 @@ import com.gmail.alexandr.tsiulkin.service.model.ShowOrderDTO;
 public interface OrderConverter {
 
     ShowOrderDTO convert(Order order);
+
+    Order convert(ShowOrderDTO showOrderDTO);
 }

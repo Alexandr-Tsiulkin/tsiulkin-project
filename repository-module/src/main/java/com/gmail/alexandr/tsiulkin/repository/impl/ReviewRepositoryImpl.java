@@ -26,4 +26,15 @@ public class ReviewRepositoryImpl extends GenericRepositoryImpl<Long, Review> im
         query.setMaxResults(maximumReviewsOnPage);
         return query.getResultList();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Review> findShowReviews(Integer startPosition, int maximumReviewsOnPage, String statusName) {
+        String hql = "SELECT r FROM Review as r WHERE r.status.status=:statusName ORDER BY r.localDate ASC";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("statusName", statusName);
+        query.setFirstResult(startPosition);
+        query.setMaxResults(maximumReviewsOnPage);
+        return query.getResultList();
+    }
 }

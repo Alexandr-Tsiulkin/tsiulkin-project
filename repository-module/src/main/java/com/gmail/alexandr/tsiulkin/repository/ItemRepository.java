@@ -12,4 +12,8 @@ public interface ItemRepository extends GenericRepository<Long, Item> {
     List<Item> findAll(Integer startPosition, int maximumItemsOnPage);
 
     Item findByUuid(UUID uuid);
+
+    Long getCountItemsByTitle(String title);
+
+    List<Item> findItemsByTitle(String title);
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Add review</title>
+</head>
+<body>
+<form class="row row-cols-lg-auto g-3 align-items-center" method="post" th:object="${review}">
+    <div class="col-12">
+        <div class="input-group has-validation">
+            <label class="visually-hidden" for="review">Review</label>
+            <input class="form-control" id="review" name="review" placeholder="Review"
+                   required th:field="*{review}" type="text">
+        </div>
+        <div class="alert alert-danger" th:errors="*{review}" th:if="${#fields.hasErrors('review')}"></div>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Add review</button>
+    </div>
+</form>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

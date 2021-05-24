@@ -61,7 +61,7 @@ public class ArticleController {
         if (error.hasErrors()) {
             return "add-article";
         } else {
-            articleService.Add(addArticleDTO);
+            articleService.add(addArticleDTO);
         }
         return "redirect:/seller/articles";
     }

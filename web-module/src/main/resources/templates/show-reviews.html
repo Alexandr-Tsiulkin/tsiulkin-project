@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
+    <meta charset="UTF-8">
+    <title>Reviews</title>
+</head>
+<body>
+<table class="table table-hover container">
+    <caption class="caption-top fs-1">List of reviews</caption>
+    <thead class="table-light">
+    <tr style="text-align: center">
+        <th scope="col">id</th>
+        <th scope="col">Last name</th>
+        <th scope="col">First name</th>
+        <th scope="col">Middle name</th>
+        <th scope="col">Review</th>
+        <th scope="col">Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr style="text-align: center" th:each="review : ${pageDTO.reviews}">
+        <td th:text="${review.id}"></td>
+        <td th:text="${review.lastName}"></td>
+        <td th:text="${review.firstName}"></td>
+        <td th:text="${review.middleName}"></td>
+        <td th:text="${review.review}"></td>
+        <td th:text="${review.localDateTime}"></td>
+    </tbody>
+</table>
+<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
+    <a class="btn btn-primary" role="button" th:href="@{/customer/welcome-customer}">Back</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">
+    <a class="btn btn-primary" role="button" th:href="@{/seller/welcome-seller}">Back</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btn-primary" role="button" th:href="@{/logout}">Logout</a>
+</div>
+<div sec:authorize="hasAuthority('CUSTOMER_USER')">
+     <span th:if="${pageDTO.countOfPages gt 1}">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
+                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                   th:href="@{/customer/reviews?page={id}(id=${i})}"
+                   th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+     </span>
+</div>
+<div sec:authorize="hasAuthority('SALE_USER')">
+     <span th:if="${pageDTO.countOfPages gt 1}">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
+                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                   th:href="@{/seller/reviews?page={id}(id=${i})}"
+                   th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+     </span>
+</div>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

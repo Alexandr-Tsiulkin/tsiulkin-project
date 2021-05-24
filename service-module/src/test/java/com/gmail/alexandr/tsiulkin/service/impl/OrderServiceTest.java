@@ -40,7 +40,7 @@ class OrderServiceTest {
     void shouldGetOrdersList() {
         ShowOrderDTO showOrderDTO = new ShowOrderDTO();
         showOrderDTO.setId(1L);
-        showOrderDTO.setNumberOfOrder(1L);
+        showOrderDTO.setNumberOfItems(1L);
         Order order = new Order();
         when(orderRepository.findAll()).thenReturn(Collections.singletonList(order));
         when(orderConverter.convert(order)).thenReturn(showOrderDTO);

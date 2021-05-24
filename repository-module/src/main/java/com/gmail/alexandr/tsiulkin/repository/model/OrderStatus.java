@@ -17,17 +17,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@ToString(exclude = "orders")
+@EqualsAndHashCode(exclude = "orders")
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "status_order")
+public class OrderStatus {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "status_name")
+    private String status;
     @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
-    @JoinColumn(name = "role_id")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Set<User> users = new HashSet<>();
-    @Column(name = "role_name")
-    private String roleName;
+    @JoinColumn(name = "order_status_id")
+    private Set<Order> orders = new HashSet<>();
 }

@@ -77,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public ShowArticleDTO Add(AddArticleDTO addArticleDTO) throws ServiceException {
+    public ShowArticleDTO add(AddArticleDTO addArticleDTO) throws ServiceException {
         Authentication authentication = getAuthentication();
         if (Objects.nonNull(authentication)) {
             String userName = authentication.getName();

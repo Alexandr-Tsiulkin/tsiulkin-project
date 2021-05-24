@@ -18,7 +18,7 @@ public interface ArticleService {
 
     boolean isDeleteById(Long id) throws ServiceException;
 
-    ShowArticleDTO Add(AddArticleDTO addArticleDTO) throws ServiceException;
+    ShowArticleDTO add(AddArticleDTO addArticleDTO) throws ServiceException;
 
     ShowArticleDTO changeParameterById(ChangeArticleDTO changeArticleDTO, Long id) throws ServiceException;
 }

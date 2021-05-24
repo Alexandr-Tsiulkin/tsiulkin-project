@@ -81,40 +81,6 @@
                                  referencedColumnNames="id"/>
     </changeSet>
     <changeSet id="7" author="alexandr.tsiulkin@gmail.com">
-        <insert tableName="user">
-            <column name="last_name" value="Tsiulkin"/>
-            <column name="first_name" value="Aliaksandr"/>
-            <column name="middle_name" value="Vladimirovich"/>
-            <column name="email" value="admin@gmail.com"/>
-            <column name="password" value="$2y$12$keSA6xr/80a9RN9ufZthMugHlQS.MamwJ6axIrGAMeRpj0aT6CoDq "/>
-            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'ADMINISTRATOR')"/>
-        </insert>
-        <insert tableName="user">
-            <column name="last_name" value="Seller"/>
-            <column name="first_name" value="Seller"/>
-            <column name="middle_name" value="Seller"/>
-            <column name="email" value="seller@gmail.com"/>
-            <column name="password" value="$2y$12$BBX3sl7LkCMh7Og.MDQVZ..J4d7E7eCm4rkLvPGKQbjePDzyXVOOK "/>
-            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SALE_USER')"/>
-        </insert>
-        <insert tableName="user">
-            <column name="last_name" value="Customer"/>
-            <column name="first_name" value="Customer"/>
-            <column name="middle_name" value="Customer"/>
-            <column name="email" value="customer@gmail.com"/>
-            <column name="password" value="$2y$12$RVDlJGxXkW9vmpyebtajN.qnPvJ2LyR1IJM5b3moNCCDRpxxMJGsK "/>
-            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'CUSTOMER_USER')"/>
-        </insert>
-        <insert tableName="user">
-            <column name="last_name" value="Rest"/>
-            <column name="first_name" value="Rest"/>
-            <column name="middle_name" value="Rest"/>
-            <column name="email" value="rest@gmail.com"/>
-            <column name="password" value="$2y$12$z6LpFZqGK70TzW8qQtAvSO71zPRxDuDbxYDqt.499ihqnC.HXBJQG "/>
-            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SECURE_API_USER')"/>
-        </insert>
-    </changeSet>
-    <changeSet id="8" author="alexandr.tsiulkin@gmail.com">
         <addColumn tableName="review">
             <column afterColumn="customer_id"
                     name="status_id"
@@ -123,7 +89,7 @@
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="9" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="8" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="status_review">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -133,13 +99,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="10" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="9" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="review" baseColumnNames="status_id"
                                  constraintName="fk_review_status"
                                  referencedTableName="status_review"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="11" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="10" author="alexandr.tsiulkin@gmail.com">
         <insert tableName="status_review">
             <column name="status" value="SHOW"/>
         </insert>
@@ -147,7 +113,7 @@
             <column name="status" value="HIDE"/>
         </insert>
     </changeSet>
-    <changeSet id="12" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="11" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="article">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -166,13 +132,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="13" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="12" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="article" baseColumnNames="seller_id"
                                  constraintName="fk_article_seller"
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="14" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="13" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="comment">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -188,13 +154,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="15" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="14" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="comment" baseColumnNames="customer_id"
                                  constraintName="fk_comment_customer"
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="16" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="15" author="alexandr.tsiulkin@gmail.com">
         <addColumn tableName="comment">
             <column afterColumn="customer_id"
                     name="article_id"
@@ -203,13 +169,13 @@
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="17" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="16" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="comment" baseColumnNames="article_id"
                                  constraintName="fk_comment_article"
                                  referencedTableName="article"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="18" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="17" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="user_details">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -228,6 +194,60 @@
                                  constraintName="fk_user_details_user"
                                  referencedTableName="user"
                                  referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="18" author="alexandr.tsiulkin@gmail.com">
+        <insert tableName="user">
+            <column name="last_name" value="Tsiulkin"/>
+            <column name="first_name" value="Aliaksandr"/>
+            <column name="middle_name" value="Vladimirovich"/>
+            <column name="email" value="admin@gmail.com"/>
+            <column name="password" value="$2y$12$keSA6xr/80a9RN9ufZthMugHlQS.MamwJ6axIrGAMeRpj0aT6CoDq "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'ADMINISTRATOR')"/>
+        </insert>
+        <insert tableName="user_details">
+            <column name="address" value="admin address"/>
+            <column name="telephone" value="+0000000000"/>
+            <column name="user_id" value="1"/>
+        </insert>
+        <insert tableName="user">
+            <column name="last_name" value="Seller"/>
+            <column name="first_name" value="Seller"/>
+            <column name="middle_name" value="Seller"/>
+            <column name="email" value="seller@gmail.com"/>
+            <column name="password" value="$2y$12$BBX3sl7LkCMh7Og.MDQVZ..J4d7E7eCm4rkLvPGKQbjePDzyXVOOK "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SALE_USER')"/>
+        </insert>
+        <insert tableName="user_details">
+            <column name="address" value="seller address"/>
+            <column name="telephone" value="+1111111111"/>
+            <column name="user_id" value="2"/>
+        </insert>
+        <insert tableName="user">
+            <column name="last_name" value="Customer"/>
+            <column name="first_name" value="Customer"/>
+            <column name="middle_name" value="Customer"/>
+            <column name="email" value="customer@gmail.com"/>
+            <column name="password" value="$2y$12$RVDlJGxXkW9vmpyebtajN.qnPvJ2LyR1IJM5b3moNCCDRpxxMJGsK "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'CUSTOMER_USER')"/>
+        </insert>
+        <insert tableName="user_details">
+            <column name="address" value="customer address"/>
+            <column name="telephone" value="+2222222222"/>
+            <column name="user_id" value="3"/>
+        </insert>
+        <insert tableName="user">
+            <column name="last_name" value="Rest"/>
+            <column name="first_name" value="Rest"/>
+            <column name="middle_name" value="Rest"/>
+            <column name="email" value="rest@gmail.com"/>
+            <column name="password" value="$2y$12$z6LpFZqGK70TzW8qQtAvSO71zPRxDuDbxYDqt.499ihqnC.HXBJQG "/>
+            <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SECURE_API_USER')"/>
+        </insert>
+        <insert tableName="user_details">
+            <column name="address" value="rest address"/>
+            <column name="telephone" value="+3333333333"/>
+            <column name="user_id" value="4"/>
+        </insert>
     </changeSet>
     <changeSet id="19" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="item">
@@ -290,4 +310,122 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="25" author="alexandr.tsiulkin@gmail.com">
+        <renameColumn
+                tableName="orders"
+                oldColumnName="number_of_orders"
+                newColumnName="number_of_order"
+                columnDataType="int"/>
+        <modifyDataType tableName="orders"
+                        columnName="number_of_order"
+                        newDataType="uuid"/>
+    </changeSet>
+    <changeSet id="26" author="alexandr.tsiulkin@gmail.com">
+        <addColumn tableName="orders">
+            <column name="order_status_id"
+                    position="3"
+                    type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number_of_items"
+                    position="4"
+                    type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_price"
+                    position="5"
+                    type="decimal">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="27" author="alexandr.tsiulkin@gmail.com">
+        <createTable tableName="status_order">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status_name" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="28" author="alexandr.tsiulkin@gmail.com">
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="order_status_id"
+                                 constraintName="fk_orders_status"
+                                 referencedTableName="status_order"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="29" author="alexandr.tsiulkin@gmail.com">
+        <insert tableName="status_order">
+            <column name="status_name" value="NEW"/>
+        </insert>
+        <insert tableName="status_order">
+            <column name="status_name" value="IN_PROGRESS"/>
+        </insert>
+        <insert tableName="status_order">
+            <column name="status_name" value="DELIVERED"/>
+        </insert>
+        <insert tableName="status_order">
+            <column name="status_name" value="REJECTED"/>
+        </insert>
+    </changeSet>
+    <changeSet id="30" author="alexandr.tsiulkin@gmail.com">
+        <createTable tableName="orders_items">
+            <column name="order_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="items_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="orders_items" columnNames="items_id"/>
+        <addForeignKeyConstraint baseTableName="orders_items" baseColumnNames="order_id"
+                                 constraintName="fk_orders_items_order"
+                                 referencedTableName="orders"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="orders_items" baseColumnNames="items_id"
+                                 constraintName="fk_orders_items_items"
+                                 referencedTableName="item"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="31" author="alexandr.tsiulkin@gmail.com">
+        <createTable tableName="order_details">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="order_details" baseColumnNames="user_id"
+                                 constraintName="fk_order_details_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="order_details" baseColumnNames="order_id"
+                                 constraintName="fk_order_details_order"
+                                 referencedTableName="orders"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <!--  <changeSet id="32" author="alexandr.tsiulkin@gmail.com">
+          <createTable tableName="orders_details_users">
+              <column name="order_details_id" type="int">
+                  <constraints nullable="false"/>
+              </column>
+              <column name="users_id" type="int">
+                  <constraints nullable="false"/>
+              </column>
+          </createTable>
+          <addUniqueConstraint tableName="orders_details_users" columnNames="users_id"/>
+          <addForeignKeyConstraint baseTableName="orders_details_users" baseColumnNames="order_details_id"
+                                   constraintName="fk_orders_details_orders"
+                                   referencedTableName="order_details"
+                                   referencedColumnNames="id"/>
+          <addForeignKeyConstraint baseTableName="orders_details_users" baseColumnNames="users_id"
+                                   constraintName="fk_orders_details_users"
+                                   referencedTableName="user"
+                                   referencedColumnNames="id"/>
+      </changeSet>-->
 </databaseChangeLog>

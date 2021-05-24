@@ -34,6 +34,6 @@ class OrderAPIControllerIT extends BaseIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(1, Objects.requireNonNull(response.getBody()).size());
-        assertEquals(1L, response.getBody().get(0).getNumberOfOrder());
+        assertEquals(1L, response.getBody().get(0).getNumberOfItems());
     }
 }

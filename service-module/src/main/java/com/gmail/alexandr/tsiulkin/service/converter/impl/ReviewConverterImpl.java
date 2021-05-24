@@ -4,6 +4,7 @@ import com.gmail.alexandr.tsiulkin.repository.model.Review;
 import com.gmail.alexandr.tsiulkin.repository.model.Status;
 import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.converter.ReviewConverter;
+import com.gmail.alexandr.tsiulkin.service.model.AddReviewDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowReviewDTO;
 import org.springframework.stereotype.Component;
 
@@ -36,5 +37,15 @@ public class ReviewConverterImpl implements ReviewConverter {
             showReviewDTO.setStatus(statusName);
         }
         return showReviewDTO;
+    }
+
+    @Override
+    public Review convert(AddReviewDTO addReviewDTO) {
+        Review review = new Review();
+        String addReview = addReviewDTO.getReview();
+        if (Objects.nonNull(addReview)) {
+            review.setReview(addReview);
+        }
+        return review;
     }
 }

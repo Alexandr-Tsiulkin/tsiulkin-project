@@ -11,7 +11,7 @@
     <table class="table table-hover container">
         <caption class="caption-top fs-1">List of reviews</caption>
         <thead class="table-light">
-        <tr>
+        <tr style="text-align: center">
             <th scope="col">id</th>
             <th scope="col">Last name</th>
             <th scope="col">First name</th>
@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="review : ${pageDTO.reviews}">
+        <tr style="text-align: center" th:each="review : ${pageDTO.reviews}">
             <td th:text="${review.id}"></td>
             <td th:text="${review.lastName}"></td>
             <td th:text="${review.firstName}"></td>

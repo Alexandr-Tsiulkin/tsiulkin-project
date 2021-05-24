@@ -50,7 +50,7 @@ public class ArticleAPIController {
             errorDTO.setErrors(result.getFieldErrors());
             return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
         } else {
-            articleService.Add(addArticleDTO);
+            articleService.add(addArticleDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }

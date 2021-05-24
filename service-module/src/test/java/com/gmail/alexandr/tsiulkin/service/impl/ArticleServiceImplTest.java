@@ -134,7 +134,7 @@ class ArticleServiceImplTest {
         ShowArticleDTO showArticleDTO = new ShowArticleDTO();
         when(articleConverter.convert(article)).thenReturn(showArticleDTO);
 
-        ShowArticleDTO showArticle = articleService.Add(addArticleDTO);
+        ShowArticleDTO showArticle = articleService.add(addArticleDTO);
 
         assertEquals(showArticle.getDate(), showArticleDTO.getDate());
     }
@@ -143,7 +143,7 @@ class ArticleServiceImplTest {
     @Test
     void shouldAddArticleAndReturnExceptionIfUserWasNotAuthentication() {
         AddArticleDTO addArticleDTO = new AddArticleDTO();
-        assertThrows(ServiceException.class, () -> articleService.Add(addArticleDTO));
+        assertThrows(ServiceException.class, () -> articleService.add(addArticleDTO));
     }
 
     @Test
@@ -155,7 +155,7 @@ class ArticleServiceImplTest {
         Article article = new Article();
         when(articleConverter.convert(addArticleDTO)).thenReturn(article);
 
-        assertThrows(ServiceException.class, () -> articleService.Add(addArticleDTO));
+        assertThrows(ServiceException.class, () -> articleService.add(addArticleDTO));
     }
 
     @Test

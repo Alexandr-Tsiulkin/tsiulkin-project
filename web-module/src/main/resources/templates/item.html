@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
@@ -27,8 +27,11 @@
         <td th:text="${item.content}"></td>
     </tbody>
 </table>
-<div class="d-grid gap-2 col-6 mx-auto">
+<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">
     <a class="btn btn-primary" th:href="@{/seller/items}" role="button">Back</a>
+</div>
+<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
+    <a class="btn btn-primary" role="button" th:href="@{/customer/items}">Back</a>
 </div>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>

@@ -11,11 +11,13 @@ public interface PathConstant {
     String WELCOME_CUSTOMER_PATH = "/welcome-customer";
     String REST_API_USER_PATH = "/api";
     String ARTICLES_PATH = "/articles";
+    String ORDERS_PATH = "/orders";
     String COMMENTS_PATH = "/comments";
     String ITEMS_PATH = "/items";
     String USERS_PATH = "/users";
     String USER_ADD_PATH = "/users/add";
     String REVIEWS_PATH = "/reviews";
+    String SHOW_REVIEWS_PATH = "/show-reviews";
     String LOGIN_PAGE_PATH = "/login";
     String USER_PROFILE_PATH = "/user-profile";
 }

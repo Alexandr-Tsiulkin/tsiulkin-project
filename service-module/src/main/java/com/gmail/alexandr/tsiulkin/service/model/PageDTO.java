@@ -16,5 +16,6 @@ public class PageDTO {
     private List<ShowReviewDTO> reviews = new ArrayList<>();
     private List<ShowArticleDTO> articles = new ArrayList<>();
     private List<ShowItemDTO> items = new ArrayList<>();
+    private List<ShowOrderDTO> orders = new ArrayList<>();
     private Integer startPosition;
 }
