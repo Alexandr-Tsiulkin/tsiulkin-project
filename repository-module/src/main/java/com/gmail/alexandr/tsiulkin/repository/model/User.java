@@ -61,11 +61,9 @@ public class User {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private UserDetails userDetails;
-    @OneToOne(fetch = FetchType.LAZY,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private OrderDetails orderDetails;
+    private Set<Order> orders = new HashSet<>();
 }

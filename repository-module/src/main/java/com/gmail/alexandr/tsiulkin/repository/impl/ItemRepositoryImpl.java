@@ -24,7 +24,7 @@ public class ItemRepositoryImpl extends GenericRepositoryImpl<Long, Item> implem
     @Override
     @SuppressWarnings("unchecked")
     public List<Item> findAll(Integer startPosition, int maximumItemsOnPage) {
-        String hql = "SELECT i FROM Item as i ORDER BY i.title ASC";
+        String hql = "SELECT i FROM Item as i ORDER BY i.id ASC";
         Query query = entityManager.createQuery(hql);
         query.setFirstResult(startPosition);
         query.setMaxResults(maximumItemsOnPage);
@@ -43,22 +43,5 @@ public class ItemRepositoryImpl extends GenericRepositoryImpl<Long, Item> implem
             return null;
         }
         return (Item) query.getSingleResult();
-    }
-
-    @Override
-    public Long getCountItemsByTitle(String title) {
-        String hql = "SELECT COUNT(i.title) FROM Item as i WHERE i.title=:title";
-        Query query = entityManager.createQuery(hql);
-        query.setParameter("title", title);
-        return (Long) query.getSingleResult();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Item> findItemsByTitle(String title) {
-        String hql = "SELECT i FROM Item as i WHERE i.title=:title";
-        Query query = entityManager.createQuery(hql);
-        query.setParameter("title", title);
-        return query.getResultList();
     }
 }

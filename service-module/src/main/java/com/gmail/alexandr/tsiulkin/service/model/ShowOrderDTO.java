@@ -12,7 +12,7 @@ public class ShowOrderDTO {
     private UUID numberOfOrder;
     private String orderStatus;
     private String title;
-    private String email;
+    private String lastName;
     private String telephone;
     private Long numberOfItems;
     private BigDecimal totalPrice;

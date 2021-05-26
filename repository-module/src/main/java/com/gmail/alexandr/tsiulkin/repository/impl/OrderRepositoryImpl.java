@@ -20,7 +20,7 @@ public class OrderRepositoryImpl extends GenericRepositoryImpl<Long, Order> impl
     @Override
     @SuppressWarnings("unchecked")
     public List<Order> findAll(Integer startPosition, int maximumOrdersOnPage) {
-        String hql = "SELECT o FROM Order as o";
+        String hql = "SELECT o FROM Order as o ORDER BY o.localDateTime DESC";
         Query query = entityManager.createQuery(hql);
         query.setFirstResult(startPosition);
         query.setMaxResults(maximumOrdersOnPage);

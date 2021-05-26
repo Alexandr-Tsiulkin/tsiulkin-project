@@ -1,0 +1,10 @@
+{
+  "id": 5,
+  "numberOfOrder": "0d4023a0-0589-4c4b-a1de-1a9edee73a8d",
+  "orderStatus": "NEW",
+  "title": "Test",
+  "lastName": "Customer",
+  "telephone": "+2222222222",
+  "numberOfItems": 1,
+  "totalPrice": 1500
+}

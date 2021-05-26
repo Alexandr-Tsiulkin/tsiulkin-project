@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -28,12 +27,8 @@ public class OrderConverterImpl implements OrderConverter {
         OrderStatus orderStatus = order.getOrderStatus();
         String status = orderStatus.getStatus();
         showOrderDTO.setOrderStatus(status);
-        Set<Item> items = order.getItems();
-        String title = Objects.requireNonNull(items.stream()
-                .findFirst()
-                .orElse(null))
-                .getTitle();
-        showOrderDTO.setTitle(title);
+        Item item = order.getItem();
+        showOrderDTO.setTitle(item.getTitle());
         Long numberOfItems = order.getNumberOfItems();
         showOrderDTO.setNumberOfItems(numberOfItems);
         BigDecimal totalPrice = order.getTotalPrice();
@@ -42,25 +37,13 @@ public class OrderConverterImpl implements OrderConverter {
         if (Objects.nonNull(orderDetails)) {
             User user = orderDetails.getUser();
             if (Objects.nonNull(user)) {
-                String email = user.getEmail();
-                showOrderDTO.setEmail(email);
+                String lastName = user.getLastName();
+                showOrderDTO.setLastName(lastName);
                 UserDetails userDetails = user.getUserDetails();
                 String telephone = userDetails.getTelephone();
                 showOrderDTO.setTelephone(telephone);
             }
         }
         return showOrderDTO;
-    }
-
-    @Override
-    public Order convert(ShowOrderDTO showOrderDTO) {
-        Order order = new Order();
-        UUID numberOfOrder = showOrderDTO.getNumberOfOrder();
-        order.setNumberOfOrder(numberOfOrder);
-        Long numberOfItems = showOrderDTO.getNumberOfItems();
-        order.setNumberOfItems(numberOfItems);
-        BigDecimal totalPrice = showOrderDTO.getTotalPrice();
-        order.setTotalPrice(totalPrice);
-        return order;
     }
 }

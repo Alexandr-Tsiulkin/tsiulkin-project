@@ -22,6 +22,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -150,13 +151,13 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void shouldCopyItemByUuidAndReturnTrueIfItemCopiedSuccessfully() throws ServiceException {
+    void shouldCopyItemByUuidAndReturnNotEqualsIdIfItemCopiedSuccessfully() throws ServiceException {
         UUID uuid = UUID.fromString("e5b0f808-ccf1-488f-ace7-2d48e50dea5c");
         Item item = new Item();
         when(itemRepository.findByUuid(uuid)).thenReturn(item);
-        boolean isDeleteByUuid = itemService.isCopyItemByUuid(uuid);
+        ShowItemDTO cloneItem = itemService.CopyItemByUuid(uuid);
 
-        assertTrue(isDeleteByUuid);
+        assertNotEquals(item.getId(), cloneItem.getId());
     }
 
     @Test

@@ -14,12 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -39,6 +37,8 @@ public class Order {
     private Long numberOfItems;
     @Column(name = "total_price")
     private BigDecimal totalPrice;
+    @Column(name = "date")
+    private LocalDateTime localDateTime;
     @OneToOne(fetch = FetchType.LAZY,
             mappedBy = "order",
             cascade = CascadeType.ALL,
@@ -46,8 +46,7 @@ public class Order {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private OrderDetails orderDetails;
-    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Set<Item> items = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    private Item item;
 }

@@ -29,6 +29,11 @@ public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
     }
 
     @Override
+    public void detach(T entity) {
+        entityManager.detach(entity);
+    }
+
+    @Override
     public T findById(I id) {
         return entityManager.find(entityClass, id);
     }

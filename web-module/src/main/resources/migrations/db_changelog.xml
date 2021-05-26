@@ -327,19 +327,35 @@
                     type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="number_of_items"
+            <column name="item_id"
                     position="4"
                     type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="total_price"
+            <column name="number_of_items"
                     position="5"
+                    type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_price"
+                    position="6"
                     type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date"
+                    position="7"
+                    type="datetime">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>
     <changeSet id="27" author="alexandr.tsiulkin@gmail.com">
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="item_id"
+                                 constraintName="fk_orders_item"
+                                 referencedTableName="item"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="28" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="status_order">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -349,13 +365,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="28" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="29" author="alexandr.tsiulkin@gmail.com">
         <addForeignKeyConstraint baseTableName="orders" baseColumnNames="order_status_id"
                                  constraintName="fk_orders_status"
                                  referencedTableName="status_order"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="29" author="alexandr.tsiulkin@gmail.com">
+    <changeSet id="30" author="alexandr.tsiulkin@gmail.com">
         <insert tableName="status_order">
             <column name="status_name" value="NEW"/>
         </insert>
@@ -368,25 +384,6 @@
         <insert tableName="status_order">
             <column name="status_name" value="REJECTED"/>
         </insert>
-    </changeSet>
-    <changeSet id="30" author="alexandr.tsiulkin@gmail.com">
-        <createTable tableName="orders_items">
-            <column name="order_id" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="items_id" type="int">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <addUniqueConstraint tableName="orders_items" columnNames="items_id"/>
-        <addForeignKeyConstraint baseTableName="orders_items" baseColumnNames="order_id"
-                                 constraintName="fk_orders_items_order"
-                                 referencedTableName="orders"
-                                 referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="orders_items" baseColumnNames="items_id"
-                                 constraintName="fk_orders_items_items"
-                                 referencedTableName="item"
-                                 referencedColumnNames="id"/>
     </changeSet>
     <changeSet id="31" author="alexandr.tsiulkin@gmail.com">
         <createTable tableName="order_details">
@@ -409,23 +406,4 @@
                                  referencedTableName="orders"
                                  referencedColumnNames="id"/>
     </changeSet>
-    <!--  <changeSet id="32" author="alexandr.tsiulkin@gmail.com">
-          <createTable tableName="orders_details_users">
-              <column name="order_details_id" type="int">
-                  <constraints nullable="false"/>
-              </column>
-              <column name="users_id" type="int">
-                  <constraints nullable="false"/>
-              </column>
-          </createTable>
-          <addUniqueConstraint tableName="orders_details_users" columnNames="users_id"/>
-          <addForeignKeyConstraint baseTableName="orders_details_users" baseColumnNames="order_details_id"
-                                   constraintName="fk_orders_details_orders"
-                                   referencedTableName="order_details"
-                                   referencedColumnNames="id"/>
-          <addForeignKeyConstraint baseTableName="orders_details_users" baseColumnNames="users_id"
-                                   constraintName="fk_orders_details_users"
-                                   referencedTableName="user"
-                                   referencedColumnNames="id"/>
-      </changeSet>-->
 </databaseChangeLog>

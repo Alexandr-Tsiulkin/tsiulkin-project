@@ -42,7 +42,7 @@
                th:name="uuid" type="submit">More details</a>
         </td>
         <form method="post" sec:authorize="hasAuthority('CUSTOMER_USER')"
-              th:action="@{/customer/items/{title}/order-item(title=${item.title})}" th:object="${orderItem}">
+              th:action="@{/customer/items/{uuid}/order-item(uuid=${item.uuid})}" th:object="${orderItem}">
             <td>
                 <div class="col-12">
                     <div class="input-group has-validation">

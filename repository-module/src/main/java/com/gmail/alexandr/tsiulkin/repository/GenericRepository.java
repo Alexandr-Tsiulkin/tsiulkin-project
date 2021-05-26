@@ -6,6 +6,8 @@ public interface GenericRepository<I, T> {
 
     void persist(T entity);
 
+    void detach(T entity);
+
     T findById(I id);
 
     List<T> findAll();

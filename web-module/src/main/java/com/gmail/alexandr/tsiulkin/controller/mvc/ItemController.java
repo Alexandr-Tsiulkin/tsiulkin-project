@@ -6,7 +6,6 @@ import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.OrderItemDTO;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowItemDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ShowOrderDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -58,19 +57,19 @@ public class ItemController {
 
     @GetMapping(value = SELLER_PATH + ITEMS_PATH + "/{uuid}/copy")
     public String copyItemByUuid(@PathVariable UUID uuid) throws ServiceException {
-        itemService.isCopyItemByUuid(uuid);
+        itemService.CopyItemByUuid(uuid);
         return "redirect:/seller/items";
     }
 
-    @PostMapping(value = "/customer/items/{title}/order-item")
-    public String orderItemWithNumberOfItems(@Valid @ModelAttribute("orderItem") OrderItemDTO orderItemDTO,
-                                             BindingResult result,
-                                             @PathVariable String title) throws ServiceException {
+    @PostMapping(value = "/customer/items/{uuid}/order-item")
+    public String addOrderItemWithNumberOfItems(@Valid @ModelAttribute("orderItem") OrderItemDTO orderItemDTO,
+                                                BindingResult result,
+                                                @PathVariable UUID uuid) throws ServiceException {
         if (result.hasErrors()) {
             return "items";
         }
-        ShowOrderDTO showOrderDTO = itemService.orderItemByTitle(orderItemDTO, title);
-        orderService.persist(showOrderDTO);
+        ShowItemDTO showItemDTO = itemService.getItemByUuid(uuid);
+        orderService.persist(showItemDTO, orderItemDTO);
         return String.format("redirect:%s%s", CUSTOMER_PATH, ITEMS_PATH);
     }
 }

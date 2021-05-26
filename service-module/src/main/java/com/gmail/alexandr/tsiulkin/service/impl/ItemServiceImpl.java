@@ -1,33 +1,26 @@
 package com.gmail.alexandr.tsiulkin.service.impl;
 
+import com.gmail.alexandr.tsiulkin.repository.ItemDetailsRepository;
 import com.gmail.alexandr.tsiulkin.repository.ItemRepository;
-import com.gmail.alexandr.tsiulkin.repository.UserRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Item;
 import com.gmail.alexandr.tsiulkin.repository.model.ItemDetails;
-import com.gmail.alexandr.tsiulkin.repository.model.User;
 import com.gmail.alexandr.tsiulkin.service.ItemService;
 import com.gmail.alexandr.tsiulkin.service.converter.ItemConverter;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
-import com.gmail.alexandr.tsiulkin.service.model.OrderItemDTO;
-import com.gmail.alexandr.tsiulkin.service.model.OrderStatusDTOEnum;
 import com.gmail.alexandr.tsiulkin.service.model.PageDTO;
 import com.gmail.alexandr.tsiulkin.service.model.ShowItemDTO;
-import com.gmail.alexandr.tsiulkin.service.model.ShowOrderDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.ItemConstant.MAXIMUM_ITEMS_ON_PAGE;
-import static com.gmail.alexandr.tsiulkin.service.util.SecurityUtil.getAuthentication;
 import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getPageDTO;
 
 @Service
@@ -37,8 +30,7 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemConverter itemConverter;
-    private final UserRepository userRepository;
-
+    private final ItemDetailsRepository itemDetailsRepository;
 
     @Override
     @Transactional
@@ -114,75 +106,28 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public boolean isCopyItemByUuid(UUID uuid) throws ServiceException {
+    public ShowItemDTO CopyItemByUuid(UUID uuid) throws ServiceException {
         Item item = itemRepository.findByUuid(uuid);
         if (Objects.nonNull(item)) {
-            Item copyItem = new Item();
-            copyFieldsByItem(copyItem, item);
-            itemRepository.persist(copyItem);
-            return true;
+            Item cloneItem = copyFieldsByItem(item);
+            itemRepository.persist(cloneItem);
+            return itemConverter.convert(cloneItem);
         } else {
             throw new ServiceException(String.format("Item with uuid: %s was not found", uuid));
         }
     }
 
-    @Override
-    @Transactional
-    public ShowOrderDTO orderItemByTitle(OrderItemDTO orderItemDTO, String title) throws ServiceException {
-        Authentication authentication = getAuthentication();
-        if (Objects.nonNull(authentication)) {
-            String userName = authentication.getName();
-            User user = userRepository.findUserByUsername(userName);
-            if (Objects.nonNull(user)) {
-                List<Item> items = itemRepository.findItemsByTitle(title);
-                if (Objects.nonNull(items)) {
-                    Long countItemsByTitle = itemRepository.getCountItemsByTitle(title);
-                    checkTheNumberOfItemsInTheShop(countItemsByTitle, orderItemDTO);
-                    return getShowOrderDTO(items, orderItemDTO, user);
-                } else {
-                    throw new ServiceException(String.format("Item with title: %s was not found", title));
-                }
-            } else {
-                throw new ServiceException(String.format("User with username: %s was not found", userName));
-            }
-        } else {
-            throw new ServiceException(String.format("An unauthenticated user tries to order an item with a title: %s", title));
-        }
-    }
-
-    private ShowOrderDTO getShowOrderDTO(List<Item> items, OrderItemDTO orderItemDTO, User user) {
-        ShowOrderDTO showOrderDTO = new ShowOrderDTO();
-        showOrderDTO.setOrderStatus(OrderStatusDTOEnum.NEW.name());
-        showOrderDTO.setTitle(items.get(0).getTitle());
-        showOrderDTO.setNumberOfOrder(UUID.randomUUID());
-        Long numberOfItems = orderItemDTO.getNumberOfItems();
-        showOrderDTO.setNumberOfItems(numberOfItems);
-        showOrderDTO.setEmail(user.getEmail());
-        showOrderDTO.setTelephone(user.getUserDetails().getTelephone());
-        BigDecimal price = items.get(0).getPrice();
-        BigDecimal totalPrice = price.multiply(BigDecimal.valueOf(numberOfItems));
-        showOrderDTO.setTotalPrice(totalPrice);
-        return showOrderDTO;
-    }
-
-    private void checkTheNumberOfItemsInTheShop(Long countItemsByTitle, OrderItemDTO orderItemDTO) throws ServiceException {
-        if (countItemsByTitle < orderItemDTO.getNumberOfItems()) {
-            throw new ServiceException(String.format("The required number of items is not in stock, the maximum quantity: %s", countItemsByTitle));
-        }
-    }
-
-    private void copyFieldsByItem(Item copyItem, Item item) {
+    private Item copyFieldsByItem(Item item) {
+        itemRepository.detach(item);
+        item.setId(null);
         UUID uuid = UUID.randomUUID();
-        copyItem.setUuid(uuid);
+        item.setUuid(uuid);
         String title = item.getTitle();
-        copyItem.setTitle(title);
-        BigDecimal price = item.getPrice();
-        copyItem.setPrice(price);
+        item.setTitle(String.format("copy of %s", title));
+
         ItemDetails itemDetails = item.getItemDetails();
-        String shortContent = itemDetails.getShortContent();
-        ItemDetails copyItemDetails = new ItemDetails();
-        copyItemDetails.setShortContent(shortContent);
-        copyItem.setItemDetails(copyItemDetails);
-        copyItemDetails.setItem(copyItem);
+        itemDetailsRepository.detach(itemDetails);
+        itemDetails.setId(null);
+        return item;
     }
 }
