@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getFormatDateTime;
+
 @Component
 public class ReviewConverterImpl implements ReviewConverter {
 
@@ -30,7 +32,8 @@ public class ReviewConverterImpl implements ReviewConverter {
         }
         showReviewDTO.setReview(review.getReview());
         LocalDateTime date = review.getLocalDate();
-        showReviewDTO.setLocalDateTime(date);
+        String dateTime = getFormatDateTime(date);
+        showReviewDTO.setLocalDateTime(dateTime);
         if (Objects.nonNull(review.getStatus())) {
             Status status = review.getStatus();
             String statusName = status.getStatus();

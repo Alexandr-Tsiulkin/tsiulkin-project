@@ -6,10 +6,51 @@
     <meta charset="UTF-8">
     <title>Reviews</title>
 </head>
-<body>
-<table class="table table-hover container">
-    <caption class="caption-top fs-1">List of reviews</caption>
-    <thead class="table-light">
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')"
+               th:href="@{/seller/welcome-seller}">Welcome</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/welcome-customer}">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/articles}">Articles</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')"
+               th:href="@{/customer/articles}">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/items}">Items</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/items}">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/orders}">Orders</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/orders}">Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/user-profile}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/show-reviews}">Reviews</a>
+            <a class="nav-link active" sec:authorize="hasAuthority('CUSTOMER_USER')"
+               th:href="@{/customer/show-reviews}">Reviews</a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <ul class="navbar-nav align-items-end">
+            <li class="nav-item">
+                <span class="navbar-text" th:text="${#authentication.name}"></span>
+                <a class="btn btn-outline-warning" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<table class="table table-dark container">
+    <caption class="caption-top fs-1 text-white">List of reviews</caption>
+    <thead class="table-dark">
     <tr style="text-align: center">
         <th scope="col">id</th>
         <th scope="col">Last name</th>
@@ -29,14 +70,9 @@
         <td th:text="${review.localDateTime}"></td>
     </tbody>
 </table>
-<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
-    <a class="btn btn-primary" role="button" th:href="@{/customer/welcome-customer}">Back</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">
-    <a class="btn btn-primary" role="button" th:href="@{/seller/welcome-seller}">Back</a>
-</div>
 <div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" role="button" th:href="@{/logout}">Logout</a>
+    <a class="btn btn-outline-warning" role="button" sec:authorize="hasAuthority('CUSTOMER_USER')"
+       th:href="@{/customer/reviews/add}">Add review</a>
 </div>
 <div sec:authorize="hasAuthority('CUSTOMER_USER')">
      <span th:if="${pageDTO.countOfPages gt 1}">

@@ -31,9 +31,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @GetMapping(value = {ADMIN_PATH + REVIEWS_PATH,
-            CUSTOMER_PATH + REVIEWS_PATH,
-            SELLER_PATH + REVIEWS_PATH})
+    @GetMapping(value = ADMIN_PATH + REVIEWS_PATH)
     public String getReviews(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
         PageDTO pageDTO = reviewService.getReviewsByPage(page);
         model.addAttribute("pageDTO", pageDTO);

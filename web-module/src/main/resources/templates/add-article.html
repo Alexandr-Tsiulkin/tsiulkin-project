@@ -6,7 +6,37 @@
     <meta charset="UTF-8">
     <title>Add article</title>
 </head>
-<body>
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/welcome-seller}">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/articles}">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/items}">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/orders}">Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/show-reviews}">Reviews</a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <ul class="navbar-nav align-items-end">
+            <li class="nav-item">
+                <span class="navbar-text" th:text="${#authentication.name}"></span>
+                <a class="btn btn-outline-warning" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <form class="row row-cols-lg-auto g-3 align-items-center" method="post" th:object="${article}">
     <div class="col-12">
         <div class="input-group has-validation">
@@ -25,7 +55,7 @@
         <div class="alert alert-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
     </div>
     <div class="col-12">
-        <button type="submit" class="btn btn-primary">Add article</button>
+        <button class="btn btn-outline-warning" type="submit">Add article</button>
     </div>
 </form>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>

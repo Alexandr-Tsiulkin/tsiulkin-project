@@ -6,20 +6,15 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.css}">
     <title>Home</title>
 </head>
-<body>
-<header class="p-3 bg-dark text-white">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a th:href="@{/}" class="nav-link px-2 text-secondary">Home</a></li>
-            </ul>
-            <div class="text-end">
-                <a class="btn btn-outline-light me-2" th:href="@{/login}" role="button">Login</a>
-                <a class="btn btn-warning" th:href="@{/registration}" role="button">Sign-up</a>
-            </div>
-        </div>
-    </div>
-</header>
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+    </ul>
+    <ul class="nav-item my-2 my-lg-0">
+        <a class="btn btn-outline-warning" role="button" th:href="@{/login}">Login</a>
+    </ul>
+</nav>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

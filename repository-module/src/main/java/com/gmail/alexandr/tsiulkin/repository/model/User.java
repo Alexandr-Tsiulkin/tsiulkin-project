@@ -65,5 +65,5 @@ public class User {
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Order> orders = new HashSet<>();
+    private Set<OrderDetails> orderDetails = new HashSet<>();
 }

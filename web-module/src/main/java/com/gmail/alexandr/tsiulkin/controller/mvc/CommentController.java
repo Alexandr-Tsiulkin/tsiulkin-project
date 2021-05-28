@@ -33,10 +33,9 @@ public class CommentController {
     }
 
     @PostMapping(value = CUSTOMER_PATH + COMMENTS_PATH + "/add")
-    public String add(@Valid AddCommentDTO addCommentDTO, BindingResult error,
-                      @RequestParam(name = "article") Long id) throws ServiceException {
-        if (error.hasErrors()) {
-            log.info("errors:{}", error);
+    public String add(@Valid AddCommentDTO addCommentDTO, BindingResult result,
+                      @RequestParam(name = "articleId") Long id) throws ServiceException {
+        if (result.hasErrors()) {
             return "add-comment";
         } else {
             commentService.persist(addCommentDTO, id);

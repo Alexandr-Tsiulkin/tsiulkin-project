@@ -1,11 +1,6 @@
 package com.gmail.alexandr.tsiulkin.service.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 @Data
 public class ShowReviewDTO {
@@ -15,6 +10,6 @@ public class ShowReviewDTO {
     private String firstName;
     private String middleName;
     private String review;
-    private LocalDateTime localDateTime;
+    private String localDateTime;
     private String status;
 }

@@ -6,24 +6,39 @@
     <meta charset="UTF-8">
     <title>Welcome</title>
 </head>
-<body>
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/seller/welcome-seller}">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/articles}">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/items}">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/orders}">Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/show-reviews}">Reviews</a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <ul class="navbar-nav align-items-end">
+            <li class="nav-item">
+                <span class="navbar-text" th:text="${#authentication.name}"></span>
+                <a class="btn btn-outline-warning" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <p class="text-lg-center fs-1">Welcome</p>
 <p class="text-lg-center fs-2" th:text="${#authentication.name}"></p>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/seller/articles}" role="button">Articles</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/seller/items}" role="button">Items</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" role="button" th:href="@{/seller/orders}">Orders</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" role="button" th:href="@{/seller/show-reviews}">Reviews</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" th:href="@{/logout}" role="button">Logout</a>
-</div>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

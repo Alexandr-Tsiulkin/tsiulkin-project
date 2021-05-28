@@ -6,7 +6,40 @@
     <meta charset="UTF-8">
     <title>Add review</title>
 </head>
-<body>
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/customer/welcome-customer}">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/customer/articles}">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/customer/items}">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/customer/orders}">Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/customer/user-profile}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/customer/show-reviews}">Reviews</a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <ul class="navbar-nav align-items-end">
+            <li class="nav-item">
+                <span class="navbar-text" th:text="${#authentication.name}"></span>
+                <a class="btn btn-outline-warning" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <form class="row row-cols-lg-auto g-3 align-items-center" method="post" th:object="${review}">
     <div class="col-12">
         <div class="input-group has-validation">
@@ -17,7 +50,7 @@
         <div class="alert alert-danger" th:errors="*{review}" th:if="${#fields.hasErrors('review')}"></div>
     </div>
     <div class="col-12">
-        <button class="btn btn-primary" type="submit">Add review</button>
+        <button class="btn btn-outline-warning" type="submit">Add review</button>
     </div>
 </form>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>

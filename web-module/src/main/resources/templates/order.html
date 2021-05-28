@@ -6,10 +6,40 @@
     <meta charset="UTF-8">
     <title>Order</title>
 </head>
-<body>
-<table class="table table-hover container">
-    <caption class="caption-top fs-1" th:text="${order.numberOfOrder}"></caption>
-    <thead class="table-light">
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/welcome-seller}">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/articles}">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/items}">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/orders}">Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/seller/show-reviews}">Reviews</a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <ul class="navbar-nav align-items-end">
+            <li class="nav-item">
+                <span class="navbar-text" th:text="${#authentication.name}"></span>
+                <a class="btn btn-outline-warning" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<table class="table table-dark container">
+    <caption class="caption-top fs-1 text-white" th:text="${order.numberOfOrder}"></caption>
+    <thead class="table-dark">
     <tr style="text-align: center">
         <th scope="col">id</th>
         <th scope="col">Number of order</th>
@@ -42,15 +72,12 @@
                 </div>
             </td>
             <td>
-                <button class="btn btn-primary" type="submit">Change</button>
+                <button class="btn btn-outline-warning" type="submit">Change</button>
             </td>
         </form>
     </tr>
     </tbody>
 </table>
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btn-primary" role="button" th:href="@{/seller/orders}">Back</a>
-</div>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

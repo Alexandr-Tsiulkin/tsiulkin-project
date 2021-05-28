@@ -6,7 +6,34 @@
     <meta charset="UTF-8">
     <title>Add user</title>
 </head>
-<body>
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/welcome-admin}">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/users}">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/admin/users/add}">Add user</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/reviews}">Reviews</a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <ul class="navbar-nav align-items-end">
+            <li class="nav-item">
+                <span class="navbar-text" th:text="${#authentication.name}"></span>
+                <a class="btn btn-outline-warning" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <form class="row row-cols-lg-auto g-3 align-items-center" method="post" th:object="${user}">
     <div class="col-12">
         <div class="input-group has-validation">
@@ -42,14 +69,14 @@
     </div>
     <div class="col-12">
         <select class="form-select" aria-label="Default select example" th:field="*{role}">
-            <option th:each="role : ${T(com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum).values()}"
+            <option th:each="role : ${T(com.gmail.alexandr.tsiulkin.model.RoleDTOEnum).values()}"
                     th:value="${role.name()}" th:text="${role.name()}"></option>
         </select>
     </div>
     <div class="col-12">
         <label class="visually-hidden" for="address">Address</label>
         <div class="input-group">
-            <input type="address" class="form-control" id="address" name="address"
+            <input class="form-control" id="address" name="address" type="text"
                    required placeholder="Address" th:field="*{address}">
         </div>
         <div class="alert alert-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
@@ -57,13 +84,13 @@
     <div class="col-12">
         <label class="visually-hidden" for="telephone">Telephone</label>
         <div class="input-group">
-            <input type="telephone" class="form-control" id="telephone" name="telephone"
+            <input class="form-control" id="telephone" name="telephone" type="text"
                    required placeholder="Telephone" th:field="*{telephone}">
         </div>
         <div class="alert alert-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
     </div>
     <div class="col-12">
-        <button type="submit" class="btn btn-primary">Add user</button>
+        <button class="btn btn-outline-warning" type="submit">Add user</button>
     </div>
 </form>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>

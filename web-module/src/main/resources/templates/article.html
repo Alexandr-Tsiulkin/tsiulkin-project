@@ -6,10 +6,50 @@
     <meta charset="UTF-8">
     <title>Article</title>
 </head>
-<body>
-<table class="table table-hover container">
-    <caption class="caption-top fs-1" th:text="${article.title}"></caption>
-    <thead class="table-light">
+<body class="bg-secondary text-white">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{https://github.com/Alexandr-Tsiulkin/tsiulkin-project}">T-Project</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')"
+               th:href="@{/seller/welcome-seller}">Welcome</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/welcome-customer}">Welcome</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/articles}">Articles</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')"
+               th:href="@{/customer/articles}">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/items}">Items</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/items}">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/orders}">Orders</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/orders}">Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/user-profile}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasAuthority('SALE_USER')" th:href="@{/seller/show-reviews}">Reviews</a>
+            <a class="nav-link" sec:authorize="hasAuthority('CUSTOMER_USER')" th:href="@{/customer/show-reviews}">Reviews</a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <ul class="navbar-nav align-items-end">
+            <li class="nav-item">
+                <span class="navbar-text" th:text="${#authentication.name}"></span>
+                <a class="btn btn-outline-warning" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<table class="table table-dark container">
+    <caption class="caption-top fs-1 text-white" th:text="${article.title}"></caption>
+    <thead class="table-dark">
     <tr>
         <th scope="col">id</th>
         <th scope="col">Date</th>
@@ -30,8 +70,10 @@
     </tbody>
 </table>
 <span sec:authorize="hasAuthority('SALE_USER')">
-    <form th:action="@{/seller/articles/{id}/change-parameter(id=${article.id})}" method="post" th:object="${changeArticle}">
-    <div class="col-12">
+    <div class="container">
+        <form class="align-content-center" method="post"
+              th:action="@{/seller/articles/{id}/change-parameter(id=${article.id})}" th:object="${changeArticle}">
+    <div class="col-4">
         <label class="visually-hidden" for="title">Title</label>
         <div class="input-group">
             <input type="text" class="form-control" id="title" name="title"
@@ -39,16 +81,17 @@
             <div class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
         </div>
         <div class="input-group">
-            <input type="text" class="form-control" id="content" name="content"
-                   placeholder="New Content">
+            <textarea class="form-control" id="content" name="content" placeholder="New Content"
+                      rows=3 type="text"></textarea>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('content')}"
                  th:errors="*{content}"></div>
         </div>
     </div>
     <div class="col-12">
-        <button type="submit" class="btn btn-primary">Change parameter</button>
+        <button class="btn btn-outline-warning" type="submit">Change parameter</button>
     </div>
 </form>
+    </div>
 </span>
 <div class="container" th:each="comment : ${article.comments}">
     <div class="media border p-3">
@@ -57,20 +100,16 @@
             <p class="fst-italic">Posted: <span th:text="${comment.date}"></span></p>
             <p class="fs-4" th:text="${comment.fullContent}"></p>
             <div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">
-                <a class="btn btn-primary" th:href="@{/seller/comments/{id}/delete(id=${comment.id})}" role="button">Delete</a>
+                <a class="btn btn-outline-warning" role="button"
+                   th:href="@{/seller/comments/{id}/delete(id=${comment.id})}">Delete</a>
             </div>
         </div>
     </div>
 </div>
 <div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
-    <a class="btn btn-primary" th:href="@{/customer/comments/add?article={id}(id=${article.id})}" role="button">Add
+    <a class="btn btn-outline-warning" role="button"
+       th:href="@{/customer/comments/add?articleId={id}(id=${article.id})}">Add
         comment</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('CUSTOMER_USER')">
-    <a class="btn btn-primary" th:href="@{/customer/articles}" role="button">Back</a>
-</div>
-<div class="d-grid gap-2 col-6 mx-auto" sec:authorize="hasAuthority('SALE_USER')">
-    <a class="btn btn-primary" th:href="@{/seller/articles}" role="button">Back</a>
 </div>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>

@@ -54,9 +54,9 @@ public class UserController {
 
     @PostMapping(value = ADMIN_PATH + USER_ADD_PATH)
     public String add(@Valid AddUserDTO addUserDTO, BindingResult error) throws ServiceException {
-        log.info("addUser:{}", addUserDTO);
+        log.info("addUser: {}", addUserDTO);
         if (error.hasErrors()) {
-            log.info("errors:{}", error);
+            log.info("errors: {}", error);
             return "add-user";
         } else {
             ShowUserDTO userDTO = userService.persist(addUserDTO);
