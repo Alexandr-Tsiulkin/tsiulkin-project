@@ -24,7 +24,7 @@ application with role-based authorization and authentication using the most popu
 Spring MVC, Security, JPA (Hibernate), REST API, Bootstrap (css, js), Thymeleaf, Java 11, MySQL database storage, and
 migrating data to a database using liquibase._
 
-## <a name="#technologies-used"></a> Technologies Used
+## <a name="technologies-used"></a> Technologies Used
 
 * Java - version 11
 * Hibernate - version 5.4.27
@@ -33,7 +33,7 @@ migrating data to a database using liquibase._
 * MySQL - version 8.0.22
 * Lombok - version 1.18.16
 
-## <a name="#features"></a> Features
+## <a name="features"></a> Features
 
 ### _The project was developed according to 4 technical specifications:_
 
@@ -284,9 +284,9 @@ The following data should be displayed:
 | /api/orders | GET | Show list of all orders |
 | /api/items/{id} | GET | Show order with id |  
 
-## <a name="#screenshots"></a> Screenshots
+## <a name="screenshots"></a> Screenshots
 
-## <a name="#setup"></a> Setup
+## <a name="setup"></a> Setup
 
 ### 1. Install Apache Maven
 
@@ -310,7 +310,7 @@ services:
   - '3306'
 ```
 
-## <a name="#project-status"></a> Project Status
+## <a name="project-status"></a> Project Status
 
 ### Project is: _complete_.
 
