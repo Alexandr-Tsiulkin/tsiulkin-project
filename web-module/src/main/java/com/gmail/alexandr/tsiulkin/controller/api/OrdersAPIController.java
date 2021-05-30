@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ORDERS_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
@@ -30,8 +31,12 @@ public class OrdersAPIController {
     }
 
     @GetMapping(value = ORDERS_PATH + "/{id}")
-    public ShowOrderDTO getOrderById(@PathVariable Long id) throws ServiceException {
-        return orderService.getOrderById(id);
+    public ResponseEntity<ShowOrderDTO> getOrderById(@PathVariable Long id) throws ServiceException {
+        ShowOrderDTO orderById = orderService.getOrderById(id);
+        if (Objects.nonNull(orderById)) {
+            return new ResponseEntity<>(orderById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

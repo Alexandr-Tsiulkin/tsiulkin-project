@@ -23,7 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = ArticleAPIController.class,
@@ -57,7 +59,7 @@ class ArticleAPIControllerTest {
     }
 
     @Test
-    void shouldReturnCollectionOfObjectsWhenWeRequestGEtArticles() throws Exception {
+    void shouldReturnCollectionOfArticlesWhenWeRequestGEtArticles() throws Exception {
         ShowArticleDTO showArticleDTO = new ShowArticleDTO();
         showArticleDTO.setId(1L);
         showArticleDTO.setDate("18-05-2021");
@@ -82,5 +84,100 @@ class ArticleAPIControllerTest {
                 .andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
         assertThat(contentAsString).isEqualToIgnoringCase(objectMapper.writeValueAsString(articles));
+    }
+
+    @Test
+    void shouldReturnArticleWhenWeRequestGEtArticleById() throws Exception {
+        ShowArticleDTO showArticleDTO = new ShowArticleDTO();
+        Long id = 1L;
+        showArticleDTO.setId(1L);
+        showArticleDTO.setDate("18-05-2021");
+        showArticleDTO.setTitle("Title");
+        showArticleDTO.setFirstName("first name");
+        showArticleDTO.setLastName("last name");
+        showArticleDTO.setShortContent("short content");
+        showArticleDTO.setFullContent("full content");
+        ShowCommentDTO showCommentDTO = new ShowCommentDTO();
+        showCommentDTO.setId(1L);
+        showCommentDTO.setFullName("full name");
+        showCommentDTO.setDate("17-05-2021");
+        showCommentDTO.setFullContent("content");
+        showArticleDTO.getComments().add(showCommentDTO);
+
+        when(articleService.getArticleById(id)).thenReturn(showArticleDTO);
+
+        MvcResult mvcResult = mockMvc.perform(get(String.format("%s%s/%s", REST_API_USER_PATH, ARTICLES_PATH, id))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        assertThat(contentAsString).isEqualToIgnoringCase(objectMapper.writeValueAsString(showArticleDTO));
+    }
+
+    @Test
+    void should404WhenWeRequestGEtArticleByWrongId() throws Exception {
+        ShowArticleDTO showArticleDTO = new ShowArticleDTO();
+        Long id = 1L;
+        showArticleDTO.setId(1L);
+        showArticleDTO.setDate("18-05-2021");
+        showArticleDTO.setTitle("Title");
+        showArticleDTO.setFirstName("first name");
+        showArticleDTO.setLastName("last name");
+        showArticleDTO.setShortContent("short content");
+        showArticleDTO.setFullContent("full content");
+        ShowCommentDTO showCommentDTO = new ShowCommentDTO();
+        showCommentDTO.setId(1L);
+        showCommentDTO.setFullName("full name");
+        showCommentDTO.setDate("17-05-2021");
+        showCommentDTO.setFullContent("content");
+        showArticleDTO.getComments().add(showCommentDTO);
+
+        when(articleService.getArticleById(id)).thenReturn(showArticleDTO);
+        Long wrongId = 2L;
+
+        mockMvc.perform(get(String.format("%s%s/%s", REST_API_USER_PATH, ARTICLES_PATH, wrongId))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void should201WhenWeRequestAddArticle() throws Exception {
+        mockMvc.perform(post(REST_API_USER_PATH + ARTICLES_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "  \"title\": \"test title\",\n" +
+                        "  \"content\": \"test content\",\n" +
+                        "  \"sellerId\": 4\n" +
+                        "}"))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void should400WhenWeRequestAddArticleWithNotValidField() throws Exception {
+        mockMvc.perform(post(REST_API_USER_PATH + ARTICLES_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "  \"title\": \"test title where number of character more 20\",\n" +
+                        "  \"content\": \"test content\",\n" +
+                        "  \"sellerId\": 4\n" +
+                        "}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void should200WhenWeRequestDeleteArticleById() throws Exception {
+        Long id = 1L;
+        when(articleService.isDeleteById(id)).thenReturn(true);
+        mockMvc.perform(delete(String.format("%s%s/%s", REST_API_USER_PATH, ARTICLES_PATH, id))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void should404WhenWeRequestDeleteArticleByWrongId() throws Exception {
+        Long id = 1L;
+        when(articleService.isDeleteById(id)).thenReturn(false);
+        mockMvc.perform(delete(String.format("%s%s/%s", REST_API_USER_PATH, ARTICLES_PATH, id))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

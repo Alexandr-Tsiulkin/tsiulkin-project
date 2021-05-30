@@ -3,6 +3,7 @@ package com.gmail.alexandr.tsiulkin.config;
 import com.gmail.alexandr.tsiulkin.service.model.RoleDTOEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Collection;
 import java.util.Collections;
 
+@Profile("security")
 @Configuration
 public class TestUserDetailsServiceConfig {
 
@@ -25,13 +27,13 @@ public class TestUserDetailsServiceConfig {
                     case "rest@gmail.com":
                         return getRestUserDetails();
                     case "admin@gmail.com":
-                       return getAdminUserDetails();
+                        return getAdminUserDetails();
                     case "seller@gmail.com":
-                       return getSellerUserDetails();
+                        return getSellerUserDetails();
                     case "customer@gmail.com":
-                       return getCustomerUserDetails();
+                        return getCustomerUserDetails();
                     default:
-                       throw new UsernameNotFoundException(String.format("User with %s was not found", username));
+                        throw new UsernameNotFoundException(String.format("User with %s was not found", username));
                 }
             }
 

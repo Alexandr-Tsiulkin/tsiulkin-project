@@ -32,8 +32,10 @@ public class ReviewConverterImpl implements ReviewConverter {
         }
         showReviewDTO.setReview(review.getReview());
         LocalDateTime date = review.getLocalDate();
-        String dateTime = getFormatDateTime(date);
-        showReviewDTO.setLocalDateTime(dateTime);
+        if (Objects.nonNull(date)) {
+            String dateTime = getFormatDateTime(date);
+            showReviewDTO.setLocalDateTime(dateTime);
+        }
         if (Objects.nonNull(review.getStatus())) {
             Status status = review.getStatus();
             String statusName = status.getStatus();

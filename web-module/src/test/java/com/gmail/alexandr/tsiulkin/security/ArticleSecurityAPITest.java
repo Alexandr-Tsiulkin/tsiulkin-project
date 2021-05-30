@@ -11,13 +11,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ARTICLES_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("security")
 @WebMvcTest(controllers = ArticleAPIController.class,
         excludeAutoConfiguration = UserDetailsServiceAutoConfiguration.class)
 @Import(TestUserDetailsServiceConfig.class)
@@ -68,16 +72,16 @@ public class ArticleSecurityAPITest {
     @Test
     void shouldUserWithRoleRestAPIHasAccessToGetArticleById() throws Exception {
         mockMvc.perform(
-                get(REST_API_USER_PATH + ARTICLES_PATH + "/" + 1L)
+                get(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("rest@gmail.com", "test"))
-        ).andExpect(status().isOk());
+        ).andExpect(status().isNotFound());
     }
 
     @Test
     void shouldUserWithAdminRoleHasNotAccessDeniedToGetArticleById() throws Exception {
         mockMvc.perform(
-                get(REST_API_USER_PATH + ARTICLES_PATH + "/" + 1L)
+                get(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin@gmail.com", "test"))
         ).andExpect(status().isForbidden());
@@ -86,7 +90,7 @@ public class ArticleSecurityAPITest {
     @Test
     void shouldUserWithSellerRoleHasNotAccessDeniedToGetArticleById() throws Exception {
         mockMvc.perform(
-                get(REST_API_USER_PATH + ARTICLES_PATH + "/" + 1L)
+                get(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("seller@gmail.com", "test"))
         ).andExpect(status().isForbidden());
@@ -95,7 +99,79 @@ public class ArticleSecurityAPITest {
     @Test
     void shouldUserWithCustomerRoleHasNotAccessDeniedToGetArticleById() throws Exception {
         mockMvc.perform(
-                get(REST_API_USER_PATH + ARTICLES_PATH + "/" + 1L)
+                get(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("customer@gmail.com", "test"))
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldUserWithRoleRestAPIHasAccessToAddArticle() throws Exception {
+        mockMvc.perform(
+                post(REST_API_USER_PATH + ARTICLES_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("rest@gmail.com", "test"))
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldUserWithAdminRoleHasNotAccessDeniedToAddItem() throws Exception {
+        mockMvc.perform(
+                post(REST_API_USER_PATH + ARTICLES_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin@gmail.com", "test"))
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldUserWithSellerRoleHasNotAccessDeniedToAddArticle() throws Exception {
+        mockMvc.perform(
+                post(REST_API_USER_PATH + ARTICLES_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("seller@gmail.com", "test"))
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldUserWithCustomerRoleHasNotAccessDeniedToAddArticle() throws Exception {
+        mockMvc.perform(
+                post(REST_API_USER_PATH + ARTICLES_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("customer@gmail.com", "test"))
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldUserWithRoleRestAPIHasAccessToDeleteArticleById() throws Exception {
+        mockMvc.perform(
+                delete(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("rest@gmail.com", "test"))
+        ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldUserWithAdminRoleHasNotAccessDeniedToDeleteArticleById() throws Exception {
+        mockMvc.perform(
+                delete(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("admin@gmail.com", "test"))
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldUserWithSellerRoleHasNotAccessDeniedToDeleteArticleById() throws Exception {
+        mockMvc.perform(
+                delete(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("seller@gmail.com", "test"))
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldUserWithCustomerRoleHasNotAccessDeniedToDeleteArticleById() throws Exception {
+        mockMvc.perform(
+                delete(String.format("%s%s/%d", REST_API_USER_PATH, ARTICLES_PATH, 1L))
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("customer@gmail.com", "test"))
         ).andExpect(status().isForbidden());

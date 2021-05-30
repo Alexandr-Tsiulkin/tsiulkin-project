@@ -151,13 +151,16 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void shouldCopyItemByUuidAndReturnNotEqualsIdIfItemCopiedSuccessfully() throws ServiceException {
+    void shouldCopyItemByUuidAndReturnNotEqualsTitleIfItemCopiedSuccessfully() throws ServiceException {
         UUID uuid = UUID.fromString("e5b0f808-ccf1-488f-ace7-2d48e50dea5c");
+        ShowItemDTO showItemDTO = new ShowItemDTO();
+        showItemDTO.setTitle("title");
         Item item = new Item();
+        item.setUuid(uuid);
+        item.setTitle("title");
         when(itemRepository.findByUuid(uuid)).thenReturn(item);
-        ShowItemDTO cloneItem = itemService.CopyItemByUuid(uuid);
-
-        assertNotEquals(item.getId(), cloneItem.getId());
+        when(itemService.CopyItemByUuid(uuid)).thenReturn(showItemDTO);
+        assertNotEquals(item.getTitle(), showItemDTO.getTitle());
     }
 
     @Test

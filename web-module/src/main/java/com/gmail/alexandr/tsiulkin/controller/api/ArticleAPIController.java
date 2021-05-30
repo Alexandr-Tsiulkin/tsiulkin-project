@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ARTICLES_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.REST_API_USER_PATH;
@@ -38,8 +39,12 @@ public class ArticleAPIController {
     }
 
     @GetMapping(value = ARTICLES_PATH + "/{id}")
-    public ShowArticleDTO getArticleById(@PathVariable Long id) throws ServiceException {
-        return articleService.getArticleById(id);
+    public ResponseEntity<ShowArticleDTO> getArticleById(@PathVariable Long id) throws ServiceException {
+        ShowArticleDTO articleById = articleService.getArticleById(id);
+        if (Objects.nonNull(articleById)) {
+            return new ResponseEntity<>(articleById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(value = ARTICLES_PATH)

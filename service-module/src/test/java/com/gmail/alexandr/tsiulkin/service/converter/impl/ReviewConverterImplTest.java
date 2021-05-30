@@ -13,6 +13,7 @@ import org.mockito.quality.Strictness;
 
 import java.time.LocalDateTime;
 
+import static com.gmail.alexandr.tsiulkin.service.util.ServiceUtil.getFormatDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
@@ -82,10 +83,11 @@ class ReviewConverterImplTest {
     void shouldConvertReviewToShowReviewDTOAndReturnRightDate() {
         Review review = new Review();
         LocalDateTime localDateTime = LocalDateTime.now();
+        String dateTime = getFormatDateTime(localDateTime);
         review.setLocalDate(localDateTime);
         ShowReviewDTO showReviewDTO = reviewConverter.convert(review);
 
-        assertEquals(localDateTime, showReviewDTO.getLocalDateTime());
+        assertEquals(dateTime, showReviewDTO.getLocalDateTime());
     }
 
     @Test

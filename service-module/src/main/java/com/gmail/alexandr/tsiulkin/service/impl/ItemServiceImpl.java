@@ -126,8 +126,10 @@ public class ItemServiceImpl implements ItemService {
         item.setTitle(String.format("copy of %s", title));
 
         ItemDetails itemDetails = item.getItemDetails();
-        itemDetailsRepository.detach(itemDetails);
-        itemDetails.setId(null);
+        if (Objects.nonNull(itemDetails)) {
+            itemDetailsRepository.detach(itemDetails);
+            itemDetails.setId(null);
+        }
         return item;
     }
 }

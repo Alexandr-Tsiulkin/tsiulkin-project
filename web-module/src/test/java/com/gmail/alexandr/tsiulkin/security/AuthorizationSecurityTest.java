@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ADMIN_PATH;
@@ -20,6 +21,7 @@ import static com.gmail.alexandr.tsiulkin.constant.PathConstant.WELCOME_SELLER_P
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("security")
 @WebMvcTest(controllers = LoginController.class,
         excludeAutoConfiguration = UserDetailsServiceAutoConfiguration.class)
 @Import(TestUserDetailsServiceConfig.class)
