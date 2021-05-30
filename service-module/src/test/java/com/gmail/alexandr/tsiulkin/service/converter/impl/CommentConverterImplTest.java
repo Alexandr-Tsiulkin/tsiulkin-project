@@ -74,7 +74,7 @@ class CommentConverterImplTest {
     @Test
     void shouldConvertAddCommentDTOAndUserAndArticleToCommentAndReturnRightDate() {
         Comment comment = new Comment();
-        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime localDateTime = LocalDateTime.of(2021, 5, 30, 21, 30);
         comment.setLocalDateTime(localDateTime);
         AddCommentDTO addCommentDTO = new AddCommentDTO();
         Comment convertComment = commentConverter.convert(addCommentDTO);
