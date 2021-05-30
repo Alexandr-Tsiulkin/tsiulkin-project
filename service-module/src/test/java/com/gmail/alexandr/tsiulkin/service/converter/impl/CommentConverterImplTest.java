@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 import static com.gmail.alexandr.tsiulkin.service.constant.FormatConstant.DATE_FORMAT_PATTERN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -72,14 +73,10 @@ class CommentConverterImplTest {
     }
 
     @Test
-    void shouldConvertAddCommentDTOAndUserAndArticleToCommentAndReturnRightDate() {
-        Comment comment = new Comment();
-        LocalDateTime localDateTime = LocalDateTime.of(2021, 5, 30, 21, 30);
-        comment.setLocalDateTime(localDateTime);
+    void shouldConvertAddCommentDTOToCommentAndReturnDate() {
         AddCommentDTO addCommentDTO = new AddCommentDTO();
-        Comment convertComment = commentConverter.convert(addCommentDTO);
+        Comment comment = commentConverter.convert(addCommentDTO);
 
-        assertEquals(localDateTime, convertComment.getLocalDateTime());
+        assertNotNull(comment.getLocalDateTime());
     }
-
 }
