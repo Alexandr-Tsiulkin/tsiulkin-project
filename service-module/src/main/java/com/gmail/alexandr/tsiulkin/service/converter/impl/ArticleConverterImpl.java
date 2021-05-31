@@ -66,7 +66,7 @@ public class ArticleConverterImpl implements ArticleConverter {
 
     private void addShortContent(ShowArticleDTO showArticleDTO, String fullContent) {
         if (fullContent.length() > MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD) {
-            String shortContent = fullContent.substring(1, MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD);
+            String shortContent = fullContent.substring(0, MAXIMUM_CHARS_FOR_SHORT_CONTENT_FIELD);
             showArticleDTO.setShortContent(shortContent);
         } else {
             showArticleDTO.setShortContent(fullContent);

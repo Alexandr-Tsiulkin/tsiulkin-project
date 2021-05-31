@@ -5,7 +5,6 @@ import com.gmail.alexandr.tsiulkin.repository.ItemRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Item;
 import com.gmail.alexandr.tsiulkin.repository.model.ItemDetails;
 import com.gmail.alexandr.tsiulkin.service.ItemService;
-import com.gmail.alexandr.tsiulkin.service.OrderService;
 import com.gmail.alexandr.tsiulkin.service.converter.ItemConverter;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
@@ -32,7 +31,6 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final ItemConverter itemConverter;
     private final ItemDetailsRepository itemDetailsRepository;
-    private final OrderService orderService;
 
     @Override
     @Transactional
@@ -112,8 +110,9 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findByUuid(uuid);
         if (Objects.nonNull(item)) {
             Item cloneItem = copyFieldsByItem(item);
-            itemRepository.persist(cloneItem);
-            return itemConverter.convert(cloneItem);
+            itemRepository.merge(cloneItem);
+            ShowItemDTO showItemDTO = itemConverter.convert(cloneItem);
+            return showItemDTO;
         } else {
             throw new ServiceException(String.format("Item with uuid: %s was not found", uuid));
         }

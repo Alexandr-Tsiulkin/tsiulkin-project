@@ -52,7 +52,6 @@
     <caption class="caption-top fs-1 text-white">List of reviews</caption>
     <thead class="table-dark">
     <tr style="text-align: center">
-        <th scope="col">id</th>
         <th scope="col">Last name</th>
         <th scope="col">First name</th>
         <th scope="col">Middle name</th>
@@ -62,7 +61,6 @@
     </thead>
     <tbody>
     <tr style="text-align: center" th:each="review : ${pageDTO.reviews}">
-        <td th:text="${review.id}"></td>
         <td th:text="${review.lastName}"></td>
         <td th:text="${review.firstName}"></td>
         <td th:text="${review.middleName}"></td>
@@ -79,7 +77,8 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
-                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                <a class="bg-dark text-warning border-warning page-link"
+                   th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
                    th:href="@{/customer/reviews?page={id}(id=${i})}"
                    th:text="${i}"></a>
             </li>
@@ -92,7 +91,8 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
-                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                <a class="bg-dark text-warning border-warning page-link"
+                   th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
                    th:href="@{/seller/reviews?page={id}(id=${i})}"
                    th:text="${i}"></a>
             </li>

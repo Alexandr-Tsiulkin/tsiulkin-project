@@ -52,7 +52,6 @@
     <caption class="caption-top fs-1 text-white">List of items</caption>
     <thead class="table-dark">
     <tr style="text-align: center">
-        <th scope="col">id</th>
         <th scope="col">Title</th>
         <th scope="col">Unique number</th>
         <th scope="col">Price</th>
@@ -62,7 +61,6 @@
     </thead>
     <tbody>
     <tr style="text-align: center" th:each="item : ${page.items}">
-        <td th:text="${item.id}"></td>
         <td th:text="${item.title}"></td>
         <td th:text="${item.uuid}"></td>
         <td th:text="${item.price}"></td>
@@ -106,7 +104,8 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:each="i : ${#numbers.sequence(page.beginPage, page.endPage)} ">
-                <a class="page-link" th:classappend="${page.currentPage}==${i}?'activepagenumber':''"
+                <a class="bg-dark text-warning border-warning page-link"
+                   th:classappend="${page.currentPage}==${i}?'activepagenumber':''"
                    th:href="@{/seller/items?page={id}(id=${i})}"
                    th:text="${i}"></a>
             </li>

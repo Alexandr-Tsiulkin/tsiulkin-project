@@ -28,7 +28,7 @@ public class CommentController {
 
     @GetMapping(value = CUSTOMER_PATH + COMMENTS_PATH + "/add")
     public String addPage(Model model) {
-        model.addAttribute("comment", new AddCommentDTO());
+        model.addAttribute("addCommentDTO", new AddCommentDTO());
         return "add-comment";
     }
 
@@ -40,13 +40,13 @@ public class CommentController {
         } else {
             commentService.persist(addCommentDTO, id);
         }
-        return "redirect:/customer/articles";
+        return String.format("redirect:/customer/articles/%d", id);
     }
 
     @GetMapping(value = SELLER_PATH + COMMENTS_PATH + "/{id}/delete")
-    public String deleteArticle(@PathVariable("id") Long id) throws ServiceException {
+    public String deleteArticle(@PathVariable("id") Long id) {
         commentService.isDeleteById(id);
-        return "redirect:/seller/articles";
+        return String.format("redirect:/seller/articles/%d", id);
     }
 
 }

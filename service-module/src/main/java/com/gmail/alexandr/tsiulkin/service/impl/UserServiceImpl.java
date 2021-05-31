@@ -167,6 +167,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.hasText(oldPassword) && StringUtils.hasText(newPassword)) {
             String userPassword = user.getPassword();
             if (passwordEncoder.matches(oldPassword, userPassword)) {
+                log.info(passwordEncoder.matches(oldPassword, userPassword));
                 String encodePassword = passwordEncoder.encode(addUserDetailsDTO.getNewPassword());
                 user.setPassword(encodePassword);
             } else {

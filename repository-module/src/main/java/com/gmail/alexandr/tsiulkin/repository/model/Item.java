@@ -43,9 +43,9 @@ public class Item {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private ItemDetails itemDetails;
-    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "item_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Order> order = new HashSet<>();
+    private Set<Order> orders = new HashSet<>();
 }

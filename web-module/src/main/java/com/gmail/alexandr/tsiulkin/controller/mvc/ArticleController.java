@@ -52,7 +52,7 @@ public class ArticleController {
 
     @GetMapping(value = SELLER_PATH + ARTICLES_PATH + "/add")
     public String addPage(Model model) {
-        model.addAttribute("article", new AddArticleDTO());
+        model.addAttribute("addArticleDTO", new AddArticleDTO());
         return "add-article";
     }
 

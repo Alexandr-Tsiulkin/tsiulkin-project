@@ -95,7 +95,8 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:each="i : ${#numbers.sequence(pageDTO.beginPage, pageDTO.endPage)} ">
-                <a class="page-link" th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
+                <a class="bg-dark text-warning border-warning page-link"
+                   th:classappend="${pageDTO.currentPage}==${i}?'activepagenumber':''"
                    th:href="@{/admin/users?page={id}(id=${i})}"
                    th:text="${i}"></a>
             </li>

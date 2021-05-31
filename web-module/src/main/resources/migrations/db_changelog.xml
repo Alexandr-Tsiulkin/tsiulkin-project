@@ -213,9 +213,9 @@
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SALE_USER')"/>
         </insert>
         <insert tableName="user">
-            <column name="last_name" value="Customer"/>
-            <column name="first_name" value="Customer"/>
-            <column name="middle_name" value="Customer"/>
+            <column name="last_name" value="Lebron"/>
+            <column name="first_name" value="James"/>
+            <column name="middle_name" value="Raymone"/>
             <column name="email" value="customer@gmail.com"/>
             <column name="password" value="$2y$12$RVDlJGxXkW9vmpyebtajN.qnPvJ2LyR1IJM5b3moNCCDRpxxMJGsK "/>
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'CUSTOMER_USER')"/>

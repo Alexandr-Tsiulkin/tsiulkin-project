@@ -61,7 +61,7 @@ public class ReviewController {
 
     @GetMapping(value = CUSTOMER_PATH + REVIEWS_PATH + "/add")
     public String addPage(Model model) {
-        model.addAttribute("review", new AddReviewDTO());
+        model.addAttribute("addReviewDTO", new AddReviewDTO());
         return "add-review";
     }
 
@@ -72,6 +72,6 @@ public class ReviewController {
         } else {
             reviewService.add(addReviewDTO);
         }
-        return "redirect:/customer/welcome-customer";
+        return String.format("redirect:%s%s", CUSTOMER_PATH, SHOW_REVIEWS_PATH);
     }
 }

@@ -41,7 +41,7 @@ public class Order {
     private LocalDateTime localDateTime;
     @OneToOne(fetch = FetchType.LAZY,
             mappedBy = "order",
-            cascade = CascadeType.REMOVE,
+            cascade = CascadeType.ALL,
             orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

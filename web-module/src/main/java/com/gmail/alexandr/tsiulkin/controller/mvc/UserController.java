@@ -49,15 +49,13 @@ public class UserController {
 
     @GetMapping(value = ADMIN_PATH + USER_ADD_PATH)
     public String addPage(Model model) {
-        model.addAttribute("user", new AddUserDTO());
+        model.addAttribute("addUserDTO", new AddUserDTO());
         return "add-user";
     }
 
     @PostMapping(value = ADMIN_PATH + USER_ADD_PATH)
     public String add(@Valid AddUserDTO addUserDTO, BindingResult error) throws ServiceException {
-        log.info("addUser: {}", addUserDTO);
         if (error.hasErrors()) {
-            log.info("errors: {}", error);
             return "add-user";
         } else {
             ShowUserDTO userDTO = userService.persist(addUserDTO);
