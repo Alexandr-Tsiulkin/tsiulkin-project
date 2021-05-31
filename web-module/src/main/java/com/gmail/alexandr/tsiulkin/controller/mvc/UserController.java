@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.ADMIN_PATH;
 import static com.gmail.alexandr.tsiulkin.constant.PathConstant.CUSTOMER_PATH;
@@ -66,10 +67,11 @@ public class UserController {
     }
 
     @PostMapping(value = ADMIN_PATH + USERS_PATH + "/delete")
-    public String deleteUsers(@RequestParam("checkedIds") List<Long> checkedIds) {
-        log.info("checkedIds: {}", checkedIds);
-        for (Long id : checkedIds) {
-            userService.isDeleteById(id);
+    public String deleteUsers(@RequestParam(name = "checkedIds", required = false) List<Long> checkedIds) {
+        if (Objects.nonNull(checkedIds)) {
+            for (Long id : checkedIds) {
+                userService.isDeleteById(id);
+            }
         }
         return "redirect:/admin/users";
     }

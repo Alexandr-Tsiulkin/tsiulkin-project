@@ -5,6 +5,7 @@ import com.gmail.alexandr.tsiulkin.repository.ItemRepository;
 import com.gmail.alexandr.tsiulkin.repository.model.Item;
 import com.gmail.alexandr.tsiulkin.repository.model.ItemDetails;
 import com.gmail.alexandr.tsiulkin.service.ItemService;
+import com.gmail.alexandr.tsiulkin.service.OrderService;
 import com.gmail.alexandr.tsiulkin.service.converter.ItemConverter;
 import com.gmail.alexandr.tsiulkin.service.exception.ServiceException;
 import com.gmail.alexandr.tsiulkin.service.model.AddItemDTO;
@@ -31,6 +32,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final ItemConverter itemConverter;
     private final ItemDetailsRepository itemDetailsRepository;
+    private final OrderService orderService;
 
     @Override
     @Transactional

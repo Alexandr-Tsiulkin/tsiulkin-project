@@ -56,7 +56,7 @@ public class User {
     private Set<Comment> comments = new HashSet<>();
     @OneToOne(fetch = FetchType.LAZY,
             mappedBy = "user",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REFRESH,
             orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

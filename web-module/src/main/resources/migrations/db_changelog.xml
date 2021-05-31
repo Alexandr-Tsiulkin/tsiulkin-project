@@ -204,23 +204,13 @@
             <column name="password" value="$2y$12$keSA6xr/80a9RN9ufZthMugHlQS.MamwJ6axIrGAMeRpj0aT6CoDq "/>
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'ADMINISTRATOR')"/>
         </insert>
-        <insert tableName="user_details">
-            <column name="address" value="admin address"/>
-            <column name="telephone" value="+0000000000"/>
-            <column name="user_id" value="1"/>
-        </insert>
         <insert tableName="user">
-            <column name="last_name" value="Seller"/>
-            <column name="first_name" value="Seller"/>
-            <column name="middle_name" value="Seller"/>
+            <column name="last_name" value="Jordan"/>
+            <column name="first_name" value="Michael"/>
+            <column name="middle_name" value="Jeffrey"/>
             <column name="email" value="seller@gmail.com"/>
             <column name="password" value="$2y$12$BBX3sl7LkCMh7Og.MDQVZ..J4d7E7eCm4rkLvPGKQbjePDzyXVOOK "/>
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SALE_USER')"/>
-        </insert>
-        <insert tableName="user_details">
-            <column name="address" value="seller address"/>
-            <column name="telephone" value="+1111111111"/>
-            <column name="user_id" value="2"/>
         </insert>
         <insert tableName="user">
             <column name="last_name" value="Customer"/>
@@ -230,11 +220,6 @@
             <column name="password" value="$2y$12$RVDlJGxXkW9vmpyebtajN.qnPvJ2LyR1IJM5b3moNCCDRpxxMJGsK "/>
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'CUSTOMER_USER')"/>
         </insert>
-        <insert tableName="user_details">
-            <column name="address" value="customer address"/>
-            <column name="telephone" value="+2222222222"/>
-            <column name="user_id" value="3"/>
-        </insert>
         <insert tableName="user">
             <column name="last_name" value="Rest"/>
             <column name="first_name" value="Rest"/>
@@ -242,11 +227,6 @@
             <column name="email" value="rest@gmail.com"/>
             <column name="password" value="$2y$12$z6LpFZqGK70TzW8qQtAvSO71zPRxDuDbxYDqt.499ihqnC.HXBJQG "/>
             <column name="role_id" valueComputed="(SELECT id FROM role WHERE role_name = 'SECURE_API_USER')"/>
-        </insert>
-        <insert tableName="user_details">
-            <column name="address" value="rest address"/>
-            <column name="telephone" value="+3333333333"/>
-            <column name="user_id" value="4"/>
         </insert>
     </changeSet>
     <changeSet id="19" author="alexandr.tsiulkin@gmail.com">
@@ -405,5 +385,27 @@
                                  constraintName="fk_order_details_order"
                                  referencedTableName="orders"
                                  referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="32" author="alexandr.tsiulkin@gmail.com">
+        <insert tableName="user_details">
+            <column name="address" value="Grodno"/>
+            <column name="telephone" value="+375292348135"/>
+            <column name="user_id" valueComputed="(SELECT id FROM user WHERE email = 'admin@gmail.com')"/>
+        </insert>
+        <insert tableName="user_details">
+            <column name="address" value="New York"/>
+            <column name="telephone" value="+18004699269"/>
+            <column name="user_id" valueComputed="(SELECT id FROM user WHERE email = 'seller@gmail.com')"/>
+        </insert>
+        <insert tableName="user_details">
+            <column name="address" value="Los Ahgeles"/>
+            <column name="telephone" value="+19165550166"/>
+            <column name="user_id" valueComputed="(SELECT id FROM user WHERE email = 'customer@gmail.com')"/>
+        </insert>
+        <insert tableName="user_details">
+            <column name="address" value="rest address"/>
+            <column name="telephone" value="+18003292326"/>
+            <column name="user_id" valueComputed="(SELECT id FROM user WHERE email = 'rest@gmail.com')"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>
